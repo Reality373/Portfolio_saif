@@ -1,0 +1,48 @@
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-cursor {
+  0%, 49% {
+    border-right-color: #00ff00;
+  }
+  50%, 100% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+  }
+  50% {
+    text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+  }
+}
+
+@keyframes matrixRain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.typing {
+  animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00ff00;
+}
+
+.glow-text {
+  animation: glowPulse 2s ease-in-out infinite;
+}
