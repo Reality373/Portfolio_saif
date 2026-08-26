@@ -2,19 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SITE } from '@/lib/constants';
 import ThemeToggle from './ThemeToggle';
+import GitHubHoverPreview from './GitHubHoverPreview';
+import { FaBars, FaTimes, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const NAV_LINKS = [
-  { href: '#skills', label: 'Skills' },
-  { href: '#stories', label: 'Stories' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#skills', label: 'Skills', index: '01' },
+  { href: '#stories', label: 'Stories', index: '02' },
+  { href: '#demos', label: 'Demos', index: '03' },
+  { href: '#projects', label: 'Projects', index: '04' },
+  { href: '#contact', label: 'Contact', index: '05' },
 ];
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 24);
@@ -25,8 +29,8 @@ export default function Header() {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-ink-950/90 backdrop-blur-md border-b border-ink-600 shadow-sm'
+        isScrolled || mobileMenuOpen
+          ? 'bg-ink-950/95 backdrop-blur-md border-b border-ink-600 shadow-sm'
           : 'bg-transparent border-b border-transparent'
       }`}
       initial={{ opacity: 0, y: -12 }}
@@ -36,12 +40,16 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link
           href="/"
-          className="font-display font-semibold text-lg tracking-tight text-paper hover:text-amber transition-colors"
+          className="font-display font-semibold text-lg tracking-tight text-paper hover:text-amber transition-colors flex items-center gap-1.5 z-20"
+          onClick={() => setMobileMenuOpen(false)}
         >
-          saif<span className="text-amber">.</span>dev
+          <span>saif</span>
+          <span className="text-amber">.</span>
+          <span>dev</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -51,27 +59,158 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+
+          {/* Social icons with GitHub hover preview */}
+          <div className="flex items-center gap-3 pl-2 border-l border-ink-600">
+            <GitHubHoverPreview placement="bottom">
+              <a
+                href={SITE.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile & Activity"
+                title="GitHub Profile & Live Stats"
+                className="text-paper-muted hover:text-amber transition-colors p-1 flex items-center"
+              >
+                <FaGithub size={15} />
+              </a>
+            </GitHubHoverPreview>
+
+            <a
+              href={SITE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+              className="text-paper-muted hover:text-trace transition-colors p-1 flex items-center"
+            >
+              <FaLinkedin size={15} />
+            </a>
+            <a
+              href={`mailto:${SITE.email}`}
+              aria-label="Email"
+              title="Email Saif"
+              className="text-paper-muted hover:text-amber transition-colors p-1 flex items-center"
+            >
+              <FaEnvelope size={14} />
+            </a>
+          </div>
+
           <a
             href={SITE.resumePath}
             download
-            className="text-sm font-mono px-4 py-1.5 border border-ink-600 text-paper hover:border-amber hover:text-amber transition-colors rounded-sm bg-ink-900/40"
+            className="text-sm font-mono px-3.5 py-1.5 border border-ink-600 text-paper hover:border-amber hover:text-amber transition-colors rounded-sm bg-ink-900/40"
           >
             Resume
           </a>
+
           <ThemeToggle />
         </nav>
 
-        <div className="md:hidden flex items-center gap-3">
-          <ThemeToggle />
+        {/* Mobile controls */}
+        <div className="md:hidden flex items-center gap-2.5 z-20">
           <a
-            href={SITE.resumePath}
-            download
-            className="text-xs font-mono px-3 py-1.5 border border-ink-600 text-paper rounded-sm bg-ink-900/40"
+            href={SITE.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="text-paper-muted hover:text-amber p-1.5"
           >
-            Resume
+            <FaGithub size={16} />
           </a>
+          <a
+            href={SITE.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="text-paper-muted hover:text-trace p-1.5"
+          >
+            <FaLinkedin size={16} />
+          </a>
+          <a
+            href={`mailto:${SITE.email}`}
+            aria-label="Email"
+            className="text-paper-muted hover:text-amber p-1.5"
+          >
+            <FaEnvelope size={15} />
+          </a>
+
+          <ThemeToggle />
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-sm border border-ink-600 bg-ink-900/80 text-paper hover:text-amber transition-colors ml-1"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <FaTimes size={14} /> : <FaBars size={14} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="md:hidden border-b border-ink-600 bg-ink-950/98 backdrop-blur-xl overflow-hidden px-6 pb-6 pt-2"
+          >
+            <div className="flex flex-col space-y-3 pt-2">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-mono text-sm py-2.5 px-3 rounded-sm border border-ink-600/40 bg-ink-900/50 text-paper hover:text-amber hover:border-amber/50 flex items-center justify-between transition-colors"
+                >
+                  <span>{link.label}</span>
+                  <span className="text-[11px] text-paper-dim">{link.index}</span>
+                </a>
+              ))}
+
+              <div className="pt-2 flex flex-col gap-3">
+                <a
+                  href={SITE.resumePath}
+                  download
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center font-mono text-sm py-2.5 px-4 border border-amber/60 bg-amber text-white dark:text-ink-950 font-semibold rounded-sm block shadow-md"
+                >
+                  Download Resume (PDF)
+                </a>
+
+                <div className="flex justify-center gap-6 pt-3 border-t border-ink-600/40">
+                  <a
+                    href={SITE.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="text-paper-muted hover:text-amber transition-colors p-2 flex items-center gap-1.5 font-mono text-xs"
+                  >
+                    <FaGithub size={16} /> GitHub
+                  </a>
+                  <a
+                    href={SITE.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="text-paper-muted hover:text-trace transition-colors p-2 flex items-center gap-1.5 font-mono text-xs"
+                  >
+                    <FaLinkedin size={16} /> LinkedIn
+                  </a>
+                  <a
+                    href={`mailto:${SITE.email}`}
+                    aria-label="Email"
+                    className="text-paper-muted hover:text-amber transition-colors p-2 flex items-center gap-1.5 font-mono text-xs"
+                  >
+                    <FaEnvelope size={16} /> Email
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

@@ -41,9 +41,7 @@ function CalcScreenArt() {
 function MapScreenArt() {
   return (
     <div className="w-full h-full relative bg-ink-900 overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-40 bg-grid-pattern bg-grid"
-      />
+      <div className="absolute inset-0 opacity-40 bg-grid-pattern bg-grid" />
       <svg viewBox="0 0 200 260" className="absolute inset-0 w-full h-full">
         <path
           d="M20,230 C60,190 40,140 90,120 S150,80 180,30"
@@ -147,11 +145,17 @@ export default function ProjectShowcase({ items }: ProjectShowcaseProps) {
     else setActive(0);
   };
 
+  const handleTap = () => {
+    setActive((prev) => (prev + 1) % items.length);
+  };
+
   return (
     <div
-      className="relative w-full max-w-[280px] mx-auto aspect-[3/4] overflow-hidden rounded-xl border border-ink-600 shadow-xl"
+      className="relative w-full max-w-[280px] mx-auto aspect-[3/4] overflow-hidden rounded-xl border border-ink-600 shadow-xl cursor-pointer select-none"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setActive(0)}
+      onClick={handleTap}
+      title="Hover or Tap to cycle preview"
     >
       {items.map((item, index) => {
         const isActive = active === index;
@@ -174,8 +178,9 @@ export default function ProjectShowcase({ items }: ProjectShowcaseProps) {
             ) : (
               <Art />
             )}
-            <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-ink-950 to-transparent">
+            <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-ink-950 to-transparent flex items-center justify-between">
               <span className="font-mono text-[10px] text-paper-muted">{item.label}</span>
+              <span className="font-mono text-[8px] text-paper-dim sm:hidden">tap to flip</span>
             </div>
           </motion.div>
         );

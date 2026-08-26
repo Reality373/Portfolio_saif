@@ -6,6 +6,7 @@ import ProjectCard from './ProjectCard';
 import ProjectShowcase from './ProjectShowcase';
 import { projects, OTHER_UTILITIES } from '@/lib/projects';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
+import ScrambleText from './ScrambleText';
 
 export default function ProjectsSection() {
   const allFlagship = projects.filter((p) => p.tier === 'flagship');
@@ -24,9 +25,9 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
           className="mb-14"
         >
-          <p className="font-mono text-sm text-amber mb-3">03 · Selected Work</p>
+          <p className="font-mono text-sm text-amber mb-3">04 · Selected Work</p>
           <h2 className="font-display font-semibold text-3xl sm:text-4xl text-paper mb-3">
-            Selected projects
+            <ScrambleText text="Selected projects" />
           </h2>
           <p className="text-paper-muted font-mono text-sm max-w-xl">
             Flagship builds, then the rest of an active ~13-repository track record.

@@ -8,6 +8,7 @@ import StoryCard from './StoryCard';
 import StoryModal from './StoryModal';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { FaBookOpen, FaFilter } from 'react-icons/fa';
+import ScrambleText from './ScrambleText';
 
 const ALL_CATEGORY = 'All Stories';
 
@@ -49,7 +50,7 @@ export default function StoriesSection() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h2 className="font-display font-semibold text-3xl sm:text-4xl text-paper mb-3">
-                Experience from the trenches
+                <ScrambleText text="Experience from the trenches" />
               </h2>
               <p className="text-paper-muted font-mono text-sm max-w-2xl leading-relaxed">
                 Raw technical breakthroughs, midnight hardware crisis migrations, microsecond assembly optimizations, and solo shipping milestones.

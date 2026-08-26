@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
 import './styles/globals.css';
 import './styles/animations.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { HUDProvider } from '@/components/HUDProvider';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -89,7 +90,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-ink-950 text-paper font-sans antialiased selection:bg-amber selection:text-ink-950">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <HUDProvider>{children}</HUDProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

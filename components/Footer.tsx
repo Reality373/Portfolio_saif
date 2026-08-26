@@ -1,14 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaUpRightFromSquare } from 'react-icons/fa6';
+import { FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt } from 'react-icons/fa';
 import { SITE } from '@/lib/constants';
-
-const links = [
-  { icon: FaGithub, href: SITE.github, label: 'GitHub' },
-  { icon: FaLinkedin, href: SITE.linkedin, label: 'LinkedIn' },
-  { icon: FaEnvelope, href: `mailto:${SITE.email}`, label: 'Email' },
-];
+import GitHubHoverPreview from './GitHubHoverPreview';
 
 export default function Footer() {
   return (
@@ -21,7 +16,7 @@ export default function Footer() {
           transition={{ duration: 0.6 }}
           className="mb-14"
         >
-          <p className="font-mono text-sm text-amber mb-3">04 · Contact</p>
+          <p className="font-mono text-sm text-amber mb-3">05 · Contact</p>
           <h2 className="font-display font-semibold text-3xl sm:text-5xl text-paper mb-6 max-w-2xl leading-tight">
             Building something that needs embedded, AI, or full-stack work?
           </h2>
@@ -31,7 +26,7 @@ export default function Footer() {
             className="inline-flex items-center gap-3 text-xl sm:text-2xl font-display text-trace hover:text-amber transition-colors"
           >
             {SITE.email}
-            <FaUpRightFromSquare className="text-lg" />
+            <FaExternalLinkAlt className="text-base" />
           </motion.a>
         </motion.div>
 
@@ -39,23 +34,36 @@ export default function Footer() {
           <p className="text-paper-dim text-xs font-mono">
             © 2026 {SITE.name} · Built with Next.js &amp; Tailwind CSS
           </p>
-          <div className="flex gap-6">
-            {links.map((link) => {
-              const Icon = link.icon;
-              return (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  className="text-paper-muted hover:text-amber transition-colors"
-                  whileHover={{ y: -2 }}
-                >
-                  <Icon size={18} />
-                </motion.a>
-              );
-            })}
+          <div className="flex items-center gap-6">
+            <GitHubHoverPreview placement="top">
+              <a
+                href={SITE.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-paper-muted hover:text-amber transition-colors flex items-center p-1"
+              >
+                <FaGithub size={18} />
+              </a>
+            </GitHubHoverPreview>
+
+            <a
+              href={SITE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-paper-muted hover:text-trace transition-colors flex items-center p-1"
+            >
+              <FaLinkedin size={18} />
+            </a>
+
+            <a
+              href={`mailto:${SITE.email}`}
+              aria-label="Email"
+              className="text-paper-muted hover:text-amber transition-colors flex items-center p-1"
+            >
+              <FaEnvelope size={18} />
+            </a>
           </div>
         </div>
       </div>

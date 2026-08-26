@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
 import { SKILLS } from '@/lib/constants';
+import ScrambleText from './ScrambleText';
 
 export default function SkillsSection() {
   return (
@@ -17,7 +18,7 @@ export default function SkillsSection() {
         >
           <p className="font-mono text-sm text-amber mb-3">01 · Stack</p>
           <h2 className="font-display font-semibold text-3xl sm:text-4xl text-paper">
-            Skills &amp; technologies
+            <ScrambleText text="Skills & technologies" />
           </h2>
         </motion.div>
 
