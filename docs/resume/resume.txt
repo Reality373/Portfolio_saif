@@ -15,7 +15,7 @@ TECHNICAL SKILLS
 
 WORK EXPERIENCE & ENGINEERING LEADERSHIP
 Lead Android App Developer & Founder  ·  AuraByte Studios (Independent Venture)      Dec 2025 – Present
-• Designed, developed, and deployed "FiberOpticCalc" on Google Play Store, managing Gradle build flavors and scaling to 1,360+ installs, 670+ active users, and 5,000+ downloads with recurring subscription revenue.
+• Designed, developed, and deployed "FiberOpticCalc" on Google Play Store, scaling to 5.73K+ installs, 2.09K+ active devices, and a 4.6★ rating with a 45.0% conversion rate and recurring revenue.
 • Architected native application using Kotlin, Jetpack Compose, and MVVM clean architecture, strictly adhering to SOLID design principles and eliminating runtime memory leaks.
 • Engineered a multi-engine mapping system (OpenStreetMap / Google Maps SDK) with a graph-traversal OTDR fault localization algorithm to calculate fiber cable breaks to sub-meter street precision.
 • Implemented an Atomic Persistence Engine preventing data corruption during offline operations and schema-aware cloud synchronization via the Google Drive REST API.
@@ -23,7 +23,7 @@ Lead Android App Developer & Founder  ·  AuraByte Studios (Independent Venture)
 
 Technical Lead & Department Head – Drive-by-Wire (Automotive R&D)  ·  Team Abhyuday Racing      Jan 2025 – Present
 • Designed and deployed a distributed 3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32) over CAN 2.0B bus with hardware heartbeats, priority arbitration, and 99.9% packet reliability under high EMI.
-• Programmed real-time deterministic Autonomous Emergency Braking (AEB) control logic, securing 1st Place Nationally at aBAJA 2026 by halting safely at 6.2m at 45 km/h with <12ms CAN reaction latency.
+• Programmed real-time deterministic Autonomous Emergency Braking (AEB) control logic, securing 1st Place Nationally at aBAJA 2026 by halting safely at 6.2m at 30 km/h with <12ms CAN reaction latency.
 • Spearheaded an emergency 8-hour overnight hardware migration from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning 1st Place in Adaptive Cruise Control (ACC) at aBAJA 2025.
 • Engineered a modular Brake-by-Wire pneumatic actuator system with AS5600 12-bit magnetic angle encoders and pressure transducers, cutting hardware costs by 50% and winning the 1st Place Manufacturing Excellence Award.
 
@@ -36,14 +36,15 @@ CYO: Local-First Multimodal AI Image Intelligence System  ·  PyTorch, CLIP, YOL
 • Developed a privacy-first semantic search engine combining OpenAI CLIP embeddings (ViT-B/32) and YOLOv8 for natural-language text-to-image queries over local image galleries with zero cloud API dependency.
 • Implemented a FAISS vector database achieving sub-100ms retrieval latency across 1,000+ high-res images; containerized via Docker with custom NVIDIA CUDA runtimes for bare-metal GPU acceleration.
 
-24S LiFePO4 Battery Management System (BMS) Telematics Platform  ·  ESP32, FreeRTOS, BLE GATT, Python, C++
-• Reverse-engineered industrial JK BMS BLE GATT protocols to extract real-time cell voltage deltas (<15mV), current draws, and temperatures across a 76.8V 24S LiFePO4 battery pack with automated thermal runaway cutoff.
+Wireless Penetration Testing & 802.11 Security Toolkit  ·  ESP32, C++, 802.11 Protocols, Wireshark, PCAP
+• Engineered a portable 802.11 wireless auditing tool capable of passive beacon sniffing, targeted deauthentication, and WPA2 EAPOL/PMKID four-way handshake capture for penetration testing and rogue AP detection.
+• Implemented raw frame dumping to microSD storage formatted in standard PCAP for offline cryptographic validation in Wireshark.
 
 Suraksha360: Plug-and-Play IoT Security Auditor & CVE Scanner  ·  C++, ESP8266, Exploit-DB, Windows Registry API
 • Created a plug-and-play USB HID hardware security auditing tool executing zero-install system configuration analysis on Windows hosts, cross-referencing software against Exploit-DB for known CVE vulnerabilities.
 
 HONORS & AWARDS
-• 1st Place, Autonomous Emergency Braking (AEB): National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 45 km/h.
+• 1st Place, Autonomous Emergency Braking (AEB): National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 30 km/h.
 • 1st Place, Manufacturing Excellence Award: National aBAJA 2026 Competition; recognized for modular Drive-by-Wire and Brake-by-Wire actuator design.
 • 1st Runner Up, MATLAB Advanced Simulation: National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.
 • 1st Place, Adaptive Cruise Control (ACC): aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.

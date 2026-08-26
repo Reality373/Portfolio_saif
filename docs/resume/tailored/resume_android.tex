@@ -1,0 +1,149 @@
+%-------------------------
+% Tailored Resume: Android & Mobile Software Engineering
+% Author : Saif Shikalgar
+%------------------------
+
+\documentclass[letterpaper,9pt]{extarticle}
+
+\usepackage[letterpaper,top=0.30in,bottom=0.30in,left=0.45in,right=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[english]{babel}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-7pt}\scshape\raggedright\normalsize\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.08in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.14in, itemsep=0.5pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\LARGE \scshape Saif Shikalgar} \\ \vspace{2pt}
+    \small
+    \textbf{Android \& Mobile Software Engineer} \\ \vspace{1.5pt}
+    +91 9130900338
+    $|$
+    \href{mailto:15974saif@gmail.com}{15974saif@gmail.com}
+    $|$
+    \href{https://www.linkedin.com/in/reality373}{linkedin.com/in/reality373}
+    $|$
+    \href{https://github.com/Reality373}{github.com/Reality373}
+    $|$
+    Pune, India
+\end{center}
+\vspace{-6pt}
+
+\section{Education}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {G. H. Raisoni College of Engineering and Management}{Pune, India}
+      {B.Tech in Computer Science \& Engineering (Cybersecurity Specialization); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027 (Expected)}
+      \vspace{-2pt}
+      \item{
+        \small{\textbf{Coursework:} Mobile Application Architecture, Object-Oriented Programming (OOP), Data Structures \& Algorithms, Operating Systems, Database Systems, Computer Networks.}
+      }
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \item{
+        \small{\textbf{Android \& Mobile:}{ Kotlin, Java, Android SDK, Jetpack Compose, Coroutines, Flow, StateFlow, Room Database, Navigation Component, ViewModels, Material Design 3, React Native, Gradle Build System.}} \\ \vspace{1.5pt}
+        \small{\textbf{Architecture \& Patterns:}{ MVVM, MVI, Clean Architecture, Dependency Injection, SOLID Principles, Repository Pattern, Multi-Engine Map Integration, Atomic Persistence.}} \\ \vspace{1.5pt}
+        \small{\textbf{SDKs \& Cloud Services:}{ Google Play Billing SDK, Google Drive REST API, OpenStreetMap (OSM) SDK, Google Maps SDK, Firebase (Auth, Firestore, Cloud Functions), REST APIs.}} \\ \vspace{1.5pt}
+        \small{\textbf{Tools \& Practices:}{ Git, GitHub Actions, Android Studio Profiler (Memory/CPU/Battery), Postman, Docker, Linux, CI/CD for Mobile.}}
+    }
+  \resumeSubHeadingListEnd
+
+\section{Work Experience \& Engineering Leadership}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {AuraByte Studios (Independent Venture)}{Pune, India}
+      {Lead Android App Developer \& Founder}{Dec 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Designed, developed, and deployed \textbf{FiberOpticCalc} on Google Play Store, managing Gradle build flavors and scaling to \textbf{5.73K+ installs, 2.09K+ active devices, 1.54K+ MAU, and a 4.6$\star$ rating} with recurring subscription revenue.}
+            \resumeItem{Architected native UI/UX utilizing \textbf{Kotlin}, \textbf{Jetpack Compose}, and \textbf{MVVM} clean architecture, strictly adhering to SOLID principles and eliminating runtime UI jank and memory leaks.}
+            \resumeItem{Engineered a recursive optical power budget calculation engine and link-loss mathematical modeling algorithms for fiber optic telecommunication technicians.}
+            \resumeItem{Built a multi-engine mapping system (\textbf{OpenStreetMap / Google Maps SDK}) with a custom graph-traversal \textbf{OTDR fault localization algorithm} to pinpoint fiber cable break coordinates with sub-meter street precision.}
+            \resumeItem{Implemented an \textbf{Atomic Persistence Engine} with Room DB ensuring 0\% data corruption during offline usage and schema-aware cloud synchronization via the \textbf{Google Drive REST API}.}
+            \resumeItem{Integrated \textbf{Google Play Billing SDK} with serverless \textbf{GCP Cloud Functions} for tamper-proof in-app subscription validation, receipt verification, and webhook processing.}
+        \resumeItemListEnd
+
+    \resumeSubheading
+      {Team Abhyuday Racing}{Pune, India}
+      {Telemetry \& Mobile Interface Lead}{Jan 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Developed an Android diagnostic application connecting via Bluetooth Low Energy (BLE) to on-vehicle STM32/ESP32 ECUs, streaming live vehicle telemetry (speed, brake pressure, error codes) with sub-15ms refresh rates.}
+            \resumeItem{Engineered low-latency packet decoders for automotive CAN bus frame logs, enabling trackside engineers to analyze sensor performance during dynamic autonomous testing.}
+        \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+\section{Key Mobile Projects}
+    \vspace{1pt}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+        {\textbf{FiberOpticCalc: Professional FTTH Platform} $|$ \emph{Kotlin, Jetpack Compose, MVVM, Room DB, Google Drive API, OSM}}{}
+          \resumeItemListStart
+            \resumeItem{Published commercial Android application on Google Play Store featuring optical budget calculators, OTDR trace analyzers, PON network topology estimators, and offline map route plotting.}
+            \resumeItem{Implemented custom canvas drawing components for real-time optical power distribution graphing and dark/light theme switching with dynamic Material 3 color palettes.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{24S Smart BMS Mobile Telematics App} $|$ \emph{React Native, Kotlin, BLE GATT, TypeScript}}{}
+          \resumeItemListStart
+            \resumeItem{Built a cross-platform mobile application interfacing via BLE GATT with industrial JK Battery Management Systems, visualizing real-time cell voltage deltas ($<$15mV), current draws, and temperatures for a 76.8V LiFePO4 pack.}
+            \resumeItem{Implemented background BLE notification listeners with push alarms for individual cell over-voltage, under-voltage, and thermal runaway prevention.}
+          \resumeItemListEnd
+      
+    \resumeSubHeadingListEnd
+
+\section{Honors \& Awards}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \small{\item{
+        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for modular electronic controls and mobile telematics design.} \\ \vspace{1.5pt}
+        \textbf{1st Runner Up, MATLAB Advanced Simulation:}{ National aBAJA 2026 Competition; developed a GPS-based autonomous traversal algorithm.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold.}
+    }}
+  \resumeSubHeadingListEnd
+
+\end{document}

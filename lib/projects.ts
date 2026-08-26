@@ -42,11 +42,11 @@ Built a native C++ high-precision benchmarking engine for policy validation, a F
     tagline: 'Professional PON network design app — published on Google Play',
     period: 'Dec 2025 – present',
     role: 'Lead Android App Developer, AuraByte Studios · sole developer, 252 commits',
-    description: `A native Android application for telecom engineers and field technicians to design and calculate optical power budgets for Passive Optical Networks, combining precision optical-loss math with live geospatial network mapping. Published on the Google Play Store, scaled to 5,000+ installs and 2,000+ active users.
+    description: `A native Android application for telecom engineers and field technicians to design and calculate optical power budgets for Passive Optical Networks, combining precision optical-loss math with live geospatial network mapping. Published on the Google Play Store with 5.73K+ installs, 2.09K+ active devices, and a 4.6★ rating.
 
 Built a recursive optical power-budget calculator supporting a full PON component library (OLTs, splitters, ODFs, splices, ONTs) with user-overridable loss constants, a live map-based network designer (OSM/Google Maps) with GPS route-bending and a Haversine multi-segment distance engine, and an OTDR fault-locator simulator that traverses the network graph with cycle detection.
 
-Engineered the UI in Jetpack Compose within an MVVM architecture following SOLID design principles, implemented Google Cloud serverless microservices as REST APIs for subscription validation and webhook processing, and built an Atomic Persistence engine to prevent data corruption and optimize memory/battery efficiency. Also shipped multi-identifier authentication and the full monetization stack: Play Billing subscriptions, a 5-tier coffee-support flow, real-time entitlement sync, and remote ad control via Firebase Remote Config.`,
+Engineered the UI in Jetpack Compose within an MVVM architecture following SOLID design principles, implemented Google Cloud serverless microservices as REST APIs for subscription validation and webhook processing, and built an Atomic Persistence engine to prevent data corruption and achieve 0.00% ANR. Also shipped multi-identifier authentication and the full monetization stack: Play Billing subscriptions, a 5-tier coffee-support flow, real-time entitlement sync, and remote ad control via Firebase Remote Config.`,
     technologies: [
       'Kotlin',
       'Android Jetpack (MVVM)',
@@ -57,16 +57,18 @@ Engineered the UI in Jetpack Compose within an MVVM architecture following SOLID
       'Google Maps SDK',
     ],
     achievements: [
-      '252 commits over 8 months as sole engineer, from architecture to a live Play Store release',
-      '5,000+ installs and 2,000+ active users on Google Play',
+      '252 commits over 8 months as sole engineer, scaled to 5.73K+ total installs and 2.09K+ active devices',
+      '4.6 / 5.0 Google Play Store rating with 45.0% store listing conversion rate',
+      '1.54K+ Monthly Active Users (MAU) and 0.00% ANR rate with atomic write persistence',
       'Recursive power-budget engine across a full PON component library',
       'Live GPS-based network designer with OTDR fault-locator simulation',
-      'GCP serverless microservices for billing/entitlement, plus an Atomic Persistence engine',
+      'GCP serverless microservices for billing/entitlement and cloud sync',
     ],
     metrics: [
-      { label: 'Installs', value: '5,000+' },
-      { label: 'Active users', value: '2,000+' },
-      { label: 'Commits', value: '252' },
+      { label: 'Total Installs', value: '5.73K+' },
+      { label: 'Active Devices', value: '2.09K+' },
+      { label: 'Play Rating', value: '4.6★' },
+      { label: 'Conversion', value: '45.0%' },
     ],
     gallery: [
       { label: 'Power Budget Calculator', variant: 'calc-screen' },

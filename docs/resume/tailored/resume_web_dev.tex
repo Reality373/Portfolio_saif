@@ -1,0 +1,154 @@
+%-------------------------
+% Tailored Resume: Web Development & Full-Stack
+% Author : Saif Shikalgar
+%------------------------
+
+\documentclass[letterpaper,9pt]{extarticle}
+
+\usepackage[letterpaper,top=0.30in,bottom=0.30in,left=0.45in,right=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[english]{babel}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-7pt}\scshape\raggedright\normalsize\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.08in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.14in, itemsep=0.5pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\LARGE \scshape Saif Shikalgar} \\ \vspace{2pt}
+    \small
+    \textbf{Full-Stack \& Web Software Engineer} \\ \vspace{1.5pt}
+    +91 9130900338
+    $|$
+    \href{mailto:15974saif@gmail.com}{15974saif@gmail.com}
+    $|$
+    \href{https://www.linkedin.com/in/reality373}{linkedin.com/in/reality373}
+    $|$
+    \href{https://github.com/Reality373}{github.com/Reality373}
+    $|$
+    Pune, India
+\end{center}
+\vspace{-6pt}
+
+\section{Education}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {G. H. Raisoni College of Engineering and Management}{Pune, India}
+      {B.Tech in Computer Science \& Engineering (Cybersecurity Specialization); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027 (Expected)}
+      \vspace{-2pt}
+      \item{
+        \small{\textbf{Coursework:} Data Structures \& Algorithms, Database Management Systems (DBMS), Operating Systems, Computer Networks, Object-Oriented Programming (OOP), Web Security \& Cryptography.}
+      }
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \item{
+        \small{\textbf{Frontend \& UI:}{ Next.js 14, React.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Framer Motion, Zustand, Responsive Web Design.}} \\ \vspace{1.5pt}
+        \small{\textbf{Backend \& APIs:}{ Python, FastAPI, Node.js, Express.js, RESTful API Design, GraphQL, WebSockets, Google Drive REST API, Webhooks.}} \\ \vspace{1.5pt}
+        \small{\textbf{Databases \& Cloud:}{ PostgreSQL, Supabase, Firebase (Firestore, Cloud Functions), SQLite, FAISS Vector DB, GCP, Docker Containerization.}} \\ \vspace{1.5pt}
+        \small{\textbf{Architecture \& Tools:}{ MVC, MVVM, Microservices, CI/CD, Git, GitHub Actions, Linux (Ubuntu/Debian), Postman, PyTorch AI Integration.}}
+    }
+  \resumeSubHeadingListEnd
+
+\section{Work Experience \& Engineering Leadership}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {AuraByte Studios (Independent Venture)}{Pune, India}
+      {Lead Full-Stack Developer \& Founder}{Dec 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Engineered full-stack backend architecture and cloud synchronization pipeline serving \textbf{5.73K+ total installs, 2.09K+ active devices, and 1.54K+ MAU} with verified recurring subscription revenue.}
+            \resumeItem{Deployed serverless microservices on \textbf{Google Cloud Platform (GCP Cloud Functions)} for automated Play Billing subscription verification, webhook processing, and database state updates.}
+            \resumeItem{Architected a schema-aware cloud synchronization engine via the \textbf{Google Drive REST API} featuring atomic persistence to prevent data corruption during offline-to-online state transitions.}
+            \resumeItem{Designed high-performance API endpoints and data serialization pipelines handling real-time telemetry, map routing overlays, and geospatial calculation payloads.}
+        \resumeItemListEnd
+
+    \resumeSubheading
+      {Team Abhyuday Racing}{Pune, India}
+      {Full-Stack Telematics Lead}{Jan 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Built a real-time web telemetry dashboard utilizing \textbf{React.js}, \textbf{TypeScript}, and \textbf{WebSockets} to visualize live sensor data (speed, brake line pressure, CAN bus traffic) from autonomous test runs.}
+            \resumeItem{Integrated data serialization pipelines streaming telemetry from on-vehicle Jetson edge nodes to local diagnostic stations with sub-20ms round-trip latency.}
+        \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+\section{Key Full-Stack Projects}
+    \vspace{1pt}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+        {\textbf{CYO: Local-First Multimodal AI Image Search Platform} $|$ \emph{React.js, Next.js, FastAPI, Python, PyTorch, Docker, FAISS}}{}
+          \resumeItemListStart
+            \resumeItem{Engineered a full-stack semantic image intelligence application with a modern React.js frontend and high-throughput FastAPI backend for natural-language text-to-image queries with zero third-party cloud API costs.}
+            \resumeItem{Implemented FAISS vector indexing with cosine similarity search achieving \textbf{sub-100ms retrieval latency} across 1,000+ high-res images; containerized with Docker GPU runtimes for bare-metal CUDA acceleration.}
+            \resumeItem{Built responsive gallery UI with real-time vector search filtering, asynchronous image loading, and dynamic bounding box annotations.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{Cloud-Integrated BMS Telematics Dashboard} $|$ \emph{React.js, TypeScript, Node.js, WebSockets, Python, Docker}}{}
+          \resumeItemListStart
+            \resumeItem{Developed a real-time web monitoring platform for a 76.8V 24S LiFePO4 battery pack, displaying live individual cell voltage deltas ($<$15mV), current draws, and temperatures via WebSocket streaming.}
+            \resumeItem{Implemented automated threshold monitoring with audio-visual alerts for over-voltage, cell imbalance, and thermal runaway prevention.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{Suraksha360: Centralized Security Dashboard \& Vulnerability Monitor} $|$ \emph{Node.js, Express, React, REST APIs}}{}
+          \resumeItemListStart
+            \resumeItem{Created a centralized SOC web dashboard consolidating automated system audit reports from IoT hardware probes, cross-referencing software versions against Exploit-DB for CVE risk scoring.}
+          \resumeItemListEnd
+      
+    \resumeSubHeadingListEnd
+
+\section{Honors \& Awards}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \small{\item{
+        \textbf{1st Runner Up, MATLAB Advanced Simulation:}{ National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for modular electronic architecture and telematics integration.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; engineered sensor telemetry pipeline.}
+    }}
+  \resumeSubHeadingListEnd
+
+\end{document}

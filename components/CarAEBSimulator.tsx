@@ -14,8 +14,8 @@ import {
 type SimState = 'IDLE' | 'ACCELERATING' | 'BRAKING' | 'STOPPED_SAFE' | 'CRASHED';
 
 export default function CarAEBSimulator() {
-  const [carX, setCarX] = useState(6); // % along track (6% = 0m, 85% = 30m barrier)
-  const [speed, setSpeed] = useState(0); // km/h
+  const [carX, setCarX] = useState(6.0); // % along track (6% = 0m start, 85% = 30m barrier)
+  const [speed, setSpeed] = useState(0.0); // km/h (target peak: 30.0 km/h)
   const [distanceToBarrier, setDistanceToBarrier] = useState(30.0); // meters
   const [brakePressure, setBrakePressure] = useState(0); // PSI
   const [state, setState] = useState<SimState>('IDLE');
@@ -28,15 +28,17 @@ export default function CarAEBSimulator() {
   const lastTimestampRef = useRef<number | null>(null);
 
   const physicsRef = useRef({
-    carX: 6,
-    speed: 0,
+    carX: 6.0,
+    speed: 0.0,
     state: 'IDLE' as SimState,
     aebEnabled: true,
     brakePressure: 0,
+    brakeStartX: 54.0,
   });
 
-  const BARRIER_X = 85; // 85% is the barrier location (30 meters from start)
-  const STOP_CLEARANCE_X = 68.5; // 68.5% is exactly 6.2 meters clearance from barrier
+  const TRACK_START_X = 6.0;
+  const BARRIER_X = 85.0; // 85% is 30.0m from start (0m to barrier)
+  const STOP_CLEARANCE_X = 68.7; // 68.7% is exactly 6.2m clearance before the barrier
 
   const stopSimulation = useCallback(() => {
     if (animFrameRef.current) {
@@ -51,26 +53,27 @@ export default function CarAEBSimulator() {
       if (!lastTimestampRef.current) {
         lastTimestampRef.current = timestamp;
       }
-      const dt = Math.min((timestamp - lastTimestampRef.current) / 1000, 0.05);
+      const dt = Math.min((timestamp - lastTimestampRef.current) / 1000, 0.04);
       lastTimestampRef.current = timestamp;
 
       const p = physicsRef.current;
 
       if (p.state === 'ACCELERATING') {
-        // Smooth gradual acceleration from 0 km/h up to 45.0 km/h
-        p.speed = Math.min(45.0, p.speed + 15.0 * dt);
+        // Smooth gradual acceleration from 0.0 up to 30.0 km/h
+        p.speed = Math.min(30.0, p.speed + 22.0 * dt);
         p.brakePressure = 0;
 
-        // Position progression: speed to track % displacement
-        p.carX += p.speed * 0.42 * dt;
+        // Advance position according to speed
+        p.carX += p.speed * 0.52 * dt;
 
         // Calculate remaining distance in meters
-        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - 6));
+        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - TRACK_START_X));
         const currentDistMeters = Math.max(0, remainingFraction * 30.0);
 
-        // Radar perception range: 17.5m before obstacle (carX ≈ 42%)
-        if (currentDistMeters <= 17.5 && p.aebEnabled) {
+        // Radar perception lock at 12.0m distance (~53.4% track position)
+        if (currentDistMeters <= 12.0 && p.aebEnabled) {
           p.state = 'BRAKING';
+          p.brakeStartX = p.carX;
           setRadarLocked(true);
           setCanLatency(11.8);
           setState('BRAKING');
@@ -82,7 +85,7 @@ export default function CarAEBSimulator() {
           setState('CRASHED');
           setCarX(p.carX);
           setSpeed(0);
-          setDistanceToBarrier(0);
+          setDistanceToBarrier(0.0);
           stopSimulation();
           return;
         }
@@ -92,32 +95,38 @@ export default function CarAEBSimulator() {
         setDistanceToBarrier(currentDistMeters);
         setBrakePressure(p.brakePressure);
       } else if (p.state === 'BRAKING') {
-        // Progressive pneumatic brake pressure build-up (0 -> 120 PSI)
-        p.brakePressure = Math.min(120, p.brakePressure + 180 * dt);
+        // Build pneumatic pressure instantly up to 120 PSI
+        p.brakePressure = Math.min(120, p.brakePressure + 450 * dt);
 
-        // Smooth controlled deceleration from 45 km/h down to 0 km/h
-        p.speed = Math.max(0, p.speed - 24.5 * dt);
+        // Calculate remaining fraction to the exact 6.2m stop line (STOP_CLEARANCE_X)
+        const totalBrakingSpan = Math.max(1, STOP_CLEARANCE_X - p.brakeStartX);
+        const remainingBrakingSpan = Math.max(0, STOP_CLEARANCE_X - p.carX);
+        const brakingFraction = remainingBrakingSpan / totalBrakingSpan; // 1.0 -> 0.0
 
-        // Progressive braking position advancement
-        p.carX += p.speed * 0.40 * dt;
-
-        // Calculate remaining distance
-        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - 6));
-        const currentDistMeters = Math.max(0, remainingFraction * 30.0);
-
-        // Check if car reached full safe stop at 6.2 meters
-        if (p.speed <= 0.4 || p.carX >= STOP_CLEARANCE_X) {
+        if (brakingFraction <= 0.02 || p.carX >= STOP_CLEARANCE_X) {
+          // Final exact halt at 6.2 meters with zero teleportation
           p.state = 'STOPPED_SAFE';
-          p.speed = 0;
+          p.speed = 0.0;
           p.carX = STOP_CLEARANCE_X;
           setState('STOPPED_SAFE');
           setCarX(STOP_CLEARANCE_X);
-          setSpeed(0);
+          setSpeed(0.0);
           setDistanceToBarrier(6.2);
-          setBrakePressure(p.brakePressure);
+          setBrakePressure(120);
           stopSimulation();
           return;
         }
+
+        // Kinematic deceleration: velocity smoothly approaches 0.0 as distance approaches 6.2m
+        const currentDecelSpeed = Math.max(0.4, 30.0 * Math.pow(brakingFraction, 0.65));
+        p.speed = currentDecelSpeed;
+
+        // Position advances smoothly without abrupt jumping
+        p.carX += p.speed * 0.48 * dt;
+
+        // Calculate exact live meters to barrier
+        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - TRACK_START_X));
+        const currentDistMeters = Math.max(6.2, remainingFraction * 30.0);
 
         setCarX(p.carX);
         setSpeed(p.speed);
@@ -139,16 +148,17 @@ export default function CarAEBSimulator() {
     setCanLatency(null);
     setBrakePressure(0);
     setDistanceToBarrier(30.0);
-    setCarX(6);
-    setSpeed(0);
+    setCarX(TRACK_START_X);
+    setSpeed(0.0);
     setState('ACCELERATING');
 
     physicsRef.current = {
-      carX: 6,
-      speed: 0,
+      carX: TRACK_START_X,
+      speed: 0.0,
       state: 'ACCELERATING',
       aebEnabled: enableAeb,
       brakePressure: 0,
+      brakeStartX: 54.0,
     };
 
     lastTimestampRef.current = null;
@@ -158,19 +168,20 @@ export default function CarAEBSimulator() {
   const resetTest = () => {
     stopSimulation();
     setState('IDLE');
-    setCarX(6);
-    setSpeed(0);
+    setCarX(TRACK_START_X);
+    setSpeed(0.0);
     setDistanceToBarrier(30.0);
     setBrakePressure(0);
     setRadarLocked(false);
     setCanLatency(null);
 
     physicsRef.current = {
-      carX: 6,
-      speed: 0,
+      carX: TRACK_START_X,
+      speed: 0.0,
       state: 'IDLE',
       aebEnabled: true,
       brakePressure: 0,
+      brakeStartX: 54.0,
     };
   };
 
@@ -194,7 +205,7 @@ export default function CarAEBSimulator() {
             Autonomous Emergency Braking (AEB) Physics Simulation
           </h3>
           <p className="text-paper-muted text-xs font-mono mt-0.5">
-            Jetson Orin radar perception + STM32 closed-loop pneumatic brake actuation.
+            Jetson Orin radar perception + STM32 closed-loop pneumatic brake actuation (30 km/h limit).
           </p>
         </div>
 
@@ -245,7 +256,7 @@ export default function CarAEBSimulator() {
             className="absolute top-0 bottom-0 border-r-2 border-dashed border-amber/70 flex flex-col justify-between items-center z-10"
             style={{ left: `${STOP_CLEARANCE_X}%` }}
           >
-            <span className="bg-amber text-ink-950 text-[8px] font-mono font-bold px-1 rounded-xs -translate-x-1/2 mt-1">
+            <span className="bg-amber text-ink-950 text-[8px] font-mono font-bold px-1 rounded-xs -translate-x-1/2 mt-1 shadow-sm">
               6.2m BENCHMARK
             </span>
           </div>
@@ -434,7 +445,7 @@ export default function CarAEBSimulator() {
 
       {/* Engineering Details Footnote */}
       <div className="mt-5 pt-4 border-t border-ink-600 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-paper-dim">
-        <span>Braking Response: &lt;15ms over CAN bus · 120 PSI Line Pressure</span>
+        <span>Braking Response: &lt;12ms over CAN bus · 120 PSI Line Pressure · 30 km/h Entry</span>
         <span className="text-trace font-medium">
           Team Abhyuday Racing · aBAJA National 2026 Winner
         </span>

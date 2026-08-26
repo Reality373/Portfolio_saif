@@ -1,0 +1,159 @@
+%-------------------------
+% Tailored Resume: General Cybersecurity & Penetration Testing
+% Author : Saif Shikalgar
+%------------------------
+
+\documentclass[letterpaper,9pt]{extarticle}
+
+\usepackage[letterpaper,top=0.30in,bottom=0.30in,left=0.45in,right=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[english]{babel}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-7pt}\scshape\raggedright\normalsize\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.08in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.14in, itemsep=0.5pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\LARGE \scshape Saif Shikalgar} \\ \vspace{2pt}
+    \small
+    \textbf{Cybersecurity Analyst \& Penetration Testing Engineer} \\ \vspace{1.5pt}
+    +91 9130900338
+    $|$
+    \href{mailto:15974saif@gmail.com}{15974saif@gmail.com}
+    $|$
+    \href{https://www.linkedin.com/in/reality373}{linkedin.com/in/reality373}
+    $|$
+    \href{https://github.com/Reality373}{github.com/Reality373}
+    $|$
+    Pune, India
+\end{center}
+\vspace{-6pt}
+
+\section{Education}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {G. H. Raisoni College of Engineering and Management}{Pune, India}
+      {B.Tech in Computer Science \& Engineering (Cybersecurity Specialization); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027 (Expected)}
+      \vspace{-2pt}
+      \item{
+        \small{\textbf{Coursework:} Network Security \& Cryptography, Information Security, Computer Networks, Operating Systems, Threat Intelligence, Penetration Testing, Data Structures \& Algorithms, DBMS.}
+      }
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \item{
+        \small{\textbf{Security \& Penetration Testing:}{ Wireshark, Metasploit, Exploit-DB, Nmap, Burp Suite, CVE Auditing, Packet Sniffing, 802.11 WPA2 EAPOL/PMKID Handshake Interception, Hardware Hacking, Threat Modeling (STRIDE/DREAD).}} \\ \vspace{1.5pt}
+        \small{\textbf{Hardware \& Network Defense:}{ Dual-Gate CAN IPS/IDS, Mahalanobis Distance Anomaly Detection, Jitter Analysis, Firewall Filtering, Cryptographic Primitives (AES, RSA, SHA-256), Zero-Trust Architecture.}} \\ \vspace{1.5pt}
+        \small{\textbf{Languages \& Scripting:}{ Python, C, C++ (C11/C++20), Bash, PowerShell Scripting, SQL, Kotlin, Solidity.}} \\ \vspace{1.5pt}
+        \small{\textbf{Operating Systems \& Platforms:}{ Linux (Kali, Ubuntu, Debian), Windows Internals \& Registry, Docker, STM32, ESP32, ESP8266, GCP.}}
+    }
+  \resumeSubHeadingListEnd
+
+\section{Work Experience \& Engineering Leadership}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Team Abhyuday Racing}{Pune, India}
+      {Automotive Cybersecurity Lead -- Drive-by-Wire}{Jan 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Engineered network-level message authentication and priority arbitration over vehicle CAN 2.0B buses, hardening communication against DoS and frame injection across distributed ECUs.}
+            \resumeItem{Performed penetration testing and fuzzing assessments on vehicle diagnostic interfaces, identifying potential attack vectors prior to national deployment.}
+            \resumeItem{Programmed real-time deterministic \textbf{Autonomous Emergency Braking (AEB)} control logic, securing \textbf{1st Place Nationally at aBAJA 2026} with zero safety incidents.}
+        \resumeItemListEnd
+
+    \resumeSubheading
+      {AuraByte Studios (Independent Venture)}{Pune, India}
+      {Lead Application Security Engineer \& Founder}{Dec 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Implemented secure token-based authentication and zero-trust data persistence preventing local file tampering across \textbf{5.73K+ total installs and 2.09K+ active devices}.}
+            \resumeItem{Deployed serverless microservices on \textbf{GCP Cloud Functions} with cryptographically signed webhook validation for Google Play Billing transactions.}
+        \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+\section{Flagship Cybersecurity Projects}
+    \vspace{1pt}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+        {\textbf{Suraksha360: Plug-and-Play IoT Security Auditor \& CVE Scanner} $|$ \emph{C++, ESP8266, Arduino Pro Micro, Exploit-DB}}{}
+          \resumeItemListStart
+            \resumeItem{Created a plug-and-play USB HID hardware security auditing tool that executes automated zero-install system vulnerability scans upon connection to Windows hosts.}
+            \resumeItem{Extracted installed software registries, firewall configurations, and open ports; cross-referenced versions against Exploit-DB for known CVE vulnerabilities and streamed real-time risk scores to an ESP8266 dashboard.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{Dual-Gate STM32 Hardware CAN Firewall \& Anomaly IDS/IPS} $|$ \emph{STM32F446RE, C11, CMSIS/HAL, FreeRTOS, CAN 2.0B}}{}
+          \resumeItemListStart
+            \resumeItem{Engineered an inline dual-transceiver CAN bus firewall intercepting OBD-II injection, fuzzing, and RPM spoofing attacks with a deterministic \textbf{5.92 $\mu$s processing latency} (1,065 clock cycles at 180 MHz).}
+            \resumeItem{Implemented fixed-point Mahalanobis distance anomaly detection and jitter statistical analysis, rejecting \textbf{88.5\% of noise} and achieving a \textbf{99\%+ threat mitigation rate}.}
+          \resumeItemListEnd
+      
+      \resumeProjectHeading
+        {\textbf{Wireless Penetration Testing Toolkit} $|$ \emph{ESP32, C++, 802.11, Wireshark, PCAP}}{}
+          \resumeItemListStart
+            \resumeItem{Engineered a portable 802.11 wireless auditing tool on ESP32 capable of passive beacon sniffing, targeted deauthentication, and WPA2 EAPOL/PMKID four-way handshake capture.}
+            \resumeItem{Logged captured wireless packets directly to PCAP files on microSD storage for deep-packet inspection in Wireshark; implemented rogue AP detection.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{CYO: Privacy-First Multimodal AI Search Engine} $|$ \emph{PyTorch, CLIP, FAISS, Docker, CUDA}}{}
+          \resumeItemListStart
+            \resumeItem{Built an air-gapped local semantic image search platform keeping all image vectorizations and queries 100\% on-device with zero external network leakage.}
+          \resumeItemListEnd
+      
+    \resumeSubHeadingListEnd
+
+\section{Honors \& Awards}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \small{\item{
+        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; verified safety-critical embedded architecture.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for robust fail-safe system design.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Adaptive Cruise Control (ACC):}{ aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration.}
+    }}
+  \resumeSubHeadingListEnd
+
+\end{document}

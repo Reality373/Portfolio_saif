@@ -10,7 +10,7 @@ export default function VehicleTelemetryHUD() {
   const [throttlePercent, setThrottlePercent] = useState(35);
   const [isBrakingTest, setIsBrakingTest] = useState(false);
   const [testDistance, setTestDistance] = useState(0);
-  const [currentSpeed, setCurrentSpeed] = useState(48.5);
+  const [currentSpeed, setCurrentSpeed] = useState(30.0);
 
   // BMS 24-cell mockup state
   const [cells, setCells] = useState<number[]>(
@@ -35,13 +35,13 @@ export default function VehicleTelemetryHUD() {
     if (isBrakingTest) return;
     setIsBrakingTest(true);
     setTestDistance(0);
-    setCurrentSpeed(48.5);
+    setCurrentSpeed(30.0);
 
     let dist = 0;
-    let speed = 48.5;
+    let speed = 30.0;
     const timer = setInterval(() => {
       dist += 0.45;
-      speed = Math.max(0, speed - 3.8);
+      speed = Math.max(0, speed - 2.8);
       setTestDistance(Number(dist.toFixed(1)));
       setCurrentSpeed(Number(speed.toFixed(1)));
 

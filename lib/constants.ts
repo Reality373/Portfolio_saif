@@ -42,8 +42,8 @@ export const SITE = {
 export const STATS = [
   { label: 'Commits shipped', value: '520', suffix: '+' },
   { label: 'Public repositories', value: '22', suffix: '' },
-  { label: 'Published apps', value: '1', suffix: '' },
-  { label: 'Attack-block rate (CAN IPS)', value: '99', suffix: '%+' },
+  { label: 'Total App Installs', value: '5.73', suffix: 'K+' },
+  { label: 'Active Devices / Users', value: '2.09', suffix: 'K+' },
 ];
 
 export interface SkillCategory {

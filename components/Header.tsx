@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SITE } from '@/lib/constants';
 import ThemeToggle from './ThemeToggle';
 import GitHubHoverPreview from './GitHubHoverPreview';
+import ResumeDropdown from './ResumeDropdown';
 import { FaBars, FaTimes, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const NAV_LINKS = [
@@ -60,7 +61,7 @@ export default function Header() {
             </a>
           ))}
 
-          {/* Social icons with GitHub hover preview */}
+          {/* Social icons with GitHub live hover preview */}
           <div className="flex items-center gap-3 pl-2 border-l border-ink-600">
             <GitHubHoverPreview placement="bottom">
               <a
@@ -95,13 +96,8 @@ export default function Header() {
             </a>
           </div>
 
-          <a
-            href={SITE.resumePath}
-            download
-            className="text-sm font-mono px-3.5 py-1.5 border border-ink-600 text-paper hover:border-amber hover:text-amber transition-colors rounded-sm bg-ink-900/40"
-          >
-            Resume
-          </a>
+          {/* Tailored Resumes Dropdown */}
+          <ResumeDropdown />
 
           <ThemeToggle />
         </nav>
@@ -170,14 +166,8 @@ export default function Header() {
               ))}
 
               <div className="pt-2 flex flex-col gap-3">
-                <a
-                  href={SITE.resumePath}
-                  download
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center font-mono text-sm py-2.5 px-4 border border-amber/60 bg-amber text-white dark:text-ink-950 font-semibold rounded-sm block shadow-md"
-                >
-                  Download Resume (PDF)
-                </a>
+                {/* Mobile Tailored Resume Selector */}
+                <ResumeDropdown mobile />
 
                 <div className="flex justify-center gap-6 pt-3 border-t border-ink-600/40">
                   <a

@@ -120,25 +120,25 @@ bool verify_bms_frame(const uint8_t *buf, size_t len) {
   },
   {
     id: 'solo-shipping-fiberopticcalc',
-    title: '252 Commits Solo: 5,000+ Installs',
+    title: '252 Commits Solo: 5.73K+ Installs',
     subtitle: 'Architecting a recursive optical engine, map route-bending, and crash-proof offline sync',
     category: 'Solo Shipping',
     date: 'Dec 2025 – Present',
-    badge: '5,000+ Installs',
+    badge: '5.73K+ Installs · 4.6★',
     summary:
-      'Built a telecommunications engineering platform from zero to 5,000+ Play Store installs as a solo developer: recursive optical budget calculations, real-time map route-bending, and crash-proof atomic persistence.',
+      'Built a telecommunications engineering platform from zero to 5.73K+ Play Store installs, 2.09K+ active devices, and a 4.6★ rating as a solo developer: recursive optical budget calculations, real-time map route-bending, and crash-proof atomic persistence.',
     context:
       'Field technicians and optical network designers regularly navigate complex Passive Optical Networks (PON) using clunky spreadsheets. FiberOpticCalc was designed to give engineers an all-in-one mobile toolkit with math, maps, and fault simulation.',
     crisisOrChallenge:
       'Field workers frequently work underground or in remote areas with zero cell connectivity. A crashed write during a map design or power calculation would corrupt days of field surveys. Furthermore, complex PON splits (1:2 to 1:128 asymmetric couplers) created recursive power calculations that naive algorithms choked on.',
     engineeringSolution:
-      'I engineered the app from scratch over 252 commits:\n\n1. Recursive Loss Engine: Built a depth-first traversal engine calculating insertion loss, splice attenuation, connector degradation, and optical margins across full PON trees with custom `.loss` profile imports.\n2. Draggable Route-Bending: Integrated OpenStreetMap and Google Maps with a custom Haversine multi-segment distance engine, letting engineers snap and bend cables along actual street curves.\n3. Atomic Local Persistence: Implemented two-stage write-ahead atomic file transactions with checksums, guaranteeing zero corrupted files if battery dies mid-save.\n4. Full Monetization Stack: Integrated Google Play Billing subscriptions, multi-identifier auth, and serverless Google Cloud Functions.',
+      'I engineered the app from scratch over 252 commits:\n\n1. Recursive Loss Engine: Built a depth-first traversal engine calculating insertion loss, splice attenuation, connector degradation, and optical margins across full PON trees with custom `.loss` profile imports.\n2. Draggable Route-Bending: Integrated OpenStreetMap and Google Maps with a custom Haversine multi-segment distance engine, letting engineers snap and bend cables along actual street curves.\n3. Atomic Local Persistence: Implemented two-stage write-ahead atomic file transactions with checksums, achieving 0.00% ANR and guaranteeing zero corrupted files if battery dies mid-save.\n4. Full Monetization Stack: Integrated Google Play Billing subscriptions, multi-identifier auth, and serverless Google Cloud Functions.',
     takeaway:
       'Building for real-world professionals requires equal obsession with theoretical precision (optical loss formulas) and defensive offline-first engineering.',
     metrics: [
-      { label: 'Commits Shipped', value: '252' },
-      { label: 'Google Play Installs', value: '5,000+' },
-      { label: 'Active Users', value: '2,000+' },
+      { label: 'Total Installs', value: '5.73K+' },
+      { label: 'Active Devices', value: '2.09K+' },
+      { label: 'Play Store Rating', value: '4.6 / 5.0' },
     ],
     tags: ['Kotlin', 'Jetpack Compose', 'MVVM', 'Geospatial Maps', 'GCP Serverless', 'Play Billing'],
     relatedProjectId: 'fiberopticcalc',

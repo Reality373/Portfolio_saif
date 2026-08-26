@@ -1,0 +1,155 @@
+%-------------------------
+% Tailored Resume: Automotive Cybersecurity
+% Author : Saif Shikalgar
+%------------------------
+
+\documentclass[letterpaper,9pt]{extarticle}
+
+\usepackage[letterpaper,top=0.30in,bottom=0.30in,left=0.45in,right=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[english]{babel}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-7pt}\scshape\raggedright\normalsize\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{\linewidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.08in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.14in, itemsep=0.5pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\LARGE \scshape Saif Shikalgar} \\ \vspace{2pt}
+    \small
+    \textbf{Automotive Cybersecurity \& Embedded Security Engineer} \\ \vspace{1.5pt}
+    +91 9130900338
+    $|$
+    \href{mailto:15974saif@gmail.com}{15974saif@gmail.com}
+    $|$
+    \href{https://www.linkedin.com/in/reality373}{linkedin.com/in/reality373}
+    $|$
+    \href{https://github.com/Reality373}{github.com/Reality373}
+    $|$
+    Pune, India
+\end{center}
+\vspace{-6pt}
+
+\section{Education}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {G. H. Raisoni College of Engineering and Management}{Pune, India}
+      {B.Tech in Computer Science \& Engineering (Cybersecurity Specialization); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027 (Expected)}
+      \vspace{-2pt}
+      \item{
+        \small{\textbf{Coursework:} Automotive Cybersecurity, Network Security \& Cryptography, Operating Systems, Microcontrollers \& Embedded Systems, Data Structures, Threat Modeling \& Vulnerability Assessment.}
+      }
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \item{
+        \small{\textbf{Automotive Protocols \& Security:}{ CAN Bus 2.0B / CAN-FD, ISO 11898, OBD-II (J1979), TWAI, ISO/SAE 21434 Concepts, UN R155/R156, Threat Analysis \& Risk Assessment (TARA), SecOC, Hardware Firewalls, CAN IDS/IPS.}} \\ \vspace{1.5pt}
+        \small{\textbf{Embedded Systems \& Hardware:}{ STM32 (HAL/LL/CMSIS), ARM Cortex-M4, ESP32, FreeRTOS, Bare-Metal C/C++, Microsecond Timing, Hardware Interrupts (ISR), MCP2515, Logic Analyzers, Oscilloscopes, SPI, I2C, UART.}} \\ \vspace{1.5pt}
+        \small{\textbf{Security Tools \& Analysis:}{ Wireshark, CANalyzer/CANoe concepts, SavvyCAN, Metasploit, Exploit-DB, Packet Fuzzing, Jitter Statistical Analysis, Mahalanobis Distance Engine, Reverse Engineering.}} \\ \vspace{1.5pt}
+        \small{\textbf{Programming \& Platforms:}{ C, C++ (C11/C++20), Python, Bash, Linux Kernel Networking, Docker, NVIDIA Jetson Nano/Orin.}}
+    }
+  \resumeSubHeadingListEnd
+
+\section{Work Experience \& Engineering Leadership}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Team Abhyuday Racing}{Pune, India}
+      {Technical Lead \& Department Head -- Drive-by-Wire (Automotive R\&D)}{Jan 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Designed and deployed a distributed \textbf{3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32)} over CAN 2.0B bus with hardware heartbeats, priority message arbitration, and 99.9\% packet reliability under severe EMI noise.}
+            \resumeItem{Programmed real-time deterministic \textbf{Autonomous Emergency Braking (AEB)} control logic, securing \textbf{1st Place Nationally at aBAJA 2026} by halting safely at \textbf{6.2m} at 30 km/h with \textbf{$<$12ms CAN reaction latency}.}
+            \resumeItem{Spearheaded an emergency \textbf{8-hour overnight hardware migration} from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning \textbf{1st Place in Adaptive Cruise Control (ACC)} at aBAJA 2025.}
+            \resumeItem{Engineered a modular Brake-by-Wire pneumatic actuator system with AS5600 12-bit magnetic angle encoders and pressure transducers, cutting hardware costs by \textbf{50\%} and winning the \textbf{1st Place Manufacturing Excellence Award}.}
+        \resumeItemListEnd
+
+    \resumeSubheading
+      {AuraByte Studios (Independent Venture)}{Pune, India}
+      {Lead Systems Developer \& Founder}{Dec 2025 \textbf{--} Present}
+        \resumeItemListStart
+            \resumeItem{Architected secure data handling mechanisms with atomic persistence and cryptographic token verification for over \textbf{5.73K+ total installs and 2.09K+ active devices}.}
+            \resumeItem{Implemented secure cloud communication pipelines using HTTPS, REST APIs, and GCP serverless infrastructure for license verification and webhook processing.}
+        \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+\section{Flagship Automotive Security Projects}
+    \vspace{1pt}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+        {\textbf{Dual-Gate STM32 Hardware CAN Firewall \& Anomaly IDS/IPS} $|$ \emph{STM32F446RE, C11, CMSIS/HAL, FreeRTOS, CAN 2.0B}}{}
+          \resumeItemListStart
+            \resumeItem{Engineered an inline dual-transceiver CAN bus firewall intercepting OBD-II injection, fuzzing, and RPM spoofing attacks with a deterministic \textbf{5.92 $\mu$s processing latency} (1,065 clock cycles at 180 MHz).}
+            \resumeItem{Implemented fixed-point Mahalanobis distance anomaly detection and jitter statistical analysis, rejecting \textbf{88.5\% of noise} and achieving a \textbf{99\%+ threat mitigation rate} with zero bus contention.}
+            \resumeItem{Integrated an isolated secondary CAN transceiver pipeline with automatic hardware fail-safe bypass in the event of microcontroller power disruption.}
+          \resumeItemListEnd
+      
+      \resumeProjectHeading
+        {\textbf{Automotive Telematics \& 24S BMS Security Monitor} $|$ \emph{ESP32, FreeRTOS, BLE GATT, Python, C++}}{}
+          \resumeItemListStart
+            \resumeItem{Reverse-engineered industrial JK BMS BLE GATT protocols to inspect encrypted telemetry payloads across a 76.8V 24S LiFePO4 battery pack, identifying unauthenticated GATT read vulnerabilities.}
+            \resumeItem{Implemented real-time anomaly alerts for unauthorized parameter modification and abnormal cell voltage deltas ($<$15mV) with hardware contactor cutoff.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{Suraksha360: Hardware Security Scanner} $|$ \emph{C++, ESP8266, Arduino, Exploit-DB, Windows Registry API}}{}
+          \resumeItemListStart
+            \resumeItem{Created a plug-and-play USB hardware penetration testing tool that auto-executes non-destructive vulnerability audits on host machines, cross-referencing software configurations against Exploit-DB for known CVEs.}
+          \resumeItemListEnd
+      
+    \resumeSubHeadingListEnd
+
+\section{Honors \& Awards}
+  \vspace{1pt}
+  \resumeSubHeadingListStart
+    \small{\item{
+        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 30 km/h.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for modular Drive-by-Wire and Brake-by-Wire actuator design.} \\ \vspace{1.5pt}
+        \textbf{1st Place, Adaptive Cruise Control (ACC):}{ aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.} \\ \vspace{1.5pt}
+        \textbf{1st Runner Up, MATLAB Advanced Simulation:}{ National aBAJA 2026 Competition; developed a GPS-based autonomous traversal algorithm.}
+    }}
+  \resumeSubHeadingListEnd
+
+\end{document}
