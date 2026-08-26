@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
 import './styles/globals.css';
 import './styles/animations.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -37,6 +38,7 @@ export const metadata: Metadata = {
     'STM32',
     'ESP32',
     'Android developer',
+    'Cybersecurity',
   ],
   openGraph: {
     title: 'Saif Shikalgar — Software & Embedded Systems Engineer',
@@ -62,9 +64,33 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`dark ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
     >
-      <body className="bg-ink-950 text-paper font-sans">{children}</body>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var stored = localStorage.getItem('saif-portfolio-theme');
+                  var isDark = stored ? stored === 'dark' || (stored === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) : true;
+                  if (isDark) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="bg-ink-950 text-paper font-sans antialiased selection:bg-amber selection:text-ink-950">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,6 +1,7 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,27 +10,27 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
-          950: '#0A0A0F',
-          900: '#101015',
-          800: '#131318',
-          700: '#1B1B22',
-          600: '#26262E',
-          500: '#3A3A45',
+          950: 'rgb(var(--color-ink-950) / <alpha-value>)',
+          900: 'rgb(var(--color-ink-900) / <alpha-value>)',
+          800: 'rgb(var(--color-ink-800) / <alpha-value>)',
+          700: 'rgb(var(--color-ink-700) / <alpha-value>)',
+          600: 'rgb(var(--color-ink-600) / <alpha-value>)',
+          500: 'rgb(var(--color-ink-500) / <alpha-value>)',
         },
         paper: {
-          DEFAULT: '#F2F2F2',
-          muted: '#8A8A96',
-          dim: '#5C5C68',
+          DEFAULT: 'rgb(var(--color-paper) / <alpha-value>)',
+          muted: 'rgb(var(--color-paper-muted) / <alpha-value>)',
+          dim: 'rgb(var(--color-paper-dim) / <alpha-value>)',
         },
         amber: {
-          DEFAULT: '#FF6B35',
-          dim: '#CC5529',
-          soft: 'rgba(255, 107, 53, 0.12)',
+          DEFAULT: 'rgb(var(--color-amber) / <alpha-value>)',
+          dim: 'rgb(var(--color-amber-dim) / <alpha-value>)',
+          soft: 'rgb(var(--color-amber) / 0.12)',
         },
         trace: {
-          DEFAULT: '#4CC9F0',
-          dim: '#3AA0C0',
-          soft: 'rgba(76, 201, 240, 0.12)',
+          DEFAULT: 'rgb(var(--color-trace) / <alpha-value>)',
+          dim: 'rgb(var(--color-trace-dim) / <alpha-value>)',
+          soft: 'rgb(var(--color-trace) / 0.12)',
         },
       },
       fontFamily: {
@@ -39,7 +40,7 @@ const config: Config = {
       },
       backgroundImage: {
         'grid-pattern':
-          'linear-gradient(rgba(76, 201, 240, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(76, 201, 240, 0.06) 1px, transparent 1px)',
+          'linear-gradient(var(--grid-line-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px)',
       },
       backgroundSize: {
         grid: '48px 48px',
@@ -47,5 +48,5 @@ const config: Config = {
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

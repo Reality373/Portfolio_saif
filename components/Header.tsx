@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { SITE } from '@/lib/constants';
+import ThemeToggle from './ThemeToggle';
 
 const NAV_LINKS = [
   { href: '#skills', label: 'Skills' },
+  { href: '#stories', label: 'Stories' },
   { href: '#projects', label: 'Projects' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -22,9 +24,9 @@ export default function Header() {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-ink-950/85 backdrop-blur-md border-b border-ink-600'
+          ? 'bg-ink-950/90 backdrop-blur-md border-b border-ink-600 shadow-sm'
           : 'bg-transparent border-b border-transparent'
       }`}
       initial={{ opacity: 0, y: -12 }}
@@ -39,7 +41,7 @@ export default function Header() {
           saif<span className="text-amber">.</span>dev
         </Link>
 
-        <nav className="hidden sm:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -52,19 +54,23 @@ export default function Header() {
           <a
             href={SITE.resumePath}
             download
-            className="text-sm font-mono px-4 py-1.5 border border-ink-600 text-paper hover:border-amber hover:text-amber transition-colors rounded-sm"
+            className="text-sm font-mono px-4 py-1.5 border border-ink-600 text-paper hover:border-amber hover:text-amber transition-colors rounded-sm bg-ink-900/40"
           >
             Resume
           </a>
+          <ThemeToggle />
         </nav>
 
-        <a
-          href={SITE.resumePath}
-          download
-          className="sm:hidden text-xs font-mono px-3 py-1.5 border border-ink-600 text-paper rounded-sm"
-        >
-          Resume
-        </a>
+        <div className="md:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <a
+            href={SITE.resumePath}
+            download
+            className="text-xs font-mono px-3 py-1.5 border border-ink-600 text-paper rounded-sm bg-ink-900/40"
+          >
+            Resume
+          </a>
+        </div>
       </div>
     </motion.header>
   );

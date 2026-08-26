@@ -109,10 +109,18 @@ export default function HeroSection() {
             href="#projects"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="group inline-flex items-center gap-2 px-6 py-3 bg-amber text-ink-950 font-medium rounded-sm hover:shadow-[0_0_30px_rgba(255,107,53,0.35)] transition-shadow"
+            className="group inline-flex items-center gap-2 px-6 py-3 bg-amber text-white dark:text-ink-950 font-semibold rounded-sm hover:shadow-[0_0_30px_rgba(255,107,53,0.35)] transition-shadow"
           >
             View Projects
             <FaArrowRight className="text-sm transition-transform group-hover:translate-x-1" />
+          </motion.a>
+          <motion.a
+            href="#stories"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-600 bg-ink-900/50 text-paper rounded-sm hover:border-amber hover:text-amber transition-colors"
+          >
+            Field Notes
           </motion.a>
           <motion.a
             href={SITE.github}
@@ -120,7 +128,7 @@ export default function HeroSection() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-600 text-paper rounded-sm hover:border-trace hover:text-trace transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-600 bg-ink-900/50 text-paper rounded-sm hover:border-trace hover:text-trace transition-colors"
           >
             <FaGithub /> GitHub
           </motion.a>

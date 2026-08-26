@@ -15,7 +15,7 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           className="mb-14"
         >
-          <p className="font-mono text-sm text-amber mb-3">02 · Stack</p>
+          <p className="font-mono text-sm text-amber mb-3">01 · Stack</p>
           <h2 className="font-display font-semibold text-3xl sm:text-4xl text-paper">
             Skills &amp; technologies
           </h2>
@@ -41,7 +41,7 @@ export default function SkillsSection() {
                 {group.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs font-mono px-2.5 py-1 border border-ink-600 text-paper-muted rounded-sm hover:border-amber hover:text-paper transition-colors"
+                    className="text-xs font-mono px-2.5 py-1 border border-ink-600 text-paper-muted rounded-sm hover:border-amber hover:text-paper transition-colors bg-ink-950/30"
                   >
                     {skill}
                   </span>

@@ -5,6 +5,14 @@ export interface ProjectMetric {
   value: string;
 }
 
+export type GalleryVariant = 'calc-screen' | 'map-screen' | 'architecture';
+
+export interface GalleryItem {
+  label: string;
+  variant: GalleryVariant;
+  imageSrc?: string;
+}
+
 export interface ProjectData {
   id: string;
   title: string;
@@ -15,10 +23,12 @@ export interface ProjectData {
   technologies: string[];
   achievements: string[];
   metrics?: ProjectMetric[];
+  gallery?: GalleryItem[];
   links: {
     github?: string;
     live?: string;
     article?: string;
+    playStore?: string;
   };
   tier: ProjectTier;
 }
@@ -34,7 +44,31 @@ export interface StatItem {
   suffix?: string;
 }
 
-export interface AnimationVariant {
-  hidden: any;
-  visible: any;
+export type StoryCategory =
+  | 'Embedded & Crisis'
+  | 'Performance & Security'
+  | 'Solo Shipping'
+  | 'Reverse Engineering'
+  | 'AI & Web3';
+
+export interface Story {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: StoryCategory;
+  date: string;
+  badge: string;
+  summary: string;
+  context: string;
+  crisisOrChallenge: string;
+  engineeringSolution: string;
+  takeaway: string;
+  metrics: { label: string; value: string }[];
+  tags: string[];
+  relatedProjectId?: string;
+  snippet?: {
+    title: string;
+    language: string;
+    code: string;
+  };
 }

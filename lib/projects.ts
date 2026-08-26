@@ -68,39 +68,50 @@ Engineered the UI in Jetpack Compose within an MVVM architecture following SOLID
       { label: 'Active users', value: '2,000+' },
       { label: 'Commits', value: '252' },
     ],
-    links: { github: 'https://github.com/Reality373/FiberOpticCalc' },
+    gallery: [
+      { label: 'Power Budget Calculator', variant: 'calc-screen' },
+      { label: 'System Architecture', variant: 'architecture' },
+      { label: 'Network Designer', variant: 'map-screen' },
+    ],
+    links: {
+      github: 'https://github.com/Reality373/FiberOpticCalc',
+      playStore:
+        'https://play.google.com/store/apps/details?id=com.reality.fiberopticcalc&hl=en_IN',
+    },
     tier: 'flagship',
   },
   {
     id: 'abhyuday-dbw',
-    title: 'Abhyuday E-BAJA — Drive-by-Wire',
-    tagline: 'Drive-by-wire & telemetry for an off-road racing vehicle',
+    title: 'Abhyuday Racing — Drive-by-Wire (aBAJA)',
+    tagline: 'Drive-by-wire & onboard compute stack for the autonomous BAJA (aBAJA) competition',
     period: 'Jan 2025 – present · two seasons',
     role: 'Technical Lead & Department Head, Team Abhyuday Racing',
-    description: `Led interdisciplinary R&D teams in an Agile environment to design a distributed, fault-tolerant 3-ECU drive-by-wire system (throttle, brake, steer-by-wire) for an autonomous off-road racing vehicle, built across two seasons.
+    description: `Led interdisciplinary R&D teams in an Agile environment to design a distributed, fault-tolerant 3-ECU drive-by-wire system (throttle, brake, steer-by-wire) for Team Abhyuday's vehicle in the aBAJA (autonomous BAJA) competition category, built across two seasons.
 
-Implemented steer-by-wire and throttle-by-wire ECU logic on FreeRTOS over CAN, replacing an earlier single-threaded design, and engineered a modular brake-by-wire linear actuator system with plug-and-play CAN and pressure-sensor integration that cut hardware costs by 50%. Optimized real-time sensor-actuator feedback loops on an NVIDIA Jetson Nano to resolve CAN bottlenecks, and wrote low-level sensor drivers — Hall-effect wheel speed, AS5600 magnetic encoders, BNO08x/MPU6886 IMU via direct I2C register access, and a FlySky IBUS-to-CAN bridge with failsafe scaling.
+Worked across a wide range of microcontrollers and toolchains to get there — Arduino and STM32 Nucleo (G071RB, F446RE) boards via STM32 HAL, Arduino framework, and Makefile-based flashing, plus ESP32-WROOM for the core DBW nodes and ESP32-S3/C3 variants elsewhere in the system — wiring up FreeRTOS-based steer/throttle-by-wire logic over CAN and a wide variety of sensors: Hall-effect wheel speed, AS5600 magnetic encoders, BNO08x/MPU6886 IMUs via direct I2C register access, and a FlySky IBUS-to-CAN bridge with failsafe scaling.
 
-Built a real-time IMU/telemetry web dashboard streaming over WebSockets to a live 3D visualizer, integrated BLE-based BMS telemetry after reverse-engineering a JBD/Xiaoxiang BMS serial protocol, and authored a standalone engineering journal documenting hardware bring-up and root-cause debugging.`,
+Assembled and set up the vehicle's NVIDIA Jetson Orin NX compute node, and — drawing on a strong Linux background — configured its CAN communication interface, autostart scripts, and systemd services (SVC) so the DBW system starts communicating automatically on boot; wrote the control software on both the receiving (Jetson) and controlling ends. Also built a real-time IMU/telemetry web dashboard over WebSockets, integrated BLE-based BMS telemetry after reverse-engineering a JBD/Xiaoxiang BMS serial protocol, and authored a standalone engineering journal documenting hardware bring-up and root-cause debugging.`,
     technologies: [
-      'C/C++ (Arduino/ESP-IDF)',
-      'ESP32 (WROOM/C3/S3)',
+      'C/C++ (Arduino/STM32 HAL)',
+      'STM32 Nucleo (G071RB/F446RE)',
+      'ESP32 (WROOM/S3/C3)',
+      'NVIDIA Jetson Orin NX',
+      'Linux (systemd)',
       'FreeRTOS',
       'TWAI/CAN',
-      'NVIDIA Jetson Nano',
-      'Python',
       'BLE',
     ],
     achievements: [
       '1st Place, Autonomous Emergency Braking — National aBAJA 2026 (6.2m halt on a 6.0m target)',
-      '1st Place, Manufacturing Excellence Award — National aBAJA 2026, for the modular DBW/actuator design',
+      '1st Place, Manufacturing Excellence Award — National aBAJA 2026, for the DBW system design',
       '1st Runner-Up, MATLAB Advanced Simulation — National aBAJA 2026, GPS point-to-point autonomous traversal',
       '1st Place, Adaptive Cruise Control — A-BAJA 2025, after an 8-hour STM32→ESP32 crisis migration',
-      'Brake-by-wire actuator redesign cut hardware costs 50%',
+      'Contributed to an overall ~50% hardware cost reduction across the DBW system',
+      'Set up CAN interface autostart + systemd services on the Jetson Orin NX for boot-time DBW comms',
     ],
     metrics: [
       { label: 'National awards', value: '4' },
-      { label: 'Cost cut (BBW)', value: '50%' },
+      { label: 'DBW cost cut', value: '~50%' },
       { label: 'Seasons', value: '2' },
     ],
     links: { github: 'https://github.com/Reality373/Abhyuday_DBW_2026' },

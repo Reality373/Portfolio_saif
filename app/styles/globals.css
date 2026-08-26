@@ -2,6 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Light Mode */
+    --color-ink-950: 248 250 252;
+    --color-ink-900: 255 255 255;
+    --color-ink-800: 241 245 249;
+    --color-ink-700: 226 232 240;
+    --color-ink-600: 203 213 225;
+    --color-ink-500: 148 163 184;
+
+    --color-paper: 15 23 42;
+    --color-paper-muted: 71 85 105;
+    --color-paper-dim: 100 116 139;
+
+    --color-amber: 224 83 24;
+    --color-amber-dim: 194 65 12;
+    --color-amber-soft: 224 83 24;
+
+    --color-trace: 2 132 199;
+    --color-trace-dim: 3 105 161;
+    --color-trace-soft: 2 132 199;
+
+    --grid-line-color: rgba(2, 132, 199, 0.07);
+    --spotlight-color: rgba(224, 83, 24, 0.08);
+    --header-bg: rgba(248, 250, 252, 0.88);
+    --scrollbar-track: #f1f5f9;
+    --scrollbar-thumb: #cbd5e1;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark {
+    /* Dark Mode */
+    --color-ink-950: 10 10 15;
+    --color-ink-900: 16 16 21;
+    --color-ink-800: 19 19 24;
+    --color-ink-700: 27 27 34;
+    --color-ink-600: 38 38 46;
+    --color-ink-500: 58 58 69;
+
+    --color-paper: 242 242 242;
+    --color-paper-muted: 138 138 150;
+    --color-paper-dim: 92 92 104;
+
+    --color-amber: 255 107 53;
+    --color-amber-dim: 204 85 41;
+    --color-amber-soft: 255 107 53;
+
+    --color-trace: 76 201 240;
+    --color-trace-dim: 58 160 192;
+    --color-trace-soft: 76 201 240;
+
+    --grid-line-color: rgba(76, 201, 240, 0.06);
+    --spotlight-color: rgba(255, 107, 53, 0.08);
+    --header-bg: rgba(10, 10, 15, 0.85);
+    --scrollbar-track: #0a0a0f;
+    --scrollbar-thumb: #26262e;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,10 +72,11 @@ html,
 body {
   width: 100%;
   height: 100%;
-  background-color: #0a0a0f;
-  color: #f2f2f2;
+  background-color: rgb(var(--color-ink-950));
+  color: rgb(var(--color-paper));
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Scrollbar styling */
@@ -24,22 +85,22 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #26262e;
+  background: var(--scrollbar-thumb);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff6b35;
+  background: rgb(var(--color-amber));
 }
 
 /* Selection styling */
 ::selection {
-  background-color: #ff6b35;
-  color: #0a0a0f;
+  background-color: rgb(var(--color-amber));
+  color: rgb(var(--color-ink-950));
 }
 
 /* Smooth scroll */
