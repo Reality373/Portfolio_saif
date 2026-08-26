@@ -31,8 +31,8 @@ export default function Header() {
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || mobileMenuOpen
-          ? 'bg-ink-950/95 backdrop-blur-md border-b border-ink-600 shadow-sm'
-          : 'bg-transparent border-b border-transparent'
+          ? 'bg-ink-950/95 backdrop-blur-lg border-b border-ink-600 shadow-md py-3'
+          : 'bg-ink-950/80 backdrop-blur-md border-b border-ink-600/50 shadow-xs py-4'
       }`}
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -44,9 +44,9 @@ export default function Header() {
           className="font-display font-semibold text-lg tracking-tight text-paper hover:text-amber transition-colors flex items-center gap-1.5 z-20"
           onClick={() => setMobileMenuOpen(false)}
         >
-          <span>saif</span>
+          <span>saifx</span>
           <span className="text-amber">.</span>
-          <span>dev</span>
+          <span>space</span>
         </Link>
 
         {/* Desktop Navigation */}
