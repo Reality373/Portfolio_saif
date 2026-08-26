@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Saif Shikalgar — Resume</title>
+<style>
+  @page { size: Letter; margin: 0.3in 0.55in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #111;
+    font-size: 9.3pt;
+    line-height: 1.19;
+    margin: 0;
+  }
+  .name {
+    text-align: center;
+    font-size: 22pt;
+    letter-spacing: 2px;
+    font-variant: small-caps;
+    font-weight: bold;
+    margin-bottom: 3pt;
+  }
+  .contact {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8.4pt;
+    color: #222;
+    margin-bottom: 8pt;
+  }
+  .contact a { color: #222; text-decoration: none; }
+  .contact .sep { margin: 0 6pt; color: #999; }
+  h2.section {
+    font-family: Arial, Helvetica, sans-serif;
+    font-variant: small-caps;
+    font-size: 11.5pt;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #111;
+    margin: 6pt 0 2pt 0;
+    padding-bottom: 1pt;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12pt;
+  }
+  .row .left { font-weight: bold; }
+  .row .right { font-family: Arial, Helvetica, sans-serif; font-size: 8.4pt; white-space: nowrap; }
+  .subrow {
+    display: flex;
+    justify-content: space-between;
+    font-style: italic;
+    font-size: 9pt;
+    margin-bottom: 1pt;
+  }
+  ul { margin: 1pt 0 4pt 0; padding-left: 14pt; }
+  li { margin-bottom: 0.5pt; }
+  .entry { margin-bottom: 3pt; }
+  .skills-line { margin-bottom: 3pt; }
+  .skills-line b { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+  .proj-title { font-weight: bold; }
+  .proj-title .tech { font-weight: normal; font-style: italic; }
+  .award b { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+</style>
+</head>
+<body>
+
+  <div class="name">Saif Shikalgar</div>
+  <div class="contact">
+    +91 9130900338
+    <span class="sep">|</span>
+    <a href="mailto:15974saif@gmail.com">15974saif@gmail.com</a>
+    <span class="sep">|</span>
+    <a href="https://www.linkedin.com/in/reality373">linkedin.com/in/reality373</a>
+    <span class="sep">|</span>
+    <a href="https://github.com/Reality373">github.com/Reality373</a>
+    <span class="sep">|</span>
+    Pune, Maharashtra
+  </div>
+
+  <h2 class="section">Education</h2>
+  <div class="entry">
+    <div class="row">
+      <span class="left">G. H. Raisoni College of Engineering and Management</span>
+      <span class="right">Pune, India</span>
+    </div>
+    <div class="subrow">
+      <span>B.Tech in Computer Science &amp; Engineering (Cybersecurity); CGPA: 8.10/10.0</span>
+      <span>Sep 2023 – May 2027</span>
+    </div>
+    <div class="subrow"><span>Zero Active Backlogs</span><span></span></div>
+    <ul>
+      <li>Relevant Coursework: Object-Oriented Programming, Data Structures, Operating Systems, Database Management Systems, Computer Networks, Microcontrollers, and Network Security.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Skills</h2>
+  <div class="skills-line"><b>Android &amp; UI/UX Development:</b> Kotlin, Java, Android SDK, Jetpack Compose, React Native, React JS, Material Design, ViewModels.</div>
+  <div class="skills-line"><b>Backend &amp; Cloud Technologies:</b> Python, FastAPI, Node.js, ExpressJS, REST API Implementation, Google Cloud Platform (GCP), Google Play Store Hosting.</div>
+  <div class="skills-line"><b>Automotive &amp; Embedded (R&amp;D):</b> CAN Bus Protocol, FreeRTOS, NVIDIA Jetson Nano, ESP32, STM32, Drive-by-Wire, Over-The-Air (OTA) updates, Basic Android Auto knowledge.</div>
+  <div class="skills-line"><b>Architecture &amp; Tools:</b> MVC, MVVM, SOLID Design Principles, Git, SVN, Gradle Build System, Docker, Agile Development methodology.</div>
+
+  <h2 class="section">Experience</h2>
+  <div class="entry">
+    <div class="row"><span class="left">AuraByte Studios (Independent Venture)</span><span class="right">Pune, India</span></div>
+    <div class="subrow"><span>Lead Android App Developer</span><span>Dec 2025 – Present</span></div>
+    <ul>
+      <li>Designed, developed, and deployed "FiberOpticCalc" on the Google Play Store, managing Gradle build flavors and scaling to over 5,000+ installs and 2,000+ active users.</li>
+      <li>Engineered a clean, intuitive UI/UX utilizing Jetpack Compose and adhered strictly to SOLID design principles within an MVVM (Model-View-ViewModel) architecture.</li>
+      <li>Implemented Google Cloud serverless microservices acting as REST APIs for secure subscription validation, webhook processing, and database state updates.</li>
+      <li>Integrated Location Services utilizing OSM and Google Maps SDKs to create a Multi-Engine Map system, applying a traversal-based OTDR algorithm for real-world GPS tracking.</li>
+      <li>Continuously optimized app performance for memory usage and battery efficiency by implementing an Atomic Persistence engine to prevent data corruption.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row"><span class="left">Team Abhyuday Racing</span><span class="right">Pune, India</span></div>
+    <div class="subrow"><span>Technical Lead &amp; Department Head – Drive-by-Wire (Automotive R&amp;D)</span><span>Jan 2025 – Present</span></div>
+    <ul>
+      <li>Led interdisciplinary R&amp;D teams in an Agile environment to design a distributed 3-ECU system for an autonomous vehicle, ensuring fault-tolerant CAN bus communication.</li>
+      <li>Optimized real-time embedded software performance and sensor-actuator feedback loops on NVIDIA Jetson Nano to resolve CAN bottlenecks.</li>
+      <li>Programmed RTOS-based dynamic vehicle control logic, securing 1st Place in the National aBAJA Autonomous Emergency Braking (AEB) dynamic event.</li>
+      <li>Engineered a modular Brake-by-Wire linear actuator system with plug-and-play CAN line and pressure sensor integration, reducing hardware costs by 50%.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Projects</h2>
+  <div class="entry">
+    <div class="row">
+      <span class="proj-title">CYO: Local AI Image Intelligence System <span class="tech">| React JS, FastAPI, Python, REST APIs</span></span>
+    </div>
+    <ul>
+      <li>Engineered a full-stack local search engine utilizing React JS for the UI and FastAPI/Python for the backend to execute natural-language queries over personal image galleries.</li>
+      <li>Integrated CLIP for text-to-image vectorization and YOLOv8 for object detection, achieving sub-100ms search latency via a FAISS vector database and Docker deployment.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="proj-title">Suraksha360: IoT Security Ecosystem <span class="tech">| C++, ESP8266, Embedded Software</span></span>
+    </div>
+    <ul>
+      <li>Developed a plug-and-play hardware vulnerability scanner utilizing C++ and microcontroller architecture that auto-executes security audits upon USB connection.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Awards &amp; Achievements</h2>
+  <div class="award" style="margin-bottom:2pt;"><b>1st Place, Autonomous Emergency Braking (AEB):</b> National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold.</div>
+  <div class="award" style="margin-bottom:2pt;"><b>1st Place, Manufacturing Excellence Award:</b> National aBAJA 2026 Competition; recognized for the modular DBW and linear actuator R&amp;D design.</div>
+  <div class="award" style="margin-bottom:2pt;"><b>1st Runner Up, MATLAB Advanced Simulation:</b> National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.</div>
+  <div class="award"><b>1st Place, Adaptive Cruise Control:</b> A-BAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.</div>
+
+</body>
+</html>

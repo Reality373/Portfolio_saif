@@ -35,7 +35,7 @@ export const SITE = {
   email: '15974saif@gmail.com',
   github: 'https://github.com/Reality373',
   linkedin: 'https://linkedin.com/in/reality373',
-  resumePath: '/resume.txt',
+  resumePath: '/resume.pdf',
 };
 
 export const STATS = [

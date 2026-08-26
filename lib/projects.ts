@@ -40,31 +40,33 @@ Built a native C++ high-precision benchmarking engine for policy validation, a F
     id: 'fiberopticcalc',
     title: 'FiberOpticCalc',
     tagline: 'Professional PON network design app — published on Google Play',
-    period: 'Jan 2026 – present',
-    role: 'Sole developer · 252/252 commits',
-    description: `A native Android application for telecom engineers and field technicians to design and calculate optical power budgets for Passive Optical Networks, combining precision optical-loss math with live geospatial network mapping. Published on the Google Play Store.
+    period: 'Dec 2025 – present',
+    role: 'Lead Android App Developer, AuraByte Studios · sole developer, 252 commits',
+    description: `A native Android application for telecom engineers and field technicians to design and calculate optical power budgets for Passive Optical Networks, combining precision optical-loss math with live geospatial network mapping. Published on the Google Play Store, scaled to 5,000+ installs and 2,000+ active users.
 
 Built a recursive optical power-budget calculator supporting a full PON component library (OLTs, splitters, ODFs, splices, ONTs) with user-overridable loss constants, a live map-based network designer (OSM/Google Maps) with GPS route-bending and a Haversine multi-segment distance engine, and an OTDR fault-locator simulator that traverses the network graph with cycle detection.
 
-Implemented multi-identifier authentication (email, username, phone, Google One-Tap) with Firestore profiles, and the full monetization stack: Play Billing subscriptions, a 5-tier coffee-support flow, real-time entitlement sync, and remote ad control via Firebase Remote Config.`,
+Engineered the UI in Jetpack Compose within an MVVM architecture following SOLID design principles, implemented Google Cloud serverless microservices as REST APIs for subscription validation and webhook processing, and built an Atomic Persistence engine to prevent data corruption and optimize memory/battery efficiency. Also shipped multi-identifier authentication and the full monetization stack: Play Billing subscriptions, a 5-tier coffee-support flow, real-time entitlement sync, and remote ad control via Firebase Remote Config.`,
     technologies: [
       'Kotlin',
       'Android Jetpack (MVVM)',
       'Firebase',
+      'Google Cloud Platform',
       'Google Play Billing',
       'OSMDroid',
       'Google Maps SDK',
     ],
     achievements: [
       '252 commits over 8 months as sole engineer, from architecture to a live Play Store release',
+      '5,000+ installs and 2,000+ active users on Google Play',
       'Recursive power-budget engine across a full PON component library',
       'Live GPS-based network designer with OTDR fault-locator simulation',
-      'Full billing/entitlement stack with Cloud Functions backend',
+      'GCP serverless microservices for billing/entitlement, plus an Atomic Persistence engine',
     ],
     metrics: [
+      { label: 'Installs', value: '5,000+' },
+      { label: 'Active users', value: '2,000+' },
       { label: 'Commits', value: '252' },
-      { label: 'Ownership', value: '100%' },
-      { label: 'Status', value: 'Live' },
     ],
     links: { github: 'https://github.com/Reality373/FiberOpticCalc' },
     tier: 'flagship',
@@ -73,11 +75,11 @@ Implemented multi-identifier authentication (email, username, phone, Google One-
     id: 'abhyuday-dbw',
     title: 'Abhyuday E-BAJA — Drive-by-Wire',
     tagline: 'Drive-by-wire & telemetry for an off-road racing vehicle',
-    period: 'Jun 2025 – Aug 2026 · two seasons',
-    role: 'Core contributor · 61/127 commits across seasons',
-    description: `Embedded drive-by-wire (throttle, brake, steer-by-wire) and telemetry system for a BAJA SAE-style off-road racing vehicle, built across two seasons with a small embedded-systems team.
+    period: 'Jan 2025 – present · two seasons',
+    role: 'Technical Lead & Department Head, Team Abhyuday Racing',
+    description: `Led interdisciplinary R&D teams in an Agile environment to design a distributed, fault-tolerant 3-ECU drive-by-wire system (throttle, brake, steer-by-wire) for an autonomous off-road racing vehicle, built across two seasons.
 
-Implemented steer-by-wire and throttle-by-wire ECU logic on FreeRTOS over CAN, replacing an earlier single-threaded design, and a brake-by-wire controller with dual-stage bang-bang actuation and CAN-based safety monitoring. Wrote low-level sensor drivers — Hall-effect wheel speed, AS5600 magnetic encoders, BNO08x/MPU6886 IMU via direct I2C register access, and a FlySky IBUS-to-CAN bridge with failsafe scaling.
+Implemented steer-by-wire and throttle-by-wire ECU logic on FreeRTOS over CAN, replacing an earlier single-threaded design, and engineered a modular brake-by-wire linear actuator system with plug-and-play CAN and pressure-sensor integration that cut hardware costs by 50%. Optimized real-time sensor-actuator feedback loops on an NVIDIA Jetson Nano to resolve CAN bottlenecks, and wrote low-level sensor drivers — Hall-effect wheel speed, AS5600 magnetic encoders, BNO08x/MPU6886 IMU via direct I2C register access, and a FlySky IBUS-to-CAN bridge with failsafe scaling.
 
 Built a real-time IMU/telemetry web dashboard streaming over WebSockets to a live 3D visualizer, integrated BLE-based BMS telemetry after reverse-engineering a JBD/Xiaoxiang BMS serial protocol, and authored a standalone engineering journal documenting hardware bring-up and root-cause debugging.`,
     technologies: [
@@ -85,19 +87,21 @@ Built a real-time IMU/telemetry web dashboard streaming over WebSockets to a liv
       'ESP32 (WROOM/C3/S3)',
       'FreeRTOS',
       'TWAI/CAN',
+      'NVIDIA Jetson Nano',
       'Python',
       'BLE',
     ],
     achievements: [
-      'FreeRTOS-based steer/throttle-by-wire replacing a single-threaded architecture',
-      'Dual-stage brake-by-wire with CAN safety monitoring',
-      'Sensor drivers written without vendor libraries (direct I2C register access)',
-      'Real-time WebSocket telemetry dashboard with live 3D visualization',
+      '1st Place, Autonomous Emergency Braking — National aBAJA 2026 (6.2m halt on a 6.0m target)',
+      '1st Place, Manufacturing Excellence Award — National aBAJA 2026, for the modular DBW/actuator design',
+      '1st Runner-Up, MATLAB Advanced Simulation — National aBAJA 2026, GPS point-to-point autonomous traversal',
+      '1st Place, Adaptive Cruise Control — A-BAJA 2025, after an 8-hour STM32→ESP32 crisis migration',
+      'Brake-by-wire actuator redesign cut hardware costs 50%',
     ],
     metrics: [
+      { label: 'National awards', value: '4' },
+      { label: 'Cost cut (BBW)', value: '50%' },
       { label: 'Seasons', value: '2' },
-      { label: 'ECUs', value: 'Multi' },
-      { label: 'Comms', value: 'FreeRTOS/CAN' },
     ],
     links: { github: 'https://github.com/Reality373/Abhyuday_DBW_2026' },
     tier: 'flagship',
