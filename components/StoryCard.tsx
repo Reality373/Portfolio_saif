@@ -88,12 +88,18 @@ export default function StoryCard({ story, onSelect }: StoryCardProps) {
       </div>
 
       {/* Bottom CTA */}
-      <div className="relative z-10 flex items-center justify-between pt-2 border-t border-ink-600/50 text-xs font-mono text-paper-muted group-hover:text-amber transition-colors">
-        <span className="inline-flex items-center gap-1.5">
-          {story.snippet && <FaCode className="text-trace" />} {story.date}
-        </span>
+      <div className="relative z-10 flex items-center justify-between pt-3 border-t border-ink-600/50 text-xs font-mono text-paper-muted group-hover:text-amber transition-colors">
+        <div className="flex items-center gap-2 text-[11px]">
+          {story.photos && story.photos.length > 0 && (
+            <span className="text-paper-dim flex items-center gap-1" title="Includes field snapshots">
+              📷 {story.photos.length}
+            </span>
+          )}
+          {story.snippet && <FaCode className="text-trace" title="Includes code snippet" />}
+          <span>{story.date}</span>
+        </div>
         <span className="inline-flex items-center gap-1 font-semibold group-hover:translate-x-1 transition-transform">
-          Read Field Note <FaArrowRight className="text-[10px]" />
+          Read Story <FaArrowRight className="text-[10px]" />
         </span>
       </div>
     </motion.div>

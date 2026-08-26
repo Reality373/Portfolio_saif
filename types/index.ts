@@ -51,6 +51,20 @@ export type StoryCategory =
   | 'Reverse Engineering'
   | 'AI & Web3';
 
+export interface StoryTradeoff {
+  option: string;
+  pros: string;
+  cons: string;
+  selected?: boolean;
+}
+
+export interface StoryPhoto {
+  url: string;
+  caption: string;
+  location?: string;
+  timestamp?: string;
+}
+
 export interface Story {
   id: string;
   title: string;
@@ -59,10 +73,14 @@ export interface Story {
   date: string;
   badge: string;
   summary: string;
+  sceneSetting?: string;
   context: string;
   crisisOrChallenge: string;
+  tradeoffs?: StoryTradeoff[];
   engineeringSolution: string;
+  theThoughtProcess?: string;
   takeaway: string;
+  photos?: StoryPhoto[];
   metrics: { label: string; value: string }[];
   tags: string[];
   relatedProjectId?: string;

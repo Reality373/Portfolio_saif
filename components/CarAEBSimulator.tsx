@@ -9,19 +9,20 @@ import {
   FaExclamationTriangle,
   FaCheckCircle,
   FaShieldAlt,
+  FaCalculator,
 } from 'react-icons/fa';
 
 type SimState = 'IDLE' | 'ACCELERATING' | 'BRAKING' | 'STOPPED_SAFE' | 'CRASHED';
 
 export default function CarAEBSimulator() {
   const [carX, setCarX] = useState(6.0); // % along track (6% = 0m start, 85% = 30m barrier)
-  const [speed, setSpeed] = useState(0.0); // km/h (target peak: 30.0 km/h)
+  const [speed, setSpeed] = useState(0.0); // km/h (entry target: 30.0 km/h)
   const [distanceToBarrier, setDistanceToBarrier] = useState(30.0); // meters
-  const [brakePressure, setBrakePressure] = useState(0); // PSI
+  const [hydraulicPressure, setHydraulicPressure] = useState(0.0); // bar (Target: 40 bar)
+  const [actuatorStroke, setActuatorStroke] = useState(0); // % (0-100% stroke)
   const [state, setState] = useState<SimState>('IDLE');
   const [aebEnabled, setAebEnabled] = useState(true);
   const [radarLocked, setRadarLocked] = useState(false);
-  const [canLatency, setCanLatency] = useState<number | null>(null);
 
   // Physics simulation refs
   const animFrameRef = useRef<number | null>(null);
@@ -32,7 +33,8 @@ export default function CarAEBSimulator() {
     speed: 0.0,
     state: 'IDLE' as SimState,
     aebEnabled: true,
-    brakePressure: 0,
+    hydraulicPressure: 0.0,
+    actuatorStroke: 0,
     brakeStartX: 54.0,
   });
 
@@ -61,7 +63,8 @@ export default function CarAEBSimulator() {
       if (p.state === 'ACCELERATING') {
         // Smooth gradual acceleration from 0.0 up to 30.0 km/h
         p.speed = Math.min(30.0, p.speed + 22.0 * dt);
-        p.brakePressure = 0;
+        p.hydraulicPressure = 0.0;
+        p.actuatorStroke = 0;
 
         // Advance position according to speed
         p.carX += p.speed * 0.52 * dt;
@@ -75,7 +78,6 @@ export default function CarAEBSimulator() {
           p.state = 'BRAKING';
           p.brakeStartX = p.carX;
           setRadarLocked(true);
-          setCanLatency(11.8);
           setState('BRAKING');
         } else if (p.carX >= BARRIER_X - 2.5 && !p.aebEnabled) {
           // Crash into barrier if AEB is disabled
@@ -86,6 +88,8 @@ export default function CarAEBSimulator() {
           setCarX(p.carX);
           setSpeed(0);
           setDistanceToBarrier(0.0);
+          setHydraulicPressure(0.0);
+          setActuatorStroke(0);
           stopSimulation();
           return;
         }
@@ -93,10 +97,12 @@ export default function CarAEBSimulator() {
         setCarX(p.carX);
         setSpeed(p.speed);
         setDistanceToBarrier(currentDistMeters);
-        setBrakePressure(p.brakePressure);
+        setHydraulicPressure(p.hydraulicPressure);
+        setActuatorStroke(p.actuatorStroke);
       } else if (p.state === 'BRAKING') {
-        // Build pneumatic pressure instantly up to 120 PSI
-        p.brakePressure = Math.min(120, p.brakePressure + 450 * dt);
+        // Build hydraulic line pressure via linear actuator on Tandem Master Cylinder (0 -> 40 bar)
+        p.hydraulicPressure = Math.min(40.0, p.hydraulicPressure + 160.0 * dt);
+        p.actuatorStroke = Math.min(100, Math.round((p.hydraulicPressure / 40.0) * 100));
 
         // Calculate remaining fraction to the exact 6.2m stop line (STOP_CLEARANCE_X)
         const totalBrakingSpan = Math.max(1, STOP_CLEARANCE_X - p.brakeStartX);
@@ -108,11 +114,14 @@ export default function CarAEBSimulator() {
           p.state = 'STOPPED_SAFE';
           p.speed = 0.0;
           p.carX = STOP_CLEARANCE_X;
+          p.hydraulicPressure = 40.0;
+          p.actuatorStroke = 100;
           setState('STOPPED_SAFE');
           setCarX(STOP_CLEARANCE_X);
           setSpeed(0.0);
           setDistanceToBarrier(6.2);
-          setBrakePressure(120);
+          setHydraulicPressure(40.0);
+          setActuatorStroke(100);
           stopSimulation();
           return;
         }
@@ -131,7 +140,8 @@ export default function CarAEBSimulator() {
         setCarX(p.carX);
         setSpeed(p.speed);
         setDistanceToBarrier(currentDistMeters);
-        setBrakePressure(p.brakePressure);
+        setHydraulicPressure(p.hydraulicPressure);
+        setActuatorStroke(p.actuatorStroke);
       }
 
       if (p.state === 'ACCELERATING' || p.state === 'BRAKING') {
@@ -145,8 +155,8 @@ export default function CarAEBSimulator() {
     stopSimulation();
     setAebEnabled(enableAeb);
     setRadarLocked(false);
-    setCanLatency(null);
-    setBrakePressure(0);
+    setHydraulicPressure(0.0);
+    setActuatorStroke(0);
     setDistanceToBarrier(30.0);
     setCarX(TRACK_START_X);
     setSpeed(0.0);
@@ -157,7 +167,8 @@ export default function CarAEBSimulator() {
       speed: 0.0,
       state: 'ACCELERATING',
       aebEnabled: enableAeb,
-      brakePressure: 0,
+      hydraulicPressure: 0.0,
+      actuatorStroke: 0,
       brakeStartX: 54.0,
     };
 
@@ -171,16 +182,17 @@ export default function CarAEBSimulator() {
     setCarX(TRACK_START_X);
     setSpeed(0.0);
     setDistanceToBarrier(30.0);
-    setBrakePressure(0);
+    setHydraulicPressure(0.0);
+    setActuatorStroke(0);
     setRadarLocked(false);
-    setCanLatency(null);
 
     physicsRef.current = {
       carX: TRACK_START_X,
       speed: 0.0,
       state: 'IDLE',
       aebEnabled: true,
-      brakePressure: 0,
+      hydraulicPressure: 0.0,
+      actuatorStroke: 0,
       brakeStartX: 54.0,
     };
   };
@@ -190,6 +202,15 @@ export default function CarAEBSimulator() {
       stopSimulation();
     };
   }, [stopSimulation]);
+
+  // Derived kinematic values for the live speech bubble
+  const speedMps = speed * 0.2778; // m/s
+  const availableBrakingDist = Math.max(0.1, distanceToBarrier - 6.2); // meters to 6.2m stop line
+  const ttc = speedMps > 0.1 ? (distanceToBarrier / speedMps).toFixed(2) : '∞';
+  const reqDecel =
+    speedMps > 0.1 && availableBrakingDist > 0.1
+      ? ((speedMps * speedMps) / (2 * availableBrakingDist)).toFixed(2)
+      : '0.00';
 
   return (
     <div className="bg-ink-900 border border-ink-600 rounded-md p-6 sm:p-8 shadow-xl">
@@ -205,7 +226,7 @@ export default function CarAEBSimulator() {
             Autonomous Emergency Braking (AEB) Physics Simulation
           </h3>
           <p className="text-paper-muted text-xs font-mono mt-0.5">
-            Jetson Orin radar perception + STM32 closed-loop pneumatic brake actuation (30 km/h limit).
+            Jetson Orin radar perception + STM32 Tandem Master Cylinder (TMC) Linear Actuator (40 Bar Hydraulic).
           </p>
         </div>
 
@@ -229,25 +250,25 @@ export default function CarAEBSimulator() {
             </span>
           </div>
 
-          {/* Pneumatic Pressure HUD */}
+          {/* Hydraulic Pressure HUD */}
           <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2">
             <span className="text-red-400 font-bold">⚡</span>
-            <span className="text-paper-dim">Brakes:</span>
+            <span className="text-paper-dim">Hydraulic:</span>
             <span
               className={`font-semibold w-16 text-right ${
-                brakePressure > 0 ? 'text-amber animate-pulse' : 'text-paper-dim'
+                hydraulicPressure > 0 ? 'text-amber animate-pulse' : 'text-paper-dim'
               }`}
             >
-              {brakePressure.toFixed(0)} PSI
+              {hydraulicPressure.toFixed(1)} bar
             </span>
           </div>
         </div>
       </div>
 
-      {/* 2D Interactive Track Canvas */}
-      <div className="relative w-full h-52 bg-ink-950 border border-ink-600 rounded-md overflow-hidden p-4 mb-6 select-none shadow-inner flex flex-col justify-between">
+      {/* 2D Interactive Track Canvas with Generous Vertical Space for Live Math Bubble */}
+      <div className="relative w-full h-64 sm:h-72 bg-ink-950 border border-ink-600 rounded-md overflow-hidden p-4 mb-6 select-none shadow-inner flex flex-col justify-between">
         {/* Asphalt Road Markings */}
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-32 bg-ink-900/90 border-y border-dashed border-ink-600">
+        <div className="absolute inset-x-0 bottom-6 h-28 bg-ink-900/90 border-y border-dashed border-ink-600">
           {/* Center Track Dashed Line */}
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-paper-dim/20" />
 
@@ -263,7 +284,7 @@ export default function CarAEBSimulator() {
         </div>
 
         {/* Distance Markers along Track Floor */}
-        <div className="absolute bottom-2 inset-x-6 flex justify-between font-mono text-[10px] text-paper-dim z-20">
+        <div className="absolute bottom-1 inset-x-6 flex justify-between font-mono text-[10px] text-paper-dim z-20">
           <span>0m (Start)</span>
           <span>10m</span>
           <span>20m</span>
@@ -273,11 +294,11 @@ export default function CarAEBSimulator() {
 
         {/* Obstacle / Barrier */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 z-20"
+          className="absolute bottom-10 z-20"
           style={{ left: `${BARRIER_X}%` }}
         >
           <div
-            className={`w-6 h-24 border-2 rounded-sm flex flex-col items-center justify-center shadow-lg transition-all ${
+            className={`w-6 h-22 border-2 rounded-sm flex flex-col items-center justify-center shadow-lg transition-all ${
               state === 'CRASHED'
                 ? 'bg-red-600/40 border-red-500 scale-95 rotate-6'
                 : 'bg-amber/20 border-amber'
@@ -289,16 +310,73 @@ export default function CarAEBSimulator() {
           </div>
         </div>
 
-        {/* The 2D Autonomous Race Car */}
+        {/* The 2D Autonomous Race Car + Dynamic Floating Math HUD Bubble */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 z-30 transition-transform duration-75"
+          className="absolute bottom-12 z-30 transition-transform duration-75"
           style={{
             left: `${carX}%`,
-            transform: `translateY(-50%) ${
+            transform: `${
               state === 'CRASHED' ? 'rotate(-6deg) scale(0.95)' : 'none'
             }`,
           }}
         >
+          {/* Dynamic Kinematic Calculation Speech Bubble pinned above car roof */}
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 sm:w-60 bg-ink-900/95 border border-trace/70 rounded-md p-2 shadow-2xl backdrop-blur-sm pointer-events-none z-40 text-left">
+            <div className="flex items-center justify-between border-b border-ink-600/60 pb-1 mb-1 font-mono text-[9px]">
+              <span className="text-trace font-bold flex items-center gap-1">
+                <FaCalculator size={8} /> AEB KINEMATICS
+              </span>
+              <span
+                className={`font-semibold px-1 rounded-xs ${
+                  state === 'BRAKING'
+                    ? 'bg-red-500/20 text-red-400 animate-pulse'
+                    : state === 'STOPPED_SAFE'
+                    ? 'bg-green-500/20 text-green-400'
+                    : state === 'CRASHED'
+                    ? 'bg-red-600 text-white'
+                    : 'bg-trace/20 text-trace'
+                }`}
+              >
+                {state === 'BRAKING'
+                  ? 'ACTUATION 40 BAR'
+                  : state === 'STOPPED_SAFE'
+                  ? 'HALT AT 6.2m'
+                  : state === 'CRASHED'
+                  ? 'CRASHED'
+                  : 'SCANNING'}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 font-mono text-[9px]">
+              <div>
+                <span className="text-paper-dim">v_rel: </span>
+                <span className="text-paper font-semibold">{speed.toFixed(1)} km/h</span>
+              </div>
+              <div>
+                <span className="text-paper-dim">TTC: </span>
+                <span className={state === 'BRAKING' ? 'text-red-400 font-bold' : 'text-amber'}>
+                  {ttc}s
+                </span>
+              </div>
+              <div>
+                <span className="text-paper-dim">Req a: </span>
+                <span className="text-paper font-semibold">{reqDecel} m/s²</span>
+              </div>
+              <div>
+                <span className="text-paper-dim">TMC Stroke: </span>
+                <span className="text-amber font-semibold">{actuatorStroke}%</span>
+              </div>
+            </div>
+
+            <div className="mt-1 pt-1 border-t border-ink-600/60 flex items-center justify-between text-[8px] font-mono">
+              <span className="text-paper-dim">Parallel TMC Actuator:</span>
+              <span className="text-red-400 font-bold">{hydraulicPressure.toFixed(1)} / 40 BAR</span>
+            </div>
+
+            {/* Bubble Tail */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-ink-900" />
+          </div>
+
           <div className="relative flex items-center">
             {/* Radar Perception Cone */}
             {state === 'ACCELERATING' && (
@@ -334,7 +412,7 @@ export default function CarAEBSimulator() {
               <div className="absolute -bottom-2 left-2 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
               <div className="absolute -bottom-2 right-2.5 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
 
-              {/* Glowing Brake Calipers during Deceleration */}
+              {/* Glowing Hydraulic Calipers during Deceleration */}
               {state === 'BRAKING' && (
                 <>
                   <span className="absolute -bottom-1.5 right-2 w-2.5 h-2.5 rounded-full bg-amber shadow-[0_0_10px_#FF6B35] animate-ping" />
@@ -368,7 +446,7 @@ export default function CarAEBSimulator() {
             />
             Mode:{' '}
             <span className="text-paper font-semibold">
-              {aebEnabled ? 'Autonomous AEB Closed-Loop' : 'Manual Driver (AEB Disabled)'}
+              {aebEnabled ? 'Autonomous AEB Closed-Loop (TMC Actuation)' : 'Manual Driver (AEB Disabled)'}
             </span>
           </span>
 
@@ -381,7 +459,7 @@ export default function CarAEBSimulator() {
               >
                 <FaCheckCircle className="text-sm" />
                 <span>
-                  SAFE STOP AT 6.2m · {canLatency}ms CAN DELAY · 0 COLLISION (NATIONAL 1ST PLACE)
+                  SAFE STOP AT 6.2m · 40 BAR HYDRAULIC LOCK · 0 COLLISION (NATIONAL 1ST PLACE)
                 </span>
               </motion.div>
             )}
@@ -404,7 +482,7 @@ export default function CarAEBSimulator() {
                 className="bg-amber/20 border border-amber/70 text-amber font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-2"
               >
                 <FaShieldAlt />
-                <span>EMERGENCY BRAKE ACTUATED (120 PSI PNEUMATIC)</span>
+                <span>TMC LINEAR ACTUATOR EXTENDING (40 BAR HYDRAULIC)</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -445,7 +523,7 @@ export default function CarAEBSimulator() {
 
       {/* Engineering Details Footnote */}
       <div className="mt-5 pt-4 border-t border-ink-600 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-paper-dim">
-        <span>Braking Response: &lt;12ms over CAN bus · 120 PSI Line Pressure · 30 km/h Entry</span>
+        <span>Actuation: Parallel Linear Actuator on Tandem Master Cylinder · 40 Bar Hydraulic Line Pressure · 30 km/h Entry</span>
         <span className="text-trace font-medium">
           Team Abhyuday Racing · aBAJA National 2026 Winner
         </span>

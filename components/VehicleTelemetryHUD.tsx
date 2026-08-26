@@ -158,7 +158,7 @@ export default function VehicleTelemetryHUD() {
               </h3>
 
               <p className="text-paper-muted text-xs leading-relaxed mb-5">
-                Test the vehicle&apos;s dual-stage bang-bang braking actuation triggered by Jetson Orin obstacle detection:
+                Test the vehicle&apos;s 40 bar hydraulic braking actuation via a high-force linear actuator parallel to the Tandem Master Cylinder:
               </p>
 
               {/* Live readout */}
@@ -177,7 +177,7 @@ export default function VehicleTelemetryHUD() {
                 <div className="text-[11px] font-mono text-paper-muted flex items-center justify-center gap-2">
                   <span>Target: 6.0m</span> ·{' '}
                   <span className={testDistance > 0 && testDistance <= 6.3 ? 'text-green-400 font-semibold' : 'text-paper-dim'}>
-                    National Halt: 6.2m (1st Place)
+                    National Halt: 6.2m (40 Bar Locked)
                   </span>
                 </div>
               </div>
@@ -192,12 +192,12 @@ export default function VehicleTelemetryHUD() {
                 }`}
               >
                 <FaBolt />
-                {isBrakingTest ? 'AEB ACTUATION ENGAGED...' : 'TEST AUTONOMOUS EMERGENCY BRAKE'}
+                {isBrakingTest ? 'TMC ACTUATION (40 BAR HYDRAULIC)...' : 'TEST AUTONOMOUS EMERGENCY BRAKE'}
               </button>
             </div>
 
             <div className="text-[11px] font-mono text-paper-dim">
-              <span>Reaction delay: &lt;15ms via systemd Jetson CAN pipe</span>
+              <span>Actuation: 40 bar hydraulic line pressure via parallel TMC linear actuator</span>
             </div>
           </div>
 

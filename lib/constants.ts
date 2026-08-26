@@ -91,7 +91,7 @@ export const SKILLS: SkillCategory[] = [
       'Closed-Loop PID Control',
       'Jetson Orin Perception',
       'AS5600 12-Bit Encoders',
-      'Pneumatic Brake Actuation',
+      'Hydraulic Brake Actuation (40 Bar)',
       '24S LiFePO4 BMS Telemetry',
       'BLE GATT Protocols',
     ],
