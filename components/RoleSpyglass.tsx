@@ -5,13 +5,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SITE } from '@/lib/constants';
 
 const ROLES = [
-  'Embedded Systems Engineer',
-  'Automotive Cyber Security',
-  'Cyber Security Analyst',
-  'Drive-by-Wire Engineer',
-  'Android App Developer',
-  'Edge AI & Systems Engineer',
-  'IoT Telematics Engineer',
+  'Robotics Software Engineer',
+  'Automotive Cybersecurity Engineer',
+  'Embedded Firmware Engineer',
+  'Robotics Controls & Actuation',
+  'Autonomous Systems Engineer',
+  'BMS Firmware & Telematics',
+  'Embedded Security Analyst',
+  'Android Software Engineer',
+  'Edge AI & Vision Engineer',
 ];
 
 const LENS_RADIUS = 90; // 90px radius (180px diameter aperture)

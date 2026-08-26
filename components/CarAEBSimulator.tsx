@@ -1,198 +1,338 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlay, FaUndo, FaTachometerAlt, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
+import {
+  FaPlay,
+  FaUndo,
+  FaTachometerAlt,
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaShieldAlt,
+} from 'react-icons/fa';
+
+type SimState = 'IDLE' | 'ACCELERATING' | 'BRAKING' | 'STOPPED_SAFE' | 'CRASHED';
 
 export default function CarAEBSimulator() {
-  const [carX, setCarX] = useState(10); // percentage along track (0% to 100%)
+  const [carX, setCarX] = useState(6); // % along track (6% = 0m, 85% = 30m barrier)
   const [speed, setSpeed] = useState(0); // km/h
-  const [state, setState] = useState<'IDLE' | 'ACCELERATING' | 'BRAKING' | 'STOPPED_SAFE' | 'CRASHED'>('IDLE');
+  const [distanceToBarrier, setDistanceToBarrier] = useState(30.0); // meters
+  const [brakePressure, setBrakePressure] = useState(0); // PSI
+  const [state, setState] = useState<SimState>('IDLE');
   const [aebEnabled, setAebEnabled] = useState(true);
-  const [reactionTime, setReactionTime] = useState<number | null>(null);
+  const [radarLocked, setRadarLocked] = useState(false);
+  const [canLatency, setCanLatency] = useState<number | null>(null);
 
-  const obstacleX = 82; // percentage along track
-  const animRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number>(0);
+  // Physics simulation refs
+  const animFrameRef = useRef<number | null>(null);
+  const lastTimestampRef = useRef<number | null>(null);
 
-  // Car simulation loop
-  useEffect(() => {
-    if (state === 'IDLE' || state === 'STOPPED_SAFE' || state === 'CRASHED') {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
-      return;
+  const physicsRef = useRef({
+    carX: 6,
+    speed: 0,
+    state: 'IDLE' as SimState,
+    aebEnabled: true,
+    brakePressure: 0,
+  });
+
+  const BARRIER_X = 85; // 85% is the barrier location (30 meters from start)
+  const STOP_CLEARANCE_X = 68.5; // 68.5% is exactly 6.2 meters clearance from barrier
+
+  const stopSimulation = useCallback(() => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
     }
+    lastTimestampRef.current = null;
+  }, []);
 
-    const loop = (time: number) => {
-      if (!lastTimeRef.current) lastTimeRef.current = time;
-      const dt = Math.min((time - lastTimeRef.current) / 1000, 0.05);
-      lastTimeRef.current = time;
+  const runSimulationStep = useCallback(
+    (timestamp: number) => {
+      if (!lastTimestampRef.current) {
+        lastTimestampRef.current = timestamp;
+      }
+      const dt = Math.min((timestamp - lastTimestampRef.current) / 1000, 0.05);
+      lastTimestampRef.current = timestamp;
 
-      setCarX((prevX) => {
-        let newX = prevX;
-        const distToObstacle = obstacleX - prevX;
+      const p = physicsRef.current;
 
-        if (state === 'ACCELERATING') {
-          // Accelerate to 48 km/h
-          setSpeed((prevSpeed) => Math.min(48, prevSpeed + 35 * dt));
-          newX += (speed * 0.85) * dt;
+      if (p.state === 'ACCELERATING') {
+        // Smooth gradual acceleration from 0 km/h up to 45.0 km/h
+        p.speed = Math.min(45.0, p.speed + 15.0 * dt);
+        p.brakePressure = 0;
 
-          // Trigger AEB detection when within radar range (32% distance)
-          if (distToObstacle <= 32 && aebEnabled) {
-            setState('BRAKING');
-            setReactionTime(12); // 12ms CAN delay
-          } else if (distToObstacle <= 4 && !aebEnabled) {
-            setState('CRASHED');
-            setSpeed(0);
-            return obstacleX - 2;
-          }
-        } else if (state === 'BRAKING') {
-          // Rapid emergency braking
-          setSpeed((prevSpeed) => {
-            const nextSpeed = Math.max(0, prevSpeed - 75 * dt);
-            if (nextSpeed === 0) {
-              setState('STOPPED_SAFE');
-            }
-            return nextSpeed;
-          });
-          newX += (speed * 0.45) * dt;
+        // Position progression: speed to track % displacement
+        p.carX += p.speed * 0.42 * dt;
 
-          // Check if stopped or collision
-          if (distToObstacle <= 8 && speed <= 5) {
-            setState('STOPPED_SAFE');
-            setSpeed(0);
-            return obstacleX - 8;
-          }
+        // Calculate remaining distance in meters
+        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - 6));
+        const currentDistMeters = Math.max(0, remainingFraction * 30.0);
+
+        // Radar perception range: 17.5m before obstacle (carX ≈ 42%)
+        if (currentDistMeters <= 17.5 && p.aebEnabled) {
+          p.state = 'BRAKING';
+          setRadarLocked(true);
+          setCanLatency(11.8);
+          setState('BRAKING');
+        } else if (p.carX >= BARRIER_X - 2.5 && !p.aebEnabled) {
+          // Crash into barrier if AEB is disabled
+          p.state = 'CRASHED';
+          p.speed = 0;
+          p.carX = BARRIER_X - 2.0;
+          setState('CRASHED');
+          setCarX(p.carX);
+          setSpeed(0);
+          setDistanceToBarrier(0);
+          stopSimulation();
+          return;
         }
 
-        return Math.min(newX, obstacleX - 2);
-      });
+        setCarX(p.carX);
+        setSpeed(p.speed);
+        setDistanceToBarrier(currentDistMeters);
+        setBrakePressure(p.brakePressure);
+      } else if (p.state === 'BRAKING') {
+        // Progressive pneumatic brake pressure build-up (0 -> 120 PSI)
+        p.brakePressure = Math.min(120, p.brakePressure + 180 * dt);
 
-      animRef.current = requestAnimationFrame(loop);
-    };
+        // Smooth controlled deceleration from 45 km/h down to 0 km/h
+        p.speed = Math.max(0, p.speed - 24.5 * dt);
 
-    animRef.current = requestAnimationFrame(loop);
-    return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
-    };
-  }, [state, speed, aebEnabled]);
+        // Progressive braking position advancement
+        p.carX += p.speed * 0.40 * dt;
+
+        // Calculate remaining distance
+        const remainingFraction = Math.max(0, (BARRIER_X - p.carX) / (BARRIER_X - 6));
+        const currentDistMeters = Math.max(0, remainingFraction * 30.0);
+
+        // Check if car reached full safe stop at 6.2 meters
+        if (p.speed <= 0.4 || p.carX >= STOP_CLEARANCE_X) {
+          p.state = 'STOPPED_SAFE';
+          p.speed = 0;
+          p.carX = STOP_CLEARANCE_X;
+          setState('STOPPED_SAFE');
+          setCarX(STOP_CLEARANCE_X);
+          setSpeed(0);
+          setDistanceToBarrier(6.2);
+          setBrakePressure(p.brakePressure);
+          stopSimulation();
+          return;
+        }
+
+        setCarX(p.carX);
+        setSpeed(p.speed);
+        setDistanceToBarrier(currentDistMeters);
+        setBrakePressure(p.brakePressure);
+      }
+
+      if (p.state === 'ACCELERATING' || p.state === 'BRAKING') {
+        animFrameRef.current = requestAnimationFrame(runSimulationStep);
+      }
+    },
+    [stopSimulation]
+  );
 
   const startTest = (enableAeb: boolean) => {
+    stopSimulation();
     setAebEnabled(enableAeb);
-    setCarX(8);
-    setSpeed(12);
-    setReactionTime(null);
-    lastTimeRef.current = 0;
+    setRadarLocked(false);
+    setCanLatency(null);
+    setBrakePressure(0);
+    setDistanceToBarrier(30.0);
+    setCarX(6);
+    setSpeed(0);
     setState('ACCELERATING');
+
+    physicsRef.current = {
+      carX: 6,
+      speed: 0,
+      state: 'ACCELERATING',
+      aebEnabled: enableAeb,
+      brakePressure: 0,
+    };
+
+    lastTimestampRef.current = null;
+    animFrameRef.current = requestAnimationFrame(runSimulationStep);
   };
 
   const resetTest = () => {
+    stopSimulation();
     setState('IDLE');
-    setCarX(10);
+    setCarX(6);
     setSpeed(0);
-    setReactionTime(null);
-    if (animRef.current) cancelAnimationFrame(animRef.current);
+    setDistanceToBarrier(30.0);
+    setBrakePressure(0);
+    setRadarLocked(false);
+    setCanLatency(null);
+
+    physicsRef.current = {
+      carX: 6,
+      speed: 0,
+      state: 'IDLE',
+      aebEnabled: true,
+      brakePressure: 0,
+    };
   };
+
+  useEffect(() => {
+    return () => {
+      stopSimulation();
+    };
+  }, [stopSimulation]);
 
   return (
     <div className="bg-ink-900 border border-ink-600 rounded-md p-6 sm:p-8 shadow-xl">
-      {/* Title & context */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      {/* Title & Context */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="font-mono text-xs text-amber uppercase tracking-wider font-semibold">
-              Team Abhyuday Racing · aBAJA Autonomous BAJA
+              Team Abhyuday Racing · aBAJA Autonomous BAJA 2026
             </span>
           </div>
           <h3 className="font-display font-semibold text-2xl text-paper">
-            Autonomous Emergency Braking (AEB) Simulation
+            Autonomous Emergency Braking (AEB) Physics Simulation
           </h3>
           <p className="text-paper-muted text-xs font-mono mt-0.5">
-            Jetson Orin radar perception + STM32/ESP32 drive-by-wire dual-stage pneumatic braking.
+            Jetson Orin radar perception + STM32 closed-loop pneumatic brake actuation.
           </p>
         </div>
 
-        {/* Status indicator */}
-        <div className="flex items-center gap-3">
-          <div className="bg-ink-950 px-3.5 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2">
+        {/* Real-time Telemetry Gauges */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Speed HUD */}
+          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2">
             <FaTachometerAlt className="text-trace" />
             <span className="text-paper-dim">Speed:</span>
-            <span className="text-paper font-semibold w-14">{speed.toFixed(1)} km/h</span>
+            <span className="text-paper font-semibold w-16 text-right">
+              {speed.toFixed(1)} km/h
+            </span>
+          </div>
+
+          {/* Distance HUD */}
+          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2">
+            <span className="text-amber font-bold">📏</span>
+            <span className="text-paper-dim">Dist:</span>
+            <span className="text-paper font-semibold w-14 text-right">
+              {distanceToBarrier.toFixed(1)} m
+            </span>
+          </div>
+
+          {/* Pneumatic Pressure HUD */}
+          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2">
+            <span className="text-red-400 font-bold">⚡</span>
+            <span className="text-paper-dim">Brakes:</span>
+            <span
+              className={`font-semibold w-16 text-right ${
+                brakePressure > 0 ? 'text-amber animate-pulse' : 'text-paper-dim'
+              }`}
+            >
+              {brakePressure.toFixed(0)} PSI
+            </span>
           </div>
         </div>
       </div>
 
       {/* 2D Interactive Track Canvas */}
-      <div className="relative w-full h-48 bg-ink-950 border border-ink-600 rounded-md overflow-hidden p-4 mb-6 select-none shadow-inner flex flex-col justify-between">
-        {/* Asphalt road markings */}
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-28 bg-ink-900/90 border-y border-dashed border-ink-600">
-          {/* Center line */}
+      <div className="relative w-full h-52 bg-ink-950 border border-ink-600 rounded-md overflow-hidden p-4 mb-6 select-none shadow-inner flex flex-col justify-between">
+        {/* Asphalt Road Markings */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-32 bg-ink-900/90 border-y border-dashed border-ink-600">
+          {/* Center Track Dashed Line */}
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t-2 border-dashed border-paper-dim/20" />
+
+          {/* 6.2m Safe Stop Benchmark Line */}
+          <div
+            className="absolute top-0 bottom-0 border-r-2 border-dashed border-amber/70 flex flex-col justify-between items-center z-10"
+            style={{ left: `${STOP_CLEARANCE_X}%` }}
+          >
+            <span className="bg-amber text-ink-950 text-[8px] font-mono font-bold px-1 rounded-xs -translate-x-1/2 mt-1">
+              6.2m BENCHMARK
+            </span>
+          </div>
         </div>
 
-        {/* Distance markers along the track */}
-        <div className="absolute bottom-2 inset-x-6 flex justify-between font-mono text-[10px] text-paper-dim">
+        {/* Distance Markers along Track Floor */}
+        <div className="absolute bottom-2 inset-x-6 flex justify-between font-mono text-[10px] text-paper-dim z-20">
           <span>0m (Start)</span>
           <span>10m</span>
           <span>20m</span>
-          <span className="text-amber font-semibold">6.2m Safe Zone</span>
+          <span className="text-amber font-semibold">6.2m Stop Line</span>
           <span className="text-red-400 font-semibold">Barrier (30m)</span>
         </div>
 
-        {/* Obstacle Barrier */}
+        {/* Obstacle / Barrier */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 z-20 transition-transform"
-          style={{ left: `${obstacleX}%` }}
+          className="absolute top-1/2 -translate-y-1/2 z-20"
+          style={{ left: `${BARRIER_X}%` }}
         >
-          <div className="w-6 h-20 bg-stripes-amber border-2 border-amber rounded-sm flex flex-col items-center justify-center shadow-lg bg-amber/20">
+          <div
+            className={`w-6 h-24 border-2 rounded-sm flex flex-col items-center justify-center shadow-lg transition-all ${
+              state === 'CRASHED'
+                ? 'bg-red-600/40 border-red-500 scale-95 rotate-6'
+                : 'bg-amber/20 border-amber'
+            }`}
+          >
             <span className="font-mono text-[8px] font-bold text-amber -rotate-90 whitespace-nowrap">
-              OBSTACLE
+              BARRIER
             </span>
           </div>
         </div>
 
         {/* The 2D Autonomous Race Car */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 z-30 transition-all duration-75"
-          style={{ left: `${carX}%` }}
+          className="absolute top-1/2 -translate-y-1/2 z-30 transition-transform duration-75"
+          style={{
+            left: `${carX}%`,
+            transform: `translateY(-50%) ${
+              state === 'CRASHED' ? 'rotate(-6deg) scale(0.95)' : 'none'
+            }`,
+          }}
         >
           <div className="relative flex items-center">
-            {/* Radar Sensor Cones when active */}
+            {/* Radar Perception Cone */}
             {state === 'ACCELERATING' && (
               <div
-                className="absolute left-full top-1/2 -translate-y-1/2 w-32 h-20 pointer-events-none opacity-40 bg-gradient-to-r from-trace/30 to-transparent"
+                className={`absolute left-full top-1/2 -translate-y-1/2 w-36 h-24 pointer-events-none transition-opacity ${
+                  radarLocked
+                    ? 'opacity-80 bg-gradient-to-r from-amber/40 via-red-500/20 to-transparent'
+                    : 'opacity-35 bg-gradient-to-r from-trace/30 to-transparent'
+                }`}
                 style={{ clipPath: 'polygon(0 40%, 100% 0, 100% 100%, 0 60%)' }}
               />
             )}
             {state === 'BRAKING' && (
               <div
-                className="absolute left-full top-1/2 -translate-y-1/2 w-28 h-20 pointer-events-none opacity-70 bg-gradient-to-r from-amber/40 to-transparent"
+                className="absolute left-full top-1/2 -translate-y-1/2 w-32 h-24 pointer-events-none opacity-80 bg-gradient-to-r from-amber/50 via-amber/20 to-transparent animate-pulse"
                 style={{ clipPath: 'polygon(0 40%, 100% 0, 100% 100%, 0 60%)' }}
               />
             )}
 
-            {/* Skid smoke when braking */}
+            {/* Skid Smoke Particles when Braking */}
             {state === 'BRAKING' && (
-              <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-paper-dim/40 blur-sm animate-ping" />
+              <>
+                <div className="absolute -left-6 top-2 w-5 h-5 rounded-full bg-paper-dim/40 blur-xs animate-ping" />
+                <div className="absolute -left-8 bottom-2 w-6 h-6 rounded-full bg-paper-dim/30 blur-sm animate-ping" />
+              </>
             )}
 
-            {/* Car Body SVG */}
-            <div className="relative w-16 h-10 bg-trace/90 border border-trace rounded-md shadow-md flex items-center justify-center text-ink-950 font-mono font-bold text-[9px]">
+            {/* Race Car Body */}
+            <div className="relative w-18 h-11 bg-trace/95 border-2 border-trace rounded-md shadow-lg flex items-center justify-center text-ink-950 font-mono font-bold text-[9px]">
               {/* Wheels */}
-              <div className="absolute -top-1.5 left-2 w-3 h-1.5 bg-ink-950 rounded-sm border border-paper-dim" />
-              <div className="absolute -top-1.5 right-2 w-3 h-1.5 bg-ink-950 rounded-sm border border-paper-dim" />
-              <div className="absolute -bottom-1.5 left-2 w-3 h-1.5 bg-ink-950 rounded-sm border border-paper-dim" />
-              <div className="absolute -bottom-1.5 right-2 w-3 h-1.5 bg-ink-950 rounded-sm border border-paper-dim" />
+              <div className="absolute -top-2 left-2 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
+              <div className="absolute -top-2 right-2.5 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
+              <div className="absolute -bottom-2 left-2 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
+              <div className="absolute -bottom-2 right-2.5 w-3.5 h-2 bg-ink-950 rounded-xs border border-paper-dim" />
 
-              {/* Brake calipers glow */}
+              {/* Glowing Brake Calipers during Deceleration */}
               {state === 'BRAKING' && (
                 <>
-                  <span className="absolute -bottom-1 right-2 w-2 h-2 rounded-full bg-amber shadow-[0_0_8px_#FF6B35] animate-ping" />
-                  <span className="absolute -top-1 right-2 w-2 h-2 rounded-full bg-amber shadow-[0_0_8px_#FF6B35] animate-ping" />
+                  <span className="absolute -bottom-1.5 right-2 w-2.5 h-2.5 rounded-full bg-amber shadow-[0_0_10px_#FF6B35] animate-ping" />
+                  <span className="absolute -top-1.5 right-2 w-2.5 h-2.5 rounded-full bg-amber shadow-[0_0_10px_#FF6B35] animate-ping" />
                 </>
               )}
 
-              {/* Jetson Orin Node on roof */}
-              <div className="w-7 h-5 bg-ink-950 text-trace rounded-sm text-[7px] flex items-center justify-center font-mono">
+              {/* Jetson Orin Node on Roof */}
+              <div className="w-8 h-5 bg-ink-950 text-trace rounded-xs text-[7px] flex items-center justify-center font-mono border border-trace/40 shadow-inner">
                 JETSON
               </div>
             </div>
@@ -200,31 +340,60 @@ export default function CarAEBSimulator() {
         </div>
 
         {/* Status Overlay Banner */}
-        <div className="relative z-30 flex justify-between items-center">
-          <span className="font-mono text-xs text-paper-dim">
-            Mode: <span className="text-paper font-semibold">{aebEnabled ? 'Autonomous AEB' : 'Manual Driver (No AEB)'}</span>
+        <div className="relative z-30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="font-mono text-xs text-paper-dim flex items-center gap-2">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                state === 'ACCELERATING'
+                  ? 'bg-trace animate-pulse'
+                  : state === 'BRAKING'
+                  ? 'bg-amber animate-pulse'
+                  : state === 'STOPPED_SAFE'
+                  ? 'bg-green-400'
+                  : state === 'CRASHED'
+                  ? 'bg-red-500'
+                  : 'bg-paper-dim'
+              }`}
+            />
+            Mode:{' '}
+            <span className="text-paper font-semibold">
+              {aebEnabled ? 'Autonomous AEB Closed-Loop' : 'Manual Driver (AEB Disabled)'}
+            </span>
           </span>
 
           <AnimatePresence mode="wait">
             {state === 'STOPPED_SAFE' && (
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={{ scale: 0.85, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-green-500/15 border border-green-500/50 text-green-400 font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-1.5 shadow-md"
+                className="bg-green-500/15 border border-green-500/60 text-green-400 font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-2 shadow-md"
               >
                 <FaCheckCircle className="text-sm" />
-                <span>HALTED SAFELY AT 6.2m · {reactionTime}ms CAN DELAY · NATIONAL 1ST PLACE</span>
+                <span>
+                  SAFE STOP AT 6.2m · {canLatency}ms CAN DELAY · 0 COLLISION (NATIONAL 1ST PLACE)
+                </span>
               </motion.div>
             )}
 
             {state === 'CRASHED' && (
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
+                initial={{ scale: 0.85, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-red-500/20 border border-red-500/60 text-red-400 font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-1.5 shadow-md"
+                className="bg-red-500/20 border border-red-500/70 text-red-400 font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-2 shadow-md"
               >
                 <FaExclamationTriangle className="text-sm" />
-                <span>COLLISION · AEB WAS DISABLED</span>
+                <span>BARRIER COLLISION · AEB SYSTEM WAS OVERRIDDEN</span>
+              </motion.div>
+            )}
+
+            {state === 'BRAKING' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-amber/20 border border-amber/70 text-amber font-mono text-xs px-3 py-1 rounded-sm flex items-center gap-2"
+              >
+                <FaShieldAlt />
+                <span>EMERGENCY BRAKE ACTUATED (120 PSI PNEUMATIC)</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -233,7 +402,7 @@ export default function CarAEBSimulator() {
 
       {/* Controls & Metrics */}
       <div className="grid sm:grid-cols-3 gap-4 items-center">
-        {/* Run AEB Test Button */}
+        {/* Run AEB Autonomous Test Button */}
         <button
           onClick={() => startTest(true)}
           disabled={state === 'ACCELERATING' || state === 'BRAKING'}
@@ -243,7 +412,7 @@ export default function CarAEBSimulator() {
           <span>START AEB AUTONOMOUS RUN</span>
         </button>
 
-        {/* Run Without AEB (Manual fail test) */}
+        {/* Run Without AEB (Manual failure test) */}
         <button
           onClick={() => startTest(false)}
           disabled={state === 'ACCELERATING' || state === 'BRAKING'}
@@ -263,10 +432,12 @@ export default function CarAEBSimulator() {
         </button>
       </div>
 
-      {/* Engineering Takeaway footnote */}
+      {/* Engineering Details Footnote */}
       <div className="mt-5 pt-4 border-t border-ink-600 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-paper-dim">
-        <span>Braking Response: &lt;15ms over CAN bus</span>
-        <span className="text-trace">Team Abhyuday Racing · aBAJA National 2026</span>
+        <span>Braking Response: &lt;15ms over CAN bus · 120 PSI Line Pressure</span>
+        <span className="text-trace font-medium">
+          Team Abhyuday Racing · aBAJA National 2026 Winner
+        </span>
       </div>
     </div>
   );

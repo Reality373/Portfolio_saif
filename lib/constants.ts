@@ -25,10 +25,11 @@ export const SITE = {
   handle: 'reality373',
   role: 'Software & Embedded Systems Engineer',
   taglines: [
-    'Embedded Systems',
+    'Embedded & Robotics',
+    'Automotive Cybersecurity',
     'AI / Machine Learning',
-    'Full-Stack Development',
-    'Security Research',
+    'Full-Stack Systems',
+    'Robotics & Controls',
   ],
   pitch:
     'I build systems end to end — from microsecond-precision firmware on bare metal to production apps with real users. Recent work spans an automotive intrusion-prevention firewall, a published Android app, and a local-first AI image search engine.',
@@ -39,53 +40,100 @@ export const SITE = {
 };
 
 export const STATS = [
-  { label: 'Commits shipped', value: '488', suffix: '+' },
-  { label: 'Active repositories', value: '13', suffix: '' },
+  { label: 'Commits shipped', value: '520', suffix: '+' },
+  { label: 'Public repositories', value: '22', suffix: '' },
   { label: 'Published apps', value: '1', suffix: '' },
   { label: 'Attack-block rate (CAN IPS)', value: '99', suffix: '%+' },
 ];
 
-export const SKILLS: { category: string; skills: string[] }[] = [
+export interface SkillCategory {
+  category: string;
+  badge: string;
+  subtitle: string;
+  skills: string[];
+}
+
+export const SKILLS: SkillCategory[] = [
   {
-    category: 'Embedded & IoT',
+    category: 'Embedded Firmware & Hardware',
+    badge: 'Real-Time Systems',
+    subtitle: 'Microsecond-precision bare-metal firmware and RTOS driver architecture.',
     skills: [
-      'ESP32 / FreeRTOS',
       'STM32 (HAL / CMSIS)',
-      'CAN Bus / TWAI',
-      'Real-time sensor fusion',
-      'BLE',
-      'Register-level drivers',
+      'ESP32 / FreeRTOS',
+      'Bare-Metal C / C++',
+      'CAN Bus 2.0B / TWAI',
+      'Direct Register Drivers',
+      'Microsecond Latency (5.92µs)',
+      'I2C / SPI / UART',
     ],
   },
   {
-    category: 'AI / Machine Learning',
+    category: 'Automotive & Embedded Security',
+    badge: 'Vehicle Defense',
+    subtitle: 'Hardware intrusion prevention, packet filtering and attack mitigation.',
     skills: [
-      'PyTorch',
-      'CLIP',
-      'YOLOv8',
-      'FAISS',
-      'LangChain',
-      'Gemini / OpenAI APIs',
+      'Dual-Gate CAN IPS/IDS',
+      'Mahalanobis Anomaly Engine',
+      'ISO/SAE 21434 Concepts',
+      'Jitter & Statistical Noise Filter',
+      'RPM Spoof Deflection',
+      'Penetration Testing',
+      'PowerShell Security Auditing',
     ],
   },
   {
-    category: 'Frontend',
-    skills: ['React', 'Next.js', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Zustand'],
+    category: 'Robotics, Autonomous & Controls',
+    badge: 'National 1st Place',
+    subtitle: 'Perception-to-actuation pipelines, closed-loop PID and battery telematics.',
+    skills: [
+      'Autonomous AEB Braking',
+      'Closed-Loop PID Control',
+      'Jetson Orin Perception',
+      'AS5600 12-Bit Encoders',
+      'Pneumatic Brake Actuation',
+      '24S LiFePO4 BMS Telemetry',
+      'BLE GATT Protocols',
+    ],
   },
   {
-    category: 'Backend & Cloud',
-    skills: ['Node.js / Express', 'FastAPI', 'Firebase', 'Supabase', 'Docker', 'GCP'],
+    category: 'Android & Mobile Engineering',
+    badge: 'Google Play Published',
+    subtitle: 'Production mobile applications with offline storage and native SDKs.',
+    skills: [
+      'Kotlin & Android Jetpack',
+      'Coroutines & Flow',
+      'MVVM Architecture',
+      'Play Billing SDK',
+      'OpenStreetMap SDK',
+      'Firebase Auth & Firestore',
+      'FiberOpticCalc (Live App)',
+    ],
   },
   {
-    category: 'Mobile',
-    skills: ['Kotlin / Jetpack', 'MVVM', 'React Native / Expo'],
+    category: 'AI & Edge Intelligence',
+    badge: 'Local-First AI',
+    subtitle: 'Deep learning inference, vector embeddings and real-time computer vision.',
+    skills: [
+      'PyTorch & TorchVision',
+      'OpenAI CLIP Multimodal',
+      'Vector Similarity Search',
+      'YOLOv8 Vision',
+      'FastAPI Inference Server',
+      'Zero-Cost Local AI',
+    ],
   },
   {
-    category: 'Blockchain',
-    skills: ['Solidity', 'ethers.js', 'OpenZeppelin', 'Coinbase CDP SDK'],
-  },
-  {
-    category: 'Security',
-    skills: ['CAN-bus IDS/IPS design', 'Attack simulation', 'PowerShell auditing', 'OAuth / RLS'],
+    category: 'Full-Stack, Cloud & Web3',
+    badge: 'Production Ready',
+    subtitle: 'Scalable web platforms, microservices, containerization and smart contracts.',
+    skills: [
+      'Next.js 14 & React',
+      'TypeScript & Tailwind CSS',
+      'Node.js / Express',
+      'Docker & GCP',
+      'Solidity Smart Contracts',
+      'Supabase & PostgreSQL',
+    ],
   },
 ];
