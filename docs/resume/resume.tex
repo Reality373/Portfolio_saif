@@ -1,10 +1,10 @@
 %-------------------------
 % Resume in Latex
-% Author : Aras Gungore (Modified for Saif Shikalgar)
+% Author : Saif Shikalgar
 % License : MIT
 %------------------------
 
-\documentclass[letterpaper,11pt]{article}
+\documentclass[letterpaper,10pt]{article}
 
 \usepackage{latexsym}
 \usepackage[empty]{fullpage}
@@ -21,31 +21,18 @@
 \usepackage{fontawesome}
 \input{glyphtounicode}
 
-
-%---------- FONT OPTIONS ----------
-% sans-serif
-% \usepackage[sfdefault]{FiraSans}
-% \usepackage[sfdefault]{roboto}
-% \usepackage[sfdefault]{noto-sans}
-% \usepackage[default]{sourcesanspro}
-
-% serif
-% \usepackage{CormorantGaramond}
-% \usepackage{charter}
-
-
 \pagestyle{fancy}
 \fancyhf{} % clear all header and footer fields
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-% Adjust margins
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
+% Adjust margins for optimal 1-page density
+\addtolength{\oddsidemargin}{-0.55in}
+\addtolength{\evensidemargin}{-0.55in}
+\addtolength{\textwidth}{1.1in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.2in}
 
 \urlstyle{same}
 
@@ -54,16 +41,14 @@
 \setlength{\tabcolsep}{0in}
 
 % Sections formatting
-\titleformat{\section}{
-  \vspace{-4pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+\titleFormat{\section}{
+  \vspace{-5pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
 
-% Ensure that generate pdf is machine readable/ATS parsable
+% Ensure generated pdf is machine readable/ATS parsable
 \pdfgentounicode=1
 
-%-------------------------
 % Custom commands
-
 \newcommand{\resumeItem}[1]{
   \item\small{
     {#1 \vspace{-2pt}}
@@ -72,182 +57,147 @@
 
 \newcommand{\resumeSubheading}[4]{
   \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubSubheading}[2]{
-    \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-      \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeEducationHeading}[6]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
-      \textbf{#1} & #2 \\
-      \textit{\small#3} & \textit{\small #4} \\
-      \textit{\small#5} & \textit{\small #6} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-6pt}
 }
 
 \newcommand{\resumeProjectHeading}[2]{
     \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & #2 \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-6pt}
 }
-
-\newcommand{\resumeOrganizationHeading}[4]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
-      \textbf{#1} & \textit{\small #2} \\
-      \textit{\small#3}
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
-
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
 
 %-------------------------------------------
 %%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \begin{document}
 
 %---------- HEADING ----------
 
 \begin{center}
-    \textbf{\Huge \scshape Saif Shikalgar} \\ \vspace{3pt}
+    \textbf{\Huge \scshape Saif Shikalgar} \\ \vspace{2pt}
     \small
-    \faMobile \hspace{.5pt} \href{tel:919130900338}{+91 9130900338} %[cite: 1]
+    \faMobile \hspace{.5pt} \href{tel:919130900338}{+91 9130900338}
     $|$
-    \faAt \hspace{.5pt} \href{mailto:15974saif@gmail.com}{15974saif@gmail.com} %[cite: 1]
+    \faAt \hspace{.5pt} \href{mailto:15974saif@gmail.com}{15974saif@gmail.com}
     $|$
-    \faLinkedinSquare \hspace{.5pt} \href{https://www.linkedin.com/in/reality373}{LinkedIn} %[cite: 1]
+    \faLinkedinSquare \hspace{.5pt} \href{https://www.linkedin.com/in/reality373}{linkedin.com/in/reality373}
     $|$
-    \faGithub \hspace{.5pt} \href{https://github.com/Reality373}{GitHub} %[cite: 1]
+    \faGithub \hspace{.5pt} \href{https://github.com/Reality373}{github.com/Reality373}
     $|$
-    \faMapMarker \hspace{.5pt} \href{https://maps.google.com/?q=Pune,Maharashtra}{Pune, Maharashtra}
+    \faMapMarker \hspace{.5pt} Pune, Maharashtra, India
 \end{center}
-
-
 
 %----------- EDUCATION -----------
 
 \section{Education}
-  \vspace{3pt}
+  \vspace{1pt}
   \resumeSubHeadingListStart
-    
-    \resumeEducationHeading
-      {G. H. Raisoni College of Engineering and Management}{Pune, India} %[cite: 1]
-      {B.Tech in Computer Science \& Engineering (Cybersecurity); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027} %[cite: 1]
-      {Zero Active Backlogs}{}
-        \resumeSubHeadingListStart
-        \small{\item{
-            \textbf{Relevant Coursework:} Object-Oriented Programming, Data Structures, Operating Systems, Database Management Systems, Computer Networks, Microcontrollers, and Network Security.}}
-        \resumeSubHeadingListEnd
-    
+    \resumeSubheading
+      {G. H. Raisoni College of Engineering and Management}{Pune, India}
+      {B.Tech in Computer Science \& Engineering (Cybersecurity Specialization); \textbf{CGPA: 8.10/10.0}}{Sep 2023 \textbf{--} May 2027 (Expected)}
+      \vspace{-2pt}
+      \small{\item{
+        \textbf{Coursework:} Operating Systems, Computer Networks, Data Structures \& Algorithms, Microcontrollers \& Embedded Systems, Network Security \& Cryptography, Object-Oriented Programming (OOP), DBMS.
+      }}
   \resumeSubHeadingListEnd
-
-
 
 %----------- SKILLS -----------
 
-\section{Skills}
-  \vspace{2pt}
+\section{Technical Skills}
+  \vspace{1pt}
   \resumeSubHeadingListStart
     \small{\item{
-        
-        \textbf{Android \& UI/UX Development:}{ Kotlin, Java, Android SDK, Jetpack Compose, React Native, React JS, Material Design, ViewModels.} \\ \vspace{3pt}
-        
-        \textbf{Backend \& Cloud Technologies:}{ Python, FastAPI, Node.js, ExpressJS, REST API Implementation, Google Cloud Platform (GCP), Google Play Store Hosting.} \\ \vspace{3pt}
-
-        \textbf{Automotive \& Embedded (R\&D):}{ CAN Bus Protocol, FreeRTOS, NVIDIA Jetson Nano, ESP32, STM32, Drive-by-Wire, Over-The-Air (OTA) updates, Basic Android Auto knowledge.} \\ \vspace{3pt}
-        
-        \textbf{Architecture \& Tools:}{ MVC, MVVM, SOLID Design Principles, Git, SVN, Gradle Build System, Docker, Agile Development methodology.} \\ \vspace{3pt}
-        
+        \textbf{Languages:}{ C, C++ (C11/C++20), Python, Kotlin, Java, JavaScript, TypeScript, Bash, SQL, Solidity.} \\ \vspace{2pt}
+        \textbf{Embedded \& Hardware:}{ STM32 (HAL/CMSIS), ESP32, FreeRTOS, ARM Cortex-M, CAN Bus 2.0B / TWAI, OBD-II, SPI, I2C, UART, PWM, BLE GATT, NVIDIA Jetson Nano/Orin, AS5600 Encoders.} \\ \vspace{2pt}
+        \textbf{Automotive \& Security:}{ Dual-Gate CAN IPS/IDS, Mahalanobis Anomaly Engine, ISO/SAE 21434 Concepts, Wireshark, Packet Fuzzing, Jitter Filtering, Exploit-DB, CVE Auditing, Penetration Testing.} \\ \vspace{2pt}
+        \textbf{Mobile \& Full-Stack:}{ Android SDK, Jetpack Compose, MVVM Architecture, React.js, Next.js 14, FastAPI, Node.js, Tailwind CSS, PostgreSQL, Firebase (Auth, Firestore), Google Maps/OSM SDK.} \\ \vspace{2pt}
+        \textbf{AI, Cloud \& Tools:}{ PyTorch, TorchVision, OpenAI CLIP, YOLOv8, FAISS Vector Search, CUDA, Docker, Git, GCP Cloud Functions, Linux (Ubuntu/Debian).}
     }}
   \resumeSubHeadingListEnd
 
-
-
 %----------- EXPERIENCE -----------
 
-\section{Experience}
-  \vspace{3pt}
+\section{Work Experience \& Engineering Leadership}
+  \vspace{1pt}
   \resumeSubHeadingListStart
 
     \resumeSubheading
       {AuraByte Studios (Independent Venture)}{Pune, India}
-      {Lead Android App Developer}{Dec 2025 \textbf{--} Present} %[cite: 1]
+      {Lead Android App Developer \& Founder}{Dec 2025 \textbf{--} Present}
         \resumeItemListStart
-            \resumeItem{Designed, developed, and deployed "Fiber OpticCalc" on the Google Play Store, managing Gradle build flavors and scaling to over 5,000+ installs and 2,000+ active users.} %[cite: 1]
-            \resumeItem{Engineered a clean, intuitive UI/UX utilizing Jetpack Compose and adhered strictly to SOLID design principles within an MVVM (Model-View-ViewModel) architecture.} %[cite: 1]
-            \resumeItem{Implemented Google Cloud serverless microservices acting as REST APIs for secure subscription validation, webhook processing, and database state updates.}
-            \resumeItem{Integrated Location Services utilizing OSM and Google Maps SDKs to create a Multi-Engine Map system, applying a traversal-based OTDR algorithm for real-world GPS tracking.} %[cite: 1]
-            \resumeItem{Continuously optimized app performance for memory usage and battery efficiency by implementing an Atomic Persistence engine to prevent data corruption.} %[cite: 1]
+            \resumeItem{Designed, developed, and deployed \textbf{FiberOpticCalc} on Google Play Store, managing Gradle build flavors and scaling to \textbf{1,360+ installs, 670+ active users, and 5,000+ downloads} with recurring subscription revenue.}
+            \resumeItem{Architected native application using \textbf{Kotlin}, \textbf{Jetpack Compose}, and \textbf{MVVM} clean architecture, strictly adhering to SOLID design principles and eliminating runtime memory leaks.}
+            \resumeItem{Engineered a multi-engine mapping system (\textbf{OpenStreetMap / Google Maps SDK}) with a graph-traversal \textbf{OTDR fault localization algorithm} to calculate fiber cable breaks to sub-meter street precision.}
+            \resumeItem{Implemented an \textbf{Atomic Persistence Engine} preventing data corruption during offline operations and schema-aware cloud synchronization via the \textbf{Google Drive REST API}.}
+            \resumeItem{Deployed serverless microservices on \textbf{GCP Cloud Functions} for automated Google Play Billing validation, webhook processing, and database state updates.}
         \resumeItemListEnd
 
     \resumeSubheading
       {Team Abhyuday Racing}{Pune, India}
-      {Technical Lead \& Department Head - Drive-by-Wire (Automotive R\&D)}{Jan 2025 \textbf{--} Present} %[cite: 1]
+      {Technical Lead \& Department Head -- Drive-by-Wire (Automotive R\&D)}{Jan 2025 \textbf{--} Present}
         \resumeItemListStart
-            \resumeItem{Led interdisciplinary R\&D teams in an Agile environment to design a distributed 3-ECU system for an autonomous vehicle, ensuring fault-tolerant CAN bus communication.} %[cite: 1]
-            \resumeItem{Optimized real-time embedded software performance and sensor-actuator feedback loops on NVIDIA Jetson Nano to resolve CAN bottlenecks.} %[cite: 1]
-            \resumeItem{Programmed RTOS-based dynamic vehicle control logic, securing 1st Place in the National aBAJA Autonomous Emergency Braking (AEB) dynamic event.}
-            \resumeItem{Engineered a modular Brake-by-Wire linear actuator system with plug-and-play CAN line and pressure sensor integration, reducing hardware costs by 50\%.}
+            \resumeItem{Designed and deployed a distributed \textbf{3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32)} over CAN 2.0B bus with hardware heartbeats, priority arbitration, and 99.9\% packet reliability under high EMI.}
+            \resumeItem{Programmed real-time deterministic \textbf{Autonomous Emergency Braking (AEB)} control logic, securing \textbf{1st Place Nationally at aBAJA 2026} by halting safely at \textbf{6.2m} at 45 km/h with \textbf{$<$12ms CAN reaction latency}.}
+            \resumeItem{Spearheaded an emergency \textbf{8-hour overnight hardware migration} from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning \textbf{1st Place in Adaptive Cruise Control (ACC)} at aBAJA 2025.}
+            \resumeItem{Engineered a modular Brake-by-Wire pneumatic actuator system with AS5600 12-bit magnetic angle encoders and pressure transducers, cutting hardware costs by \textbf{50\%} and winning the \textbf{1st Place Manufacturing Excellence Award}.}
         \resumeItemListEnd
 
   \resumeSubHeadingListEnd
 
-
 %----------- PROJECTS -----------
 
-\section{Projects}
-    \vspace{3pt}
+\section{Key Technical Projects}
+    \vspace{1pt}
     \resumeSubHeadingListStart
-      
+
       \resumeProjectHeading
-        {\textbf{CYO: Local AI Image Intelligence System} $|$ \emph{React JS, FastAPI, Python, REST APIs}}{} %[cite: 1]
+        {\textbf{Dual-Gate STM32 Hardware CAN Firewall \& Anomaly IDS/IPS} $|$ \emph{STM32F446RE, C11, CMSIS/HAL, FreeRTOS, CAN 2.0B}}{}
           \resumeItemListStart
-            \resumeItem{Engineered a full-stack local search engine utilizing React JS for the UI and FastAPI/Python for the backend to execute natural-language queries over personal image galleries.} %[cite: 1]
-            \resumeItem{Integrated CLIP for text-to-image vectorization and YOLOv8 for object detection, achieving sub-100ms search latency via a FAISS vector database and Docker deployment.} %[cite: 1]
+            \resumeItem{Engineered an inline dual-transceiver CAN bus firewall intercepting OBD-II injection, fuzzing, and RPM spoofing attacks with a deterministic \textbf{5.92 $\mu$s processing latency} (1,065 clock cycles at 180 MHz).}
+            \resumeItem{Implemented fixed-point Mahalanobis distance anomaly detection and jitter statistical analysis, rejecting \textbf{88.5\% of noise} and achieving a \textbf{99\%+ threat mitigation rate} with zero bus contention.}
           \resumeItemListEnd
       
       \resumeProjectHeading
-        {\textbf{Suraksha360: IoT Security Ecosystem} $|$ \emph{C++, ESP8266, Embedded Software}}{} %[cite: 1]
+        {\textbf{CYO: Local-First Multimodal AI Image Intelligence System} $|$ \emph{PyTorch, CLIP, YOLOv8, FAISS, FastAPI, React, Docker, CUDA}}{}
           \resumeItemListStart
-            \resumeItem{Developed a plug-and-play hardware vulnerability scanner utilizing C++ and microcontroller architecture that auto-executes security audits upon USB connection.} %[cite: 1]
+            \resumeItem{Developed a privacy-first semantic search engine combining OpenAI CLIP embeddings (ViT-B/32) and YOLOv8 for natural-language text-to-image queries over local image galleries with zero cloud API dependency.}
+            \resumeItem{Implemented a FAISS vector database achieving \textbf{sub-100ms retrieval latency} across 1,000+ high-res images; containerized via Docker with custom NVIDIA CUDA runtimes for bare-metal GPU acceleration.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{24S LiFePO4 Battery Management System (BMS) Telematics Platform} $|$ \emph{ESP32, FreeRTOS, BLE GATT, Python, C++}}{}
+          \resumeItemListStart
+            \resumeItem{Reverse-engineered industrial JK BMS BLE GATT protocols to extract real-time cell voltage deltas ($<$15mV), current draws, and temperatures across a 76.8V 24S LiFePO4 battery pack with automated thermal runaway cutoff.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+        {\textbf{Suraksha360: Plug-and-Play IoT Security Auditor \& CVE Scanner} $|$ \emph{C++, ESP8266, Exploit-DB, Windows Registry API}}{}
+          \resumeItemListStart
+            \resumeItem{Created a plug-and-play USB HID hardware security auditing tool executing zero-install system configuration analysis on Windows hosts, cross-referencing software against Exploit-DB for known CVE vulnerabilities.}
           \resumeItemListEnd
       
     \resumeSubHeadingListEnd
 
-
 %----------- AWARDS & ACHIEVEMENTS -----------
 
-\section{Awards \& Achievements}
-  \vspace{2pt}
+\section{Honors \& Awards}
+  \vspace{1pt}
   \resumeSubHeadingListStart
     \small{\item{
-        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold.} \\ \vspace{3pt}
-
-        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for the modular DBW and linear actuator R\&D design.} \\ \vspace{3pt}
-    
-        \textbf{1st Runner Up, MATLAB Advanced Simulation:}{ National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.} \\ \vspace{3pt}
-        
-        \textbf{1st Place, Adaptive Cruise Control:}{ A-BAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.} %[cite: 1]
+        \textbf{1st Place, Autonomous Emergency Braking (AEB):}{ National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 45 km/h.} \\ \vspace{2pt}
+        \textbf{1st Place, Manufacturing Excellence Award:}{ National aBAJA 2026 Competition; recognized for modular Drive-by-Wire and Brake-by-Wire actuator design.} \\ \vspace{2pt}
+        \textbf{1st Runner Up, MATLAB Advanced Simulation:}{ National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.} \\ \vspace{2pt}
+        \textbf{1st Place, Adaptive Cruise Control (ACC):}{ aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.}
     }}
   \resumeSubHeadingListEnd
 
-%-------------------------------------------
 \end{document}

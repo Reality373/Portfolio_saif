@@ -4,64 +4,69 @@
 <meta charset="utf-8" />
 <title>Saif Shikalgar — Resume</title>
 <style>
-  @page { size: Letter; margin: 0.3in 0.55in; }
+  @page { size: Letter; margin: 0.28in 0.48in; }
   * { box-sizing: border-box; }
   body {
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #111;
-    font-size: 9.3pt;
-    line-height: 1.19;
+    font-family: 'Times New Roman', Times, Georgia, serif;
+    color: #0f172a;
+    font-size: 9.1pt;
+    line-height: 1.18;
     margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
   }
   .name {
     text-align: center;
-    font-size: 22pt;
-    letter-spacing: 2px;
+    font-size: 20pt;
+    letter-spacing: 1.5px;
     font-variant: small-caps;
     font-weight: bold;
-    margin-bottom: 3pt;
+    margin-bottom: 2pt;
+    color: #000;
   }
   .contact {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 8.4pt;
-    color: #222;
-    margin-bottom: 8pt;
+    font-size: 8.3pt;
+    color: #334155;
+    margin-bottom: 6pt;
   }
-  .contact a { color: #222; text-decoration: none; }
-  .contact .sep { margin: 0 6pt; color: #999; }
+  .contact a { color: #0f172a; text-decoration: none; }
+  .contact .sep { margin: 0 5pt; color: #94a3b8; }
   h2.section {
     font-family: Arial, Helvetica, sans-serif;
     font-variant: small-caps;
-    font-size: 11.5pt;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #111;
-    margin: 6pt 0 2pt 0;
+    font-size: 10.8pt;
+    letter-spacing: 0.6px;
+    border-bottom: 1.2px solid #0f172a;
+    margin: 5pt 0 2pt 0;
     padding-bottom: 1pt;
+    color: #000;
   }
   .row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 12pt;
+    gap: 8pt;
   }
-  .row .left { font-weight: bold; }
-  .row .right { font-family: Arial, Helvetica, sans-serif; font-size: 8.4pt; white-space: nowrap; }
+  .row .left { font-weight: bold; color: #000; }
+  .row .right { font-family: Arial, Helvetica, sans-serif; font-size: 8.3pt; white-space: nowrap; color: #334155; }
   .subrow {
     display: flex;
     justify-content: space-between;
     font-style: italic;
-    font-size: 9pt;
+    font-size: 8.8pt;
     margin-bottom: 1pt;
   }
-  ul { margin: 1pt 0 4pt 0; padding-left: 14pt; }
-  li { margin-bottom: 0.5pt; }
-  .entry { margin-bottom: 3pt; }
-  .skills-line { margin-bottom: 3pt; }
-  .skills-line b { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
-  .proj-title { font-weight: bold; }
-  .proj-title .tech { font-weight: normal; font-style: italic; }
-  .award b { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+  ul { margin: 1pt 0 3.5pt 0; padding-left: 13pt; }
+  li { margin-bottom: 0.8pt; }
+  .entry { margin-bottom: 2.5pt; }
+  .skills-line { margin-bottom: 2pt; font-size: 8.9pt; line-height: 1.2; }
+  .skills-line b { font-family: Arial, Helvetica, sans-serif; font-size: 8.9pt; color: #000; }
+  .proj-title { font-weight: bold; color: #000; }
+  .proj-title .tech { font-weight: normal; font-style: italic; color: #334155; }
+  .award { margin-bottom: 1.5pt; font-size: 8.8pt; }
+  .award b { font-family: Arial, Helvetica, sans-serif; font-size: 8.8pt; color: #000; }
 </style>
 </head>
 <body>
@@ -76,7 +81,7 @@
     <span class="sep">|</span>
     <a href="https://github.com/Reality373">github.com/Reality373</a>
     <span class="sep">|</span>
-    Pune, Maharashtra
+    Pune, Maharashtra, India
   </div>
 
   <h2 class="section">Education</h2>
@@ -86,68 +91,89 @@
       <span class="right">Pune, India</span>
     </div>
     <div class="subrow">
-      <span>B.Tech in Computer Science &amp; Engineering (Cybersecurity); CGPA: 8.10/10.0</span>
-      <span>Sep 2023 – May 2027</span>
+      <span>B.Tech in Computer Science &amp; Engineering (Cybersecurity Specialization); <b>CGPA: 8.10/10.0</b></span>
+      <span>Sep 2023 – May 2027 (Expected)</span>
     </div>
-    <div class="subrow"><span>Zero Active Backlogs</span><span></span></div>
     <ul>
-      <li>Relevant Coursework: Object-Oriented Programming, Data Structures, Operating Systems, Database Management Systems, Computer Networks, Microcontrollers, and Network Security.</li>
+      <li><b>Relevant Coursework:</b> Operating Systems, Computer Networks, Data Structures &amp; Algorithms, Microcontrollers &amp; Embedded Systems, Network Security &amp; Cryptography, Object-Oriented Programming (OOP), DBMS.</li>
     </ul>
   </div>
 
-  <h2 class="section">Skills</h2>
-  <div class="skills-line"><b>Android &amp; UI/UX Development:</b> Kotlin, Java, Android SDK, Jetpack Compose, React Native, React JS, Material Design, ViewModels.</div>
-  <div class="skills-line"><b>Backend &amp; Cloud Technologies:</b> Python, FastAPI, Node.js, ExpressJS, REST API Implementation, Google Cloud Platform (GCP), Google Play Store Hosting.</div>
-  <div class="skills-line"><b>Automotive &amp; Embedded (R&amp;D):</b> CAN Bus Protocol, FreeRTOS, NVIDIA Jetson Nano, ESP32, STM32, Drive-by-Wire, Over-The-Air (OTA) updates, Basic Android Auto knowledge.</div>
-  <div class="skills-line"><b>Architecture &amp; Tools:</b> MVC, MVVM, SOLID Design Principles, Git, SVN, Gradle Build System, Docker, Agile Development methodology.</div>
+  <h2 class="section">Technical Skills</h2>
+  <div class="skills-line"><b>Languages:</b> C, C++ (C11/C++20), Python, Kotlin, Java, JavaScript, TypeScript, Bash, SQL, Solidity.</div>
+  <div class="skills-line"><b>Embedded &amp; Hardware:</b> STM32 (HAL/CMSIS), ESP32, FreeRTOS, ARM Cortex-M, CAN Bus 2.0B / TWAI, OBD-II, SPI, I2C, UART, PWM, BLE GATT, NVIDIA Jetson Nano/Orin, AS5600 Encoders.</div>
+  <div class="skills-line"><b>Automotive &amp; Security:</b> Dual-Gate CAN IPS/IDS, Mahalanobis Anomaly Engine, ISO/SAE 21434 Concepts, Wireshark, Packet Fuzzing, Jitter Filtering, Exploit-DB, CVE Auditing, Penetration Testing.</div>
+  <div class="skills-line"><b>Mobile &amp; Full-Stack:</b> Android SDK, Jetpack Compose, MVVM Architecture, React.js, Next.js 14, FastAPI, Node.js, Tailwind CSS, PostgreSQL, Firebase (Auth, Firestore), Google Maps / OSM SDK.</div>
+  <div class="skills-line"><b>AI, Cloud &amp; Tools:</b> PyTorch, TorchVision, OpenAI CLIP, YOLOv8, FAISS Vector Search, CUDA, Docker, Git, GCP Cloud Functions, Linux (Ubuntu/Debian).</div>
 
-  <h2 class="section">Experience</h2>
+  <h2 class="section">Work Experience &amp; Engineering Leadership</h2>
   <div class="entry">
     <div class="row"><span class="left">AuraByte Studios (Independent Venture)</span><span class="right">Pune, India</span></div>
-    <div class="subrow"><span>Lead Android App Developer</span><span>Dec 2025 – Present</span></div>
+    <div class="subrow"><span>Lead Android App Developer &amp; Founder</span><span>Dec 2025 – Present</span></div>
     <ul>
-      <li>Designed, developed, and deployed "FiberOpticCalc" on the Google Play Store, managing Gradle build flavors and scaling to over 5,000+ installs and 2,000+ active users.</li>
-      <li>Engineered a clean, intuitive UI/UX utilizing Jetpack Compose and adhered strictly to SOLID design principles within an MVVM (Model-View-ViewModel) architecture.</li>
-      <li>Implemented Google Cloud serverless microservices acting as REST APIs for secure subscription validation, webhook processing, and database state updates.</li>
-      <li>Integrated Location Services utilizing OSM and Google Maps SDKs to create a Multi-Engine Map system, applying a traversal-based OTDR algorithm for real-world GPS tracking.</li>
-      <li>Continuously optimized app performance for memory usage and battery efficiency by implementing an Atomic Persistence engine to prevent data corruption.</li>
+      <li>Designed, developed, and deployed <b>FiberOpticCalc</b> on Google Play Store, managing Gradle build flavors and scaling to <b>1,360+ installs, 670+ active users, and 5,000+ downloads</b> with recurring subscription revenue.</li>
+      <li>Architected native application using <b>Kotlin</b>, <b>Jetpack Compose</b>, and <b>MVVM</b> clean architecture, strictly adhering to SOLID design principles and eliminating runtime memory leaks.</li>
+      <li>Engineered a multi-engine mapping system (<b>OpenStreetMap / Google Maps SDK</b>) with a graph-traversal <b>OTDR fault localization algorithm</b> to calculate fiber cable breaks to sub-meter street precision.</li>
+      <li>Implemented an <b>Atomic Persistence Engine</b> preventing data corruption during offline operations and schema-aware cloud synchronization via the <b>Google Drive REST API</b>.</li>
+      <li>Deployed serverless microservices on <b>GCP Cloud Functions</b> for automated Google Play Billing validation, webhook processing, and database state updates.</li>
     </ul>
   </div>
+
   <div class="entry">
     <div class="row"><span class="left">Team Abhyuday Racing</span><span class="right">Pune, India</span></div>
     <div class="subrow"><span>Technical Lead &amp; Department Head – Drive-by-Wire (Automotive R&amp;D)</span><span>Jan 2025 – Present</span></div>
     <ul>
-      <li>Led interdisciplinary R&amp;D teams in an Agile environment to design a distributed 3-ECU system for an autonomous vehicle, ensuring fault-tolerant CAN bus communication.</li>
-      <li>Optimized real-time embedded software performance and sensor-actuator feedback loops on NVIDIA Jetson Nano to resolve CAN bottlenecks.</li>
-      <li>Programmed RTOS-based dynamic vehicle control logic, securing 1st Place in the National aBAJA Autonomous Emergency Braking (AEB) dynamic event.</li>
-      <li>Engineered a modular Brake-by-Wire linear actuator system with plug-and-play CAN line and pressure sensor integration, reducing hardware costs by 50%.</li>
+      <li>Designed and deployed a distributed <b>3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32)</b> over CAN 2.0B bus with hardware heartbeats, priority arbitration, and 99.9% packet reliability under high EMI.</li>
+      <li>Programmed real-time deterministic <b>Autonomous Emergency Braking (AEB)</b> control logic, securing <b>1st Place Nationally at aBAJA 2026</b> by halting safely at <b>6.2m</b> at 45 km/h with <b>&lt;12ms CAN reaction latency</b>.</li>
+      <li>Spearheaded an emergency <b>8-hour overnight hardware migration</b> from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning <b>1st Place in Adaptive Cruise Control (ACC)</b> at aBAJA 2025.</li>
+      <li>Engineered a modular Brake-by-Wire pneumatic actuator system with AS5600 12-bit magnetic angle encoders and pressure transducers, cutting hardware costs by <b>50%</b> and winning the <b>1st Place Manufacturing Excellence Award</b>.</li>
     </ul>
   </div>
 
-  <h2 class="section">Projects</h2>
+  <h2 class="section">Key Technical Projects</h2>
   <div class="entry">
     <div class="row">
-      <span class="proj-title">CYO: Local AI Image Intelligence System <span class="tech">| React JS, FastAPI, Python, REST APIs</span></span>
+      <span class="proj-title">Dual-Gate STM32 Hardware CAN Firewall &amp; Anomaly IDS/IPS <span class="tech">| STM32F446RE, C11, CMSIS/HAL, FreeRTOS, CAN 2.0B</span></span>
     </div>
     <ul>
-      <li>Engineered a full-stack local search engine utilizing React JS for the UI and FastAPI/Python for the backend to execute natural-language queries over personal image galleries.</li>
-      <li>Integrated CLIP for text-to-image vectorization and YOLOv8 for object detection, achieving sub-100ms search latency via a FAISS vector database and Docker deployment.</li>
-    </ul>
-  </div>
-  <div class="entry">
-    <div class="row">
-      <span class="proj-title">Suraksha360: IoT Security Ecosystem <span class="tech">| C++, ESP8266, Embedded Software</span></span>
-    </div>
-    <ul>
-      <li>Developed a plug-and-play hardware vulnerability scanner utilizing C++ and microcontroller architecture that auto-executes security audits upon USB connection.</li>
+      <li>Engineered an inline dual-transceiver CAN bus firewall intercepting OBD-II injection, fuzzing, and RPM spoofing attacks with a deterministic <b>5.92 &mu;s processing latency</b> (1,065 clock cycles at 180 MHz).</li>
+      <li>Implemented fixed-point Mahalanobis distance anomaly detection and jitter statistical analysis, rejecting <b>88.5% of noise</b> and achieving a <b>99%+ threat mitigation rate</b> with zero bus contention.</li>
     </ul>
   </div>
 
-  <h2 class="section">Awards &amp; Achievements</h2>
-  <div class="award" style="margin-bottom:2pt;"><b>1st Place, Autonomous Emergency Braking (AEB):</b> National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold.</div>
-  <div class="award" style="margin-bottom:2pt;"><b>1st Place, Manufacturing Excellence Award:</b> National aBAJA 2026 Competition; recognized for the modular DBW and linear actuator R&amp;D design.</div>
-  <div class="award" style="margin-bottom:2pt;"><b>1st Runner Up, MATLAB Advanced Simulation:</b> National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.</div>
-  <div class="award"><b>1st Place, Adaptive Cruise Control:</b> A-BAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.</div>
+  <div class="entry">
+    <div class="row">
+      <span class="proj-title">CYO: Local-First Multimodal AI Image Intelligence System <span class="tech">| PyTorch, CLIP, YOLOv8, FAISS, FastAPI, React, Docker, CUDA</span></span>
+    </div>
+    <ul>
+      <li>Developed a privacy-first semantic search engine combining OpenAI CLIP embeddings (ViT-B/32) and YOLOv8 for natural-language text-to-image queries over local image galleries with zero cloud API dependency.</li>
+      <li>Implemented a FAISS vector database achieving <b>sub-100ms retrieval latency</b> across 1,000+ high-res images; containerized via Docker with custom NVIDIA CUDA runtimes for bare-metal GPU acceleration.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="row">
+      <span class="proj-title">24S LiFePO4 Battery Management System (BMS) Telematics Platform <span class="tech">| ESP32, FreeRTOS, BLE GATT, Python, C++</span></span>
+    </div>
+    <ul>
+      <li>Reverse-engineered industrial JK BMS BLE GATT protocols to extract real-time cell voltage deltas (&lt;15mV), current draws, and temperatures across a 76.8V 24S LiFePO4 battery pack with automated thermal runaway cutoff.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <div class="row">
+      <span class="proj-title">Suraksha360: Plug-and-Play IoT Security Auditor &amp; CVE Scanner <span class="tech">| C++, ESP8266, Exploit-DB, Windows Registry API</span></span>
+    </div>
+    <ul>
+      <li>Created a plug-and-play USB HID hardware security auditing tool executing zero-install system configuration analysis on Windows hosts, cross-referencing software against Exploit-DB for known CVE vulnerabilities.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">Honors &amp; Awards</h2>
+  <div class="award"><b>1st Place, Autonomous Emergency Braking (AEB):</b> National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 45 km/h.</div>
+  <div class="award"><b>1st Place, Manufacturing Excellence Award:</b> National aBAJA 2026 Competition; recognized for modular Drive-by-Wire and Brake-by-Wire actuator design.</div>
+  <div class="award"><b>1st Runner Up, MATLAB Advanced Simulation:</b> National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.</div>
+  <div class="award"><b>1st Place, Adaptive Cruise Control (ACC):</b> aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.</div>
 
 </body>
 </html>

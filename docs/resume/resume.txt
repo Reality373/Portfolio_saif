@@ -1,41 +1,49 @@
 SAIF SHIKALGAR
-+91 9130900338  ·  15974saif@gmail.com  ·  linkedin.com/in/reality373  ·  github.com/Reality373
++91 9130900338  ·  15974saif@gmail.com  ·  linkedin.com/in/reality373  ·  github.com/Reality373  ·  Pune, India
 
 EDUCATION
-B.Tech in Computer Science & Engineering  ·  Cybersecurity Specialization  ·  CGPA: 7.95/10	    Expected May 2027
-G. H. Raisoni College of Engineering and Management, Pune
+G. H. Raisoni College of Engineering and Management, Pune, India
+B.Tech in Computer Science & Engineering (Cybersecurity Specialization)  ·  CGPA: 8.10/10.0      Sep 2023 – May 2027 (Expected)
+• Relevant Coursework: Operating Systems, Computer Networks, Data Structures & Algorithms, Microcontrollers & Embedded Systems, Network Security & Cryptography, Object-Oriented Programming (OOP), DBMS.
 
 TECHNICAL SKILLS
+• Languages: C, C++ (C11/C++20), Python, Kotlin, Java, JavaScript, TypeScript, Bash, SQL, Solidity
+• Embedded & Hardware: STM32 (HAL/CMSIS), ESP32, FreeRTOS, ARM Cortex-M, CAN Bus 2.0B / TWAI, OBD-II, SPI, I2C, UART, PWM, BLE GATT, NVIDIA Jetson Nano/Orin, AS5600 Encoders
+• Automotive & Security: Dual-Gate CAN IPS/IDS, Mahalanobis Anomaly Engine, ISO/SAE 21434 Concepts, Wireshark, Packet Fuzzing, Jitter Filtering, Exploit-DB, CVE Auditing, Penetration Testing
+• Mobile & Full-Stack: Android SDK, Jetpack Compose, MVVM Architecture, React.js, Next.js 14, FastAPI, Node.js, Tailwind CSS, PostgreSQL, Firebase (Auth, Firestore), Google Maps / OSM SDK
+• AI, Cloud & Tools: PyTorch, TorchVision, OpenAI CLIP, YOLOv8, FAISS Vector Search, CUDA, Docker, Git, GCP Cloud Functions, Linux (Ubuntu/Debian)
 
-Languages: Python, C++, Kotlin, JavaScript
-Tools: Wireshark, Exploit-DB, Metasploit, Linux, CAN Bus, CVE Analysis
-Frameworks: React, FastAPI, Docker, PyTorch, YOLOv8, CLIP, FAISS, CUDA, Jetpack Compose, MVVM, Google Drive REST API
-Platforms: NVIDIA Jetson Nano, ESP32, ESP8266, Arduino, STM32, Android SDK, OSM / Google Maps , Firebase , GCP
+WORK EXPERIENCE & ENGINEERING LEADERSHIP
+Lead Android App Developer & Founder  ·  AuraByte Studios (Independent Venture)      Dec 2025 – Present
+• Designed, developed, and deployed "FiberOpticCalc" on Google Play Store, managing Gradle build flavors and scaling to 1,360+ installs, 670+ active users, and 5,000+ downloads with recurring subscription revenue.
+• Architected native application using Kotlin, Jetpack Compose, and MVVM clean architecture, strictly adhering to SOLID design principles and eliminating runtime memory leaks.
+• Engineered a multi-engine mapping system (OpenStreetMap / Google Maps SDK) with a graph-traversal OTDR fault localization algorithm to calculate fiber cable breaks to sub-meter street precision.
+• Implemented an Atomic Persistence Engine preventing data corruption during offline operations and schema-aware cloud synchronization via the Google Drive REST API.
+• Deployed serverless microservices on GCP Cloud Functions for automated Google Play Billing validation, webhook processing, and database state updates.
 
-EXPERIENCE
-Lead Developer  ·  AuraByte Studios (Independent Venture)	Jan 2026 – Present
-Tech: Kotlin, Jetpack Compose, MVVM, Google Drive REST API, OSM, Google Maps, Android SDK
-•	Product Ownership: Developed and launched FiberOpticCalc, a professional FTTH platform; scaled to 1.36K+ installs and 670+ active users with verified recurring yearly revenue.
-•	Full-Stack Architecture: Designed the app using MVVM and Jetpack Compose, featuring a recursive engine for complex optical power budget calculations and path-loss modeling.
-•	Production Reliability: Implemented Atomic Persistence to prevent data corruption and a Schema-Aware Cloud Backup system via the Google Drive REST API for backward-compatible data migration.
-•	Geospatial Engineering: Built a Multi-Engine Map system (OSM / Google Maps) with a traversal-based OTDR Fault Locator algorithm to identify precise fiber break points on real-world street routes.
+Technical Lead & Department Head – Drive-by-Wire (Automotive R&D)  ·  Team Abhyuday Racing      Jan 2025 – Present
+• Designed and deployed a distributed 3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32) over CAN 2.0B bus with hardware heartbeats, priority arbitration, and 99.9% packet reliability under high EMI.
+• Programmed real-time deterministic Autonomous Emergency Braking (AEB) control logic, securing 1st Place Nationally at aBAJA 2026 by halting safely at 6.2m at 45 km/h with <12ms CAN reaction latency.
+• Spearheaded an emergency 8-hour overnight hardware migration from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning 1st Place in Adaptive Cruise Control (ACC) at aBAJA 2025.
+• Engineered a modular Brake-by-Wire pneumatic actuator system with AS5600 12-bit magnetic angle encoders and pressure transducers, cutting hardware costs by 50% and winning the 1st Place Manufacturing Excellence Award.
 
-Technical Lead & Department Head – Drive-by-Wire  ·  Team Abhyuday Racing	Jan 2025 – Present
-•	System Architecture: Led design of a distributed 3-ECU system for an autonomous vehicle ensuring fault-tolerant communication between control modules.
-•	Crisis Engineering: Executed a high-stakes hardware migration from STM32 to ESP32 in 8 hours after critical failure, securing 1st Place in Adaptive Cruise Control and 3rd Place in AEB.
-•	Linux & Jetson Integration: Optimized real-time sensor-actuator feedback loops on NVIDIA Jetson Nano, resolving CAN communication bottlenecks.
-•	Protocol Security: Engineered high-reliability CAN bus logic with hardware heartbeats and message prioritization to prevent system-wide failures.
+KEY TECHNICAL PROJECTS
+Dual-Gate STM32 Hardware CAN Firewall & Anomaly IDS/IPS  ·  STM32F446RE, C11, CMSIS/HAL, FreeRTOS, CAN 2.0B
+• Engineered an inline dual-transceiver CAN bus firewall intercepting OBD-II injection, fuzzing, and RPM spoofing attacks with a deterministic 5.92 µs processing latency (1,065 clock cycles at 180 MHz).
+• Implemented fixed-point Mahalanobis distance anomaly detection and jitter statistical analysis, rejecting 88.5% of noise and achieving a 99%+ threat mitigation rate with zero bus contention.
 
-PROJECTS
-CYO – AI-Powered Local Image Intelligence System	Dec 2025 – Present
-Tech: React, FastAPI, Python, PyTorch, YOLOv8, CLIP, FAISS, Docker, CUDA
-•	Engineered a locally-hosted multimodal search engine using CLIP for text-to-image vectorization and YOLOv8 for real-time object detection, enabling natural-language queries over personal image galleries with zero cloud API dependency.
-•	Implemented FAISS vector database achieving sub-100ms search latency across 1,000+ high-resolution images; deployed via Docker with custom NVIDIA CUDA container runtimes for bare-metal GPU acceleration.
-Suraksha360 – IoT-Based Security Ecosystem	Aug 2024 – Jan 2025
-Tech: Arduino Pro Micro, ESP8266, C++, Exploit-DB, Windows Registry Analysis
-•	Developed a plug-and-play hardware vulnerability scanner that auto-executes security audits upon USB connection to Windows hosts — no software installation required.
-•	Cross-referenced installed software and registry configs against Exploit-DB for known CVEs (WinRAR, firewall misconfigs); evolved into a centralized SOC dashboard for real-time network device monitoring and risk scoring.
-Wireless Penetration Testing Toolkit	Dec 2024 – Mar 2025
-Tech: ESP32, C++, 802.11, Wireshark, PCAP
-•	Executed WPA2 handshake capture via EAPOL/PMKID frame interception and targeted deauthentication attacks on 802.11 networks using an ESP32-based portable audit tool.
-•	Logged captured traffic directly to PCAP files for deep-packet inspection in Wireshark; added BLE sniffing to detect rogue devices and unauthorized access points.
+CYO: Local-First Multimodal AI Image Intelligence System  ·  PyTorch, CLIP, YOLOv8, FAISS, FastAPI, React, Docker, CUDA
+• Developed a privacy-first semantic search engine combining OpenAI CLIP embeddings (ViT-B/32) and YOLOv8 for natural-language text-to-image queries over local image galleries with zero cloud API dependency.
+• Implemented a FAISS vector database achieving sub-100ms retrieval latency across 1,000+ high-res images; containerized via Docker with custom NVIDIA CUDA runtimes for bare-metal GPU acceleration.
+
+24S LiFePO4 Battery Management System (BMS) Telematics Platform  ·  ESP32, FreeRTOS, BLE GATT, Python, C++
+• Reverse-engineered industrial JK BMS BLE GATT protocols to extract real-time cell voltage deltas (<15mV), current draws, and temperatures across a 76.8V 24S LiFePO4 battery pack with automated thermal runaway cutoff.
+
+Suraksha360: Plug-and-Play IoT Security Auditor & CVE Scanner  ·  C++, ESP8266, Exploit-DB, Windows Registry API
+• Created a plug-and-play USB HID hardware security auditing tool executing zero-install system configuration analysis on Windows hosts, cross-referencing software against Exploit-DB for known CVE vulnerabilities.
+
+HONORS & AWARDS
+• 1st Place, Autonomous Emergency Braking (AEB): National aBAJA 2026 Competition; achieved a 6.2m halt on a 6.0m autonomous target threshold at 45 km/h.
+• 1st Place, Manufacturing Excellence Award: National aBAJA 2026 Competition; recognized for modular Drive-by-Wire and Brake-by-Wire actuator design.
+• 1st Runner Up, MATLAB Advanced Simulation: National aBAJA 2026 Competition; developed a GPS-based Point-A to Point-B autonomous traversal algorithm.
+• 1st Place, Adaptive Cruise Control (ACC): aBAJA 2025; achieved following an 8-hour high-stakes crisis hardware migration from STM32 to ESP32.
