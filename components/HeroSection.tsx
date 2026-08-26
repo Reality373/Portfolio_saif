@@ -1,112 +1,166 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { fadeInUp } from '@/lib/animations';
-import { FaChevronDown } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowRight, FaGithub } from 'react-icons/fa';
+import { SITE, STATS } from '@/lib/constants';
 
-export default function HeroSection() {
-  const [displayedText, setDisplayedText] = useState('');
-  const fullText = '$ whoami';
-  const [cursorVisible, setCursorVisible] = useState(true);
+const MARQUEE_ITEMS = [
+  'STM32',
+  'ESP32 / FreeRTOS',
+  'CAN Bus',
+  'React / Next.js',
+  'PyTorch',
+  'Kotlin / Android',
+  'Docker',
+  'Solidity',
+  'FastAPI',
+  'Firebase',
+];
 
-  // Typing effect
-  useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index <= fullText.length) {
-        setDisplayedText(fullText.slice(0, index));
-        index++;
-      }
-    }, 100);
+function RotatingTagline() {
+  const [index, setIndex] = useState(0);
 
-    return () => clearInterval(timer);
-  }, []);
-
-  // Blinking cursor
   useEffect(() => {
     const timer = setInterval(() => {
-      setCursorVisible((prev) => !prev);
-    }, 500);
+      setIndex((prev) => (prev + 1) % SITE.taglines.length);
+    }, 2400);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <section className="min-h-screen bg-matrix-bg flex flex-col justify-center items-center relative overflow-hidden pt-20">
-      {/* Animated background: subtle code rain */}
-      <div className="absolute inset-0 overflow-hidden opacity-5">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-matrix-neon text-sm font-mono"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: '-20px',
-            }}
-            animate={{
-              y: typeof window !== 'undefined' ? window.innerHeight + 40 : 1000,
-              opacity: [0, 0.5, 0],
-            }}
-            transition={{
-              duration: Math.random() * 5 + 5,
-              ease: 'linear',
-              repeat: Infinity,
-            }}
-          >
-            {Math.random() > 0.5 ? '1' : '0'}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Main content */}
-      <motion.div
-        className="relative z-10 text-center max-w-4xl px-4"
-        variants={fadeInUp}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Typing prompt */}
-        <h1 className="text-5xl md:text-7xl font-bold font-mono mb-8">
-          <span className="text-matrix-cyan">$</span>{' '}
-          <span className="text-matrix-neon">{displayedText}</span>
-          {cursorVisible && <span className="text-matrix-neon">_</span>}
-        </h1>
-
-        {/* Description that appears after typing */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: displayedText === fullText ? 1 : 0 }}
-          transition={{ delay: 3, duration: 0.6 }}
-          className="space-y-4"
+    <span className="relative inline-block h-[1.3em] overflow-hidden align-bottom min-w-[280px] sm:min-w-[360px] text-left">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={SITE.taglines[index]}
+          initial={{ y: '100%', opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: '-100%', opacity: 0 }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          className="absolute left-0 top-0 text-trace"
         >
-          <p className="text-lg md:text-xl text-matrix-neon opacity-80">
-            Full-Stack Developer | Hardware Engineer | Security Enthusiast
-          </p>
-          <p className="text-matrix-secondary font-mono text-sm md:text-base">
-            Building autonomous systems, AI platforms, and professional mobile
-            apps
-          </p>
+          {SITE.taglines[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
-          {/* CTA Button */}
+export default function HeroSection() {
+  return (
+    <section className="min-h-screen bg-ink-950 flex flex-col justify-center relative overflow-hidden pt-28 pb-16">
+      {/* Circuit-grid backdrop */}
+      <div
+        className="absolute inset-0 bg-grid-pattern bg-grid opacity-60"
+        style={{
+          maskImage: 'radial-gradient(ellipse 70% 60% at 50% 35%, black 10%, transparent 75%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 35%, black 10%, transparent 75%)',
+        }}
+      />
+      {/* Glow blobs */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-amber/10 blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-trace/10 blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 w-full">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="font-mono text-sm text-amber mb-6 tracking-wide"
+        >
+          <span className="text-paper-muted">$</span> whoami
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-display font-semibold text-5xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight text-paper mb-6"
+        >
+          {SITE.name}
+        </motion.h1>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="font-mono text-xl sm:text-2xl text-paper mb-8"
+        >
+          Building in <RotatingTagline />
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-paper-muted text-base sm:text-lg max-w-2xl leading-relaxed mb-10"
+        >
+          {SITE.pitch}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-wrap items-center gap-4 mb-16"
+        >
           <motion.a
             href="#projects"
-            className="inline-block mt-8 px-8 py-3 border-2 border-matrix-neon text-matrix-neon font-mono hover:bg-matrix-neon hover:text-matrix-bg transition-colors duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-2 px-6 py-3 bg-amber text-ink-950 font-medium rounded-sm hover:shadow-[0_0_30px_rgba(255,107,53,0.35)] transition-shadow"
           >
-            enter the portfolio →
+            View Projects
+            <FaArrowRight className="text-sm transition-transform group-hover:translate-x-1" />
+          </motion.a>
+          <motion.a
+            href={SITE.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-6 py-3 border border-ink-600 text-paper rounded-sm hover:border-trace hover:text-trace transition-colors"
+          >
+            <FaGithub /> GitHub
           </motion.a>
         </motion.div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <FaChevronDown className="text-matrix-neon text-2xl" />
-      </motion.div>
+        {/* Stats strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-ink-600 pt-8"
+        >
+          {STATS.map((stat) => (
+            <div key={stat.label}>
+              <div className="font-display font-semibold text-3xl sm:text-4xl text-paper">
+                {stat.value}
+                <span className="text-amber">{stat.suffix}</span>
+              </div>
+              <div className="font-mono text-xs text-paper-muted mt-1 uppercase tracking-wide">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Tech marquee */}
+      <div className="relative z-10 mt-16 overflow-hidden border-t border-ink-600 py-5">
+        <div className="flex w-max marquee-track">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span
+              key={`${item}-${i}`}
+              className="font-mono text-sm text-paper-dim mx-6 flex items-center gap-6 whitespace-nowrap"
+            >
+              {item}
+              <span className="text-trace/40">/</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,71 +1,63 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaUpRightFromSquare } from 'react-icons/fa6';
+import { SITE } from '@/lib/constants';
+
+const links = [
+  { icon: FaGithub, href: SITE.github, label: 'GitHub' },
+  { icon: FaLinkedin, href: SITE.linkedin, label: 'LinkedIn' },
+  { icon: FaEnvelope, href: `mailto:${SITE.email}`, label: 'Email' },
+];
 
 export default function Footer() {
-  const links = [
-    {
-      icon: FaGithub,
-      href: 'https://github.com/Reality373',
-      label: 'GitHub',
-    },
-    {
-      icon: FaLinkedin,
-      href: 'https://linkedin.com/in/reality373',
-      label: 'LinkedIn',
-    },
-    {
-      icon: FaEnvelope,
-      href: 'mailto:15974saif@gmail.com',
-      label: 'Email',
-    },
-  ];
-
   return (
-    <footer className="bg-matrix-bg border-t border-matrix-neon/30 py-12 px-4">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-        {/* Left side - text */}
+    <footer id="contact" className="bg-ink-950 border-t border-ink-600 py-20 px-6 relative">
+      <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center md:text-left"
+          transition={{ duration: 0.6 }}
+          className="mb-14"
         >
-          <p className="text-matrix-neon font-mono text-sm">
-            <span className="text-matrix-cyan">$</span> echo "made with code &
-            curiosity"
-          </p>
-          <p className="text-matrix-secondary text-xs mt-2">
-            © 2026 Saif Shikalgar
-          </p>
+          <p className="font-mono text-sm text-amber mb-3">04 · Contact</p>
+          <h2 className="font-display font-semibold text-3xl sm:text-5xl text-paper mb-6 max-w-2xl leading-tight">
+            Building something that needs embedded, AI, or full-stack work?
+          </h2>
+          <motion.a
+            href={`mailto:${SITE.email}`}
+            whileHover={{ x: 6 }}
+            className="inline-flex items-center gap-3 text-xl sm:text-2xl font-display text-trace hover:text-amber transition-colors"
+          >
+            {SITE.email}
+            <FaUpRightFromSquare className="text-lg" />
+          </motion.a>
         </motion.div>
 
-        {/* Right side - social links */}
-        <motion.div
-          className="flex gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.1 }}
-        >
-          {links.map((link) => {
-            const Icon = link.icon;
-            return (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-matrix-neon hover:text-matrix-cyan transition-colors"
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Icon size={24} />
-              </motion.a>
-            );
-          })}
-        </motion.div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-t border-ink-600 pt-8">
+          <p className="text-paper-dim text-xs font-mono">
+            © 2026 {SITE.name} · Built with Next.js &amp; Tailwind CSS
+          </p>
+          <div className="flex gap-6">
+            {links.map((link) => {
+              const Icon = link.icon;
+              return (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="text-paper-muted hover:text-amber transition-colors"
+                  whileHover={{ y: -2 }}
+                >
+                  <Icon size={18} />
+                </motion.a>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </footer>
   );
