@@ -261,7 +261,7 @@ Authored the implementation plan and architecture, selecting Tesseract.js + Tran
 
 export const OTHER_UTILITIES = [
   {
-    name: 'CyberHexon',
+    name: 'ZeroByte',
     description:
       'PySide6 desktop GUI for secure, certified disk wiping (drive detection, wipe engine, wipe-completion certificates) targeting NIST/DoD-style sanitization workflows.',
   },

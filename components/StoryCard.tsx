@@ -55,19 +55,21 @@ export default function StoryCard({ story, onSelect }: StoryCardProps) {
           {story.summary}
         </p>
 
-        {/* Key metrics strip */}
-        <div className="grid grid-cols-3 gap-3 border-y border-ink-600/70 py-3 mb-5 bg-ink-950/40 rounded-sm px-3">
-          {story.metrics.map((m) => (
-            <div key={m.label} className="text-center">
-              <div className="font-display font-semibold text-base sm:text-lg text-amber leading-tight">
-                {m.value}
+        {/* Key metrics strip if present */}
+        {story.metrics && story.metrics.length > 0 && (
+          <div className="grid grid-cols-3 gap-3 border-y border-ink-600/70 py-3 mb-5 bg-ink-950/40 rounded-sm px-3">
+            {story.metrics.map((m) => (
+              <div key={m.label} className="text-center">
+                <div className="font-display font-semibold text-base sm:text-lg text-amber leading-tight">
+                  {m.value}
+                </div>
+                <div className="font-mono text-[9px] uppercase tracking-wider text-paper-dim mt-0.5 truncate">
+                  {m.label}
+                </div>
               </div>
-              <div className="font-mono text-[9px] uppercase tracking-wider text-paper-dim mt-0.5 truncate">
-                {m.label}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Tech tags */}
         <div className="flex flex-wrap gap-1.5 mb-6">
@@ -90,13 +92,13 @@ export default function StoryCard({ story, onSelect }: StoryCardProps) {
       {/* Bottom CTA */}
       <div className="relative z-10 flex items-center justify-between pt-3 border-t border-ink-600/50 text-xs font-mono text-paper-muted group-hover:text-amber transition-colors">
         <div className="flex items-center gap-2 text-[11px]">
-          {story.photos && story.photos.length > 0 && (
-            <span className="text-paper-dim flex items-center gap-1" title="Includes field snapshots">
-              📷 {story.photos.length}
+          {story.photo && (
+            <span className="text-paper-dim flex items-center gap-1" title="Includes field snapshot">
+              📷
             </span>
           )}
           {story.snippet && <FaCode className="text-trace" title="Includes code snippet" />}
-          <span>{story.date}</span>
+          <span>{story.readTime}</span>
         </div>
         <span className="inline-flex items-center gap-1 font-semibold group-hover:translate-x-1 transition-transform">
           Read Story <FaArrowRight className="text-[10px]" />

@@ -228,7 +228,7 @@ Small-scale natural language processing experiments in Python (exploratory/learn
 
 These are standalone scripts/tools present locally without Git history, included for completeness — worth a brief portfolio mention rather than a full case study:
 
-- **CyberHexon** — a PySide6 desktop GUI for secure, certified disk wiping (drive detection, wipe engine, and wipe-completion certificate generation), aimed at NIST/DoD-style data sanitization workflows.
+- **ZeroByte** — a PySide6 desktop GUI for secure, certified disk wiping (drive detection, wipe engine, and wipe-completion certificate generation), aimed at NIST/DoD-style data sanitization workflows.
 - **VulnScan** — a Windows PowerShell system security auditor (OS/.NET fingerprinting, AMSI provider enumeration, installed AV/firewall rule inspection, autorun analysis) plus disk-image test fixtures for validating the scanner.
 - **Email Validator** — a small Node.js/TypeScript CLI utility wrapping `deep-email-validator` for regex/MX/SMTP/disposable-address checks.
 

@@ -51,18 +51,18 @@ export type StoryCategory =
   | 'Reverse Engineering'
   | 'AI & Web3';
 
-export interface StoryTradeoff {
-  option: string;
-  pros: string;
-  cons: string;
-  selected?: boolean;
+export interface StorySection {
+  heading?: string;
+  content: string;
+  callout?: string;
+  type?: 'text' | 'mistake' | 'breakthrough' | 'lesson';
 }
 
 export interface StoryPhoto {
-  url: string;
   caption: string;
   location?: string;
   timestamp?: string;
+  url?: string;
 }
 
 export interface Story {
@@ -71,18 +71,16 @@ export interface Story {
   subtitle: string;
   category: StoryCategory;
   date: string;
-  badge: string;
+  readTime: string;
+  badge?: string;
   summary: string;
-  sceneSetting?: string;
-  context: string;
-  crisisOrChallenge: string;
-  tradeoffs?: StoryTradeoff[];
-  engineeringSolution: string;
-  theThoughtProcess?: string;
-  takeaway: string;
-  photos?: StoryPhoto[];
-  metrics: { label: string; value: string }[];
+  storyType?: 'paddock-log' | 'reflection' | 'deep-dive' | 'war-story';
+  theMistake?: string;
+  theLesson: string;
+  sections: StorySection[];
+  metrics?: { label: string; value: string }[];
   tags: string[];
+  photo?: StoryPhoto;
   relatedProjectId?: string;
   snippet?: {
     title: string;

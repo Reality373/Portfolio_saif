@@ -10,11 +10,11 @@ import {
   FaCopy,
   FaCode,
   FaArrowRight,
-  FaCamera,
-  FaBalanceScale,
-  FaMapMarkerAlt,
-  FaClock,
+  FaExclamationCircle,
   FaLightbulb,
+  FaClock,
+  FaCamera,
+  FaMapMarkerAlt,
 } from 'react-icons/fa';
 
 interface StoryModalProps {
@@ -59,12 +59,12 @@ export default function StoryModal({ story, onClose }: StoryModalProps) {
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="bg-ink-900 border border-ink-600 max-w-4xl w-full max-h-[92vh] overflow-y-auto relative rounded-md shadow-2xl"
+          className="bg-ink-900 border border-ink-600 max-w-3xl w-full max-h-[92vh] overflow-y-auto relative rounded-md shadow-2xl"
           onClick={(e) => e.stopPropagation()}
-          initial={{ scale: 0.95, opacity: 0, y: 10 }}
+          initial={{ scale: 0.96, opacity: 0, y: 8 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 10 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+          exit={{ scale: 0.96, opacity: 0, y: 8 }}
+          transition={{ type: 'spring', stiffness: 320, damping: 30 }}
         >
           {/* Close button */}
           <button
@@ -75,188 +75,98 @@ export default function StoryModal({ story, onClose }: StoryModalProps) {
             <FaTimes size={15} />
           </button>
 
-          <div className="p-5 sm:p-10 space-y-7 sm:space-y-9">
-            {/* Header */}
+          <div className="p-6 sm:p-10 space-y-7">
+            {/* Header & Meta */}
             <div>
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 pr-8">
                 <span className="font-mono text-xs text-trace uppercase tracking-wider px-2.5 py-0.5 rounded-sm bg-trace/10 border border-trace/20">
                   {story.category}
                 </span>
-                <span className="inline-flex items-center gap-1.5 font-mono text-xs text-amber font-semibold">
-                  <FaAward className="text-xs sm:text-sm" /> {story.badge}
+                {story.badge && (
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs text-amber font-semibold">
+                    <FaAward className="text-xs" /> {story.badge}
+                  </span>
+                )}
+                <span className="font-mono text-xs text-paper-dim flex items-center gap-1">
+                  <FaClock size={10} /> {story.readTime}
                 </span>
                 <span className="font-mono text-xs text-paper-dim">· {story.date}</span>
               </div>
 
-              <h2 className="font-display font-semibold text-2xl sm:text-4xl text-paper mb-2 leading-tight">
+              <h2 className="font-display font-semibold text-2xl sm:text-3xl text-paper mb-2 leading-tight">
                 {story.title}
               </h2>
-              <p className="text-trace font-mono text-xs sm:text-base">{story.subtitle}</p>
+              <p className="text-paper-muted font-mono text-xs sm:text-sm">{story.subtitle}</p>
             </div>
 
-            {/* Metrics highlight strip */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-ink-600 py-3 sm:py-4 bg-ink-950/40 rounded-sm px-2.5 sm:px-4">
-              {story.metrics.map((metric) => (
-                <div key={metric.label} className="text-center sm:text-left">
-                  <div className="font-display font-semibold text-lg sm:text-3xl text-amber">
-                    {metric.value}
+            {/* Metrics highlight strip if present */}
+            {story.metrics && story.metrics.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-ink-600 py-3 bg-ink-950/40 rounded-sm px-3">
+                {story.metrics.map((metric) => (
+                  <div key={metric.label} className="text-center sm:text-left">
+                    <div className="font-display font-semibold text-base sm:text-2xl text-amber">
+                      {metric.value}
+                    </div>
+                    <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wide text-paper-dim mt-0.5 truncate">
+                      {metric.label}
+                    </div>
                   </div>
-                  <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wide text-paper-dim mt-0.5 truncate">
-                    {metric.label}
-                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* The Honest Mistake / Rookie Assumption Box */}
+            {story.theMistake && (
+              <div className="p-4 sm:p-5 rounded-md border border-amber/30 bg-amber/5 space-y-1.5">
+                <div className="font-mono text-xs uppercase tracking-wider text-amber font-semibold flex items-center gap-2">
+                  <FaExclamationCircle className="text-amber text-xs" />
+                  <span>The Rookie Assumption / Mistake</span>
+                </div>
+                <p className="text-paper leading-relaxed text-xs sm:text-sm font-sans">
+                  {story.theMistake}
+                </p>
+              </div>
+            )}
+
+            {/* Narrative Flow: Freeform Sections */}
+            <div className="space-y-6 text-paper-muted text-sm sm:text-base leading-relaxed font-sans">
+              {story.sections.map((section, idx) => (
+                <div key={idx} className="space-y-2">
+                  {section.heading && (
+                    <h3 className="font-display font-semibold text-base sm:text-lg text-paper">
+                      {section.heading}
+                    </h3>
+                  )}
+                  <p className="leading-relaxed text-paper-muted">{section.content}</p>
+                  {section.callout && (
+                    <div className="my-3 p-3 sm:p-4 bg-ink-950/70 border-l-2 border-amber rounded-r-sm text-xs sm:text-sm text-paper italic font-mono">
+                      {section.callout}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
 
-            {/* Section 1: The Scene & Atmosphere */}
-            {story.sceneSetting && (
-              <div className="space-y-2.5 bg-ink-950/70 p-4 sm:p-6 rounded-md border border-ink-600/70">
-                <h3 className="font-mono text-xs uppercase tracking-wider text-amber flex items-center gap-2 font-semibold">
-                  <FaMapMarkerAlt className="text-amber text-xs" />
-                  <span>01</span> Setting the Scene &amp; Atmosphere
-                </h3>
-                <p className="text-paper-muted leading-relaxed text-xs sm:text-base italic font-serif sm:font-sans">
-                  &ldquo;{story.sceneSetting}&rdquo;
+            {/* Optional Photo / Field Snapshot Card */}
+            {story.photo && (
+              <div className="bg-ink-950 border border-ink-600 rounded-md p-4 space-y-2">
+                <div className="flex items-center justify-between font-mono text-[10px] text-paper-dim pb-1.5 border-b border-ink-600/60">
+                  <span className="flex items-center gap-1.5 text-trace">
+                    <FaCamera size={10} /> Field Snapshot
+                  </span>
+                  {story.photo.location && (
+                    <span className="flex items-center gap-1 text-paper-dim">
+                      <FaMapMarkerAlt size={9} /> {story.photo.location}
+                    </span>
+                  )}
+                </div>
+                <p className="font-mono text-xs text-paper-muted leading-relaxed">
+                  {story.photo.caption}
                 </p>
               </div>
             )}
 
-            {/* Section 2: The Context & Architecture */}
-            <div className="space-y-2.5">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-trace flex items-center gap-2 font-semibold">
-                <span>02</span> Architectural Context
-              </h3>
-              <p className="text-paper-muted leading-relaxed text-xs sm:text-base">
-                {story.context}
-              </p>
-            </div>
-
-            {/* Section 3: The Crisis / Engineering Bottleneck */}
-            <div className="space-y-2.5 p-4 sm:p-5 rounded-sm border border-amber/30 bg-amber/5">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-amber flex items-center gap-2 font-semibold">
-                <span>03</span> The Crisis / Engineering Bottleneck
-              </h3>
-              <p className="text-paper leading-relaxed text-xs sm:text-base">
-                {story.crisisOrChallenge}
-              </p>
-            </div>
-
-            {/* Section 4: Decisions & Trade-Offs Matrix */}
-            {story.tradeoffs && story.tradeoffs.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-mono text-xs uppercase tracking-wider text-trace flex items-center gap-2 font-semibold">
-                  <FaBalanceScale className="text-trace text-sm" />
-                  <span>04</span> The Fork in the Road: Critical Trade-Offs
-                </h3>
-                <p className="text-paper-muted text-xs font-mono">
-                  Evaluating options under real-world constraints before committing to implementation:
-                </p>
-
-                <div className="grid md:grid-cols-3 gap-3">
-                  {story.tradeoffs.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className={`p-3.5 sm:p-4 rounded-md border flex flex-col justify-between transition-all ${
-                        item.selected
-                          ? 'border-amber bg-amber/10 shadow-md'
-                          : 'border-ink-600 bg-ink-950/50 opacity-80'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-mono text-[10px] uppercase font-bold text-paper-dim">
-                            Option {String.fromCharCode(65 + idx)}
-                          </span>
-                          {item.selected && (
-                            <span className="bg-amber text-ink-950 font-mono text-[9px] font-bold px-1.5 py-0.5 rounded-xs">
-                              CHOSEN PATH
-                            </span>
-                          )}
-                        </div>
-                        <h4 className="font-display font-semibold text-sm text-paper mb-2">
-                          {item.option}
-                        </h4>
-                        <div className="space-y-1.5 text-xs font-mono">
-                          <div className="text-green-400">
-                            <span className="font-bold">PRO:</span> {item.pros}
-                          </div>
-                          <div className="text-red-400">
-                            <span className="font-bold">CON:</span> {item.cons}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Section 5: The Thought Process & Deep Dive Solution */}
-            <div className="space-y-3">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-trace flex items-center gap-2 font-semibold">
-                <FaLightbulb className="text-trace text-sm" />
-                <span>05</span> The Engineering Thought Process &amp; Execution
-              </h3>
-              {story.theThoughtProcess && (
-                <div className="text-paper leading-relaxed text-xs sm:text-base space-y-3 bg-ink-950/50 p-4 sm:p-5 rounded-md border border-ink-600">
-                  {story.theThoughtProcess.split('\n\n').map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-              )}
-              <div className="text-paper-muted leading-relaxed text-xs sm:text-base space-y-3 pt-2">
-                {story.engineeringSolution.split('\n\n').map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
-            </div>
-
-            {/* Section 6: Testing Snapshots & Field Notes Gallery */}
-            {story.photos && story.photos.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-mono text-xs uppercase tracking-wider text-amber flex items-center gap-2 font-semibold">
-                  <FaCamera className="text-amber text-sm" />
-                  <span>06</span> Field Notes &amp; Testing Snapshots
-                </h3>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {story.photos.map((photo, i) => (
-                    <div
-                      key={i}
-                      className="bg-ink-950 border border-ink-600 rounded-md p-3.5 flex flex-col justify-between shadow-inner"
-                    >
-                      {/* Photo Header meta */}
-                      <div className="flex items-center justify-between font-mono text-[10px] text-paper-dim mb-2 pb-1.5 border-b border-ink-600/60">
-                        <span className="flex items-center gap-1">
-                          <FaMapMarkerAlt className="text-trace text-[9px]" /> {photo.location}
-                        </span>
-                        <span className="flex items-center gap-1 text-amber">
-                          <FaClock className="text-[9px]" /> {photo.timestamp}
-                        </span>
-                      </div>
-
-                      {/* Photo Blueprint / Testing Card */}
-                      <div className="w-full h-36 bg-ink-900 border border-dashed border-ink-600 rounded-sm flex flex-col items-center justify-center p-4 text-center my-2 group hover:border-amber/60 transition-colors">
-                        <FaCamera className="text-paper-dim text-2xl mb-2 group-hover:text-amber transition-colors" />
-                        <span className="font-mono text-[10px] text-paper-dim font-bold">
-                          TESTING SNAPSHOT #{i + 1}
-                        </span>
-                        <span className="font-mono text-[9px] text-trace mt-0.5">
-                          {photo.location}
-                        </span>
-                      </div>
-
-                      {/* Caption */}
-                      <p className="font-mono text-xs text-paper-muted leading-relaxed mt-1">
-                        {photo.caption}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Section 7: Code Snippet if present */}
+            {/* Code Snippet if present */}
             {story.snippet && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -273,7 +183,7 @@ export default function StoryModal({ story, onClose }: StoryModalProps) {
                       </>
                     ) : (
                       <>
-                        <FaCopy className="text-xs" /> Copy Code
+                        <FaCopy className="text-xs" /> Copy
                       </>
                     )}
                   </button>
@@ -286,23 +196,23 @@ export default function StoryModal({ story, onClose }: StoryModalProps) {
               </div>
             )}
 
-            {/* Section 8: Hard-Earned Lesson & Principle */}
-            <div className="p-4 sm:p-6 rounded-md border border-trace/40 bg-trace/5">
-              <h4 className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-trace mb-2 font-semibold">
-                Hard-Earned Engineering Principle &amp; Lesson
+            {/* The Hard-Earned Lesson & Growth Box */}
+            <div className="p-4 sm:p-6 rounded-md border border-trace/40 bg-trace/5 space-y-2">
+              <h4 className="font-mono text-[11px] uppercase tracking-wider text-trace font-semibold flex items-center gap-2">
+                <FaLightbulb size={11} /> What This Taught Me as an Engineer
               </h4>
-              <blockquote className="text-paper text-xs sm:text-base font-medium italic leading-relaxed">
-                &ldquo;{story.takeaway}&rdquo;
-              </blockquote>
+              <p className="text-paper text-xs sm:text-sm leading-relaxed font-medium">
+                {story.theLesson}
+              </p>
             </div>
 
-            {/* Tags & Related project */}
+            {/* Tags & Related project footer */}
             <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-ink-600">
-              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {story.tags.map((t) => (
                   <span
                     key={t}
-                    className="text-[10px] sm:text-xs font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 border border-ink-600 text-paper-muted rounded-sm"
+                    className="text-[10px] font-mono px-2 py-0.5 border border-ink-600 text-paper-muted rounded-sm"
                   >
                     {t}
                   </span>
@@ -313,9 +223,9 @@ export default function StoryModal({ story, onClose }: StoryModalProps) {
                 <a
                   href={`#projects`}
                   onClick={onClose}
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-mono text-amber hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-amber hover:underline"
                 >
-                  View Related Project <FaArrowRight className="text-[10px] sm:text-xs" />
+                  View Related Project <FaArrowRight className="text-[10px]" />
                 </a>
               )}
             </div>
