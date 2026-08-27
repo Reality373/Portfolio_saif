@@ -24,7 +24,7 @@ Lead Android App Developer & Founder  ·  AuraByte Studios (Independent Venture)
 Technical Lead & Department Head – Drive-by-Wire (Automotive R&D)  ·  Team Abhyuday Racing      Jan 2025 – Present
 • Designed and deployed a distributed 3-ECU network (NVIDIA Jetson Nano + STM32F446RE + ESP32) over CAN 2.0B bus with hardware heartbeats, priority arbitration, and 99.9% packet reliability under high EMI.
 • Programmed real-time deterministic Autonomous Emergency Braking (AEB) control logic, securing 1st Place Nationally at aBAJA 2026 by halting safely at 6.2m at 30 km/h with 40 bar hydraulic line pressure.
-• Spearheaded an emergency 8-hour overnight hardware migration from damaged STM32 to ESP32 FreeRTOS architecture at the racetrack, winning 1st Place in Adaptive Cruise Control (ACC) at aBAJA 2025.
+• Implemented automotive-grade failsafe supervision with a 50 Hz CAN heartbeat loop, 10 Hz telemetry scheduling, node-loss detection, and visual fault indicators, winning 1st Place in ACC at aBAJA 2025.
 • Engineered a modular Brake-by-Wire linear actuator system mounted parallel to the tandem master cylinder, cutting hardware costs by 50% and winning the 1st Place Manufacturing Excellence Award.
 
 KEY TECHNICAL PROJECTS

@@ -3,58 +3,58 @@ import { Story } from '@/types';
 export const STORIES: Story[] = [
   {
     id: 'abaja-crisis-migration',
-    title: 'The Midnight Silicon Swap & A Lesson in Redundancy',
-    subtitle: 'What happens when a 12V transient kills your primary ECU 8 hours before national scrutineering',
+    title: 'The 8-Hour Circuit Rebuild & The Phase 2 Evaluation',
+    subtitle: 'What happens when an electrical transient kills your primary ECU one week before Phase 2 DBW evaluation',
     category: 'Embedded & Crisis',
     date: 'Jan 2025 – Feb 2026',
     readTime: '3 min read',
     badge: 'National 1st Place',
     storyType: 'paddock-log',
     summary:
-      'I made a rookie mistake trusting our power rails under high motor vibration. When the STM32 fried at 10 PM in the racetrack paddock, our modular software architecture was the only thing that allowed an emergency overnight port to an ESP32.',
+      'During pre-competition track testing, an electrical transient fried our primary STM32 ECU just one week before our critical Phase 2 DBW evaluation. With no matching spares, I designed a new circuit and migrated the DBW architecture to ESP32 FreeRTOS in an 8-hour overnight sprint, clearing Phase 2 and paving the way to 1st Place in ACC at the Phase 3 national event.',
     theMistake:
-      'I trusted our off-the-shelf buck converter without adding transient voltage suppression (TVS) diodes on the 12V rail. Under sudden motor back-EMF, a voltage spike fried the 3.3V LDO on our primary STM32.',
+      'I trusted our off-the-shelf buck converter without adding transient voltage suppression (TVS) diodes on the 12V rail. Under sudden motor back-EMF during testing, a voltage spike fried the 3.3V LDO on our primary STM32.',
     theLesson:
-      'Hardware is brutal: never trust a power rail without hardware protection. But good software architecture is forgiving: because our control algorithms were decoupled from hardware registers via clean abstraction, we could rewrite the entire low-level driver layer in 7 hours without touching our PID math.',
+      'Hardware is brutal: never trust a power rail without transient protection. But good software architecture is forgiving: because our control algorithms were decoupled from hardware registers via clean abstraction, we could design a new circuit and rewrite the entire low-level driver layer in 8 hours without touching our PID math.',
     sections: [
       {
-        heading: '10:15 PM in the Paddock',
+        heading: 'One Week to Phase 2 Evaluation',
         content:
-          'It was 11°C in the paddock pits, grease on our hands, and national technical inspection was scheduled for 6:00 AM sharp. We were running a final high-vibration throttle test when the car suddenly went dead. Multimeter showed 0.2V on the 3.3V rail. The main STM32 Nucleo microcontroller had latched up and died. There were no spare Nucleo boards in our toolbox with the same pinout.',
+          'We were out on the testing grounds with exactly one week left before Phase 2 evaluation — the high-stakes qualifying round where our drive-by-wire (DBW) systems were to be formally inspected and tested. During a full-throttle transient test, the car suddenly went dead. Multimeter showed 0.2V on the 3.3V rail. The main STM32 Nucleo microcontroller had latched up and died, and we had no identical spare Nucleo boards in our inventory.',
         type: 'text',
       },
       {
         heading: 'The Panic & The Pivot',
         content:
-          'For ten minutes, the entire team went silent. A year of building the vehicle was on the line. We looked through the spares bin and found an unused $4 ESP32-WROOM module. It had completely different pinouts, different peripheral registers, and a dual-core FreeRTOS architecture instead of bare-metal HAL. But it had a TWAI CAN controller.',
+          'With only days remaining before the evaluation that would decide if our car could compete, failing Phase 2 meant disqualification before even reaching the Phase 3 national finals. We checked our workshop components and found an unused $4 ESP32-WROOM module. It had completely different pinouts, different peripheral registers, and a dual-core FreeRTOS architecture instead of bare-metal HAL. But it had a hardware TWAI CAN controller.',
         callout:
-          'We had two choices: surrender the dynamic autonomous brake tests and forfeit the championship, or pull an all-nighter rewiring and rewriting the entire ECU from scratch.',
+          'We had two choices: abandon Phase 2 DBW evaluation, or design a new circuit from scratch and pull an all-nighter to migrate the entire firmware.',
         type: 'mistake',
       },
       {
-        heading: 'Wiring and Flashing by Flashlight',
+        heading: '8-Hour Circuit Redesign & FreeRTOS Migration',
         content:
-          'We grabbed breadboard wires, soldered an emergency daughterboard, and remapped our AS5600 12-bit magnetic angle encoders and dual MCP4725 throttle DACs. The breakthrough came when I realized the ESP32’s dual cores actually solved a lingering timing issue: we pinned CAN bus transmission to Core 0 and our 100Hz PID steer-by-wire loop to Core 1, completely eliminating interrupt contention.',
+          'Over an intense 8-hour overnight sprint, I designed a new circuit board, soldered the prototype daughterboard, and remapped our AS5600 12-bit magnetic angle encoders and dual MCP4725 throttle DACs. Migrating to the ESP32’s dual cores turned out to be an upgrade: we pinned CAN bus transmission to Core 0 and our 100Hz PID steer-by-wire loop to Core 1, completely eliminating interrupt contention.',
         type: 'breakthrough',
       },
       {
-        heading: '5:30 AM: Track Verification',
+        heading: 'Clearing Phase 2 & National Victory at Phase 3',
         content:
-          'As the sun came up, we rolled the car onto the gravel. We armed the linear actuator attached parallel to the tandem master cylinder, triggered an autonomous emergency run at 30 km/h, and watched the car build 40 bar hydraulic pressure to stop cleanly at 6.2 meters. We passed inspection with 30 minutes to spare and took 1st Place Nationally.',
+          'We tested the new circuit the following afternoon, verified deterministic CAN telemetry, and cleared the Phase 2 DBW evaluation with flying colors. That emergency redesign gave our vehicle rock-solid stability, carrying us into the Phase 3 national event where our DBW system won 1st Place in Adaptive Cruise Control (ACC) and later 1st Place in Autonomous Emergency Braking (AEB).',
         type: 'lesson',
       },
     ],
     photo: {
-      caption: '3:30 AM paddock bench: Solder smoke, multimeters, and breadboarding the ESP32 TWAI transceiver.',
-      location: 'aBAJA Racing Paddock',
+      caption: 'Overnight workbench: Solder station, oscilloscope, and prototyping the replacement ESP32 TWAI CAN circuit.',
+      location: 'Team Testing Workshop',
       timestamp: '03:30 AM',
     },
     metrics: [
-      { label: 'Rewrite Window', value: '7.5 hrs' },
-      { label: 'AEB Halt Distance', value: '6.2m' },
-      { label: 'Hydraulic Pressure', value: '40 bar' },
+      { label: 'Rebuild Window', value: '8.0 hrs' },
+      { label: 'Phase 2 Result', value: 'Cleared' },
+      { label: 'Phase 3 Event', value: '1st Place ACC' },
     ],
-    tags: ['ESP32', 'FreeRTOS', 'CAN Bus', 'Paddock Debugging', 'Failsafe Design'],
+    tags: ['ESP32', 'FreeRTOS', 'CAN Bus', 'Circuit Redesign', 'DBW Evaluation'],
     relatedProjectId: 'abhyuday-dbw',
     snippet: {
       title: 'Emergency FreeRTOS Dual-Core Threading',

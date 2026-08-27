@@ -107,7 +107,7 @@ Assembled and set up the vehicle's NVIDIA Jetson Orin NX compute node, and — d
       '1st Place, Autonomous Emergency Braking — National aBAJA 2026 (6.2m halt on a 6.0m target)',
       '1st Place, Manufacturing Excellence Award — National aBAJA 2026, for the DBW system design',
       '1st Runner-Up, MATLAB Advanced Simulation — National aBAJA 2026, GPS point-to-point autonomous traversal',
-      '1st Place, Adaptive Cruise Control — A-BAJA 2025, after an 8-hour STM32→ESP32 crisis migration',
+      '1st Place, Adaptive Cruise Control — aBAJA 2025 (Phase 3), after an emergency 8-hour STM32→ESP32 circuit rebuild 1 week before Phase 2 evaluation',
       'Contributed to an overall ~50% hardware cost reduction across the DBW system',
       'Set up CAN interface autostart + systemd services on the Jetson Orin NX for boot-time DBW comms',
     ],
