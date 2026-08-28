@@ -18,8 +18,10 @@ export default function StoriesSection() {
 
   const categories = [
     ALL_CATEGORY,
-    'Embedded & Crisis',
+    'Architecture & KMP',
     'Performance & Security',
+    'Defensive Engineering',
+    'Embedded & Crisis',
     'Solo Shipping',
     'Reverse Engineering',
     'AI & Web3',

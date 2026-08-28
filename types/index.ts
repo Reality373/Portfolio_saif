@@ -48,6 +48,8 @@ export type StoryCategory =
   | 'Embedded & Crisis'
   | 'Performance & Security'
   | 'Solo Shipping'
+  | 'Architecture & KMP'
+  | 'Defensive Engineering'
   | 'Reverse Engineering'
   | 'AI & Web3';
 
