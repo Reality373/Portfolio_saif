@@ -45,6 +45,7 @@ export interface StatItem {
 }
 
 export type StoryCategory =
+  | 'AuraByte (FiberOpticCalc)'
   | 'Embedded & Crisis'
   | 'Performance & Security'
   | 'Solo Shipping'
@@ -72,6 +73,7 @@ export interface Story {
   title: string;
   subtitle: string;
   category: StoryCategory;
+  categories?: StoryCategory[];
   date: string;
   readTime: string;
   badge?: string;
