@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getOrFetchGitHubData } from '@/lib/github';
 
 export interface HUDSettings {
   canSimulator: boolean;
@@ -42,6 +43,10 @@ export function HUDProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
+
+    // Prefetch GitHub data once on initial webpage load into memory and sessionStorage cache
+    getOrFetchGitHubData();
+
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {

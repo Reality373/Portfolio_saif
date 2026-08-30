@@ -104,28 +104,29 @@ export default function Header() {
 
         {/* Mobile controls */}
         <div className="md:hidden flex items-center gap-2.5 z-20">
-          <a
-            href={SITE.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-paper-muted hover:text-amber p-1.5"
-          >
-            <FaGithub size={16} />
-          </a>
+          <GitHubHoverPreview placement="bottom">
+            <button
+              type="button"
+              aria-label="GitHub Live Preview"
+              className="text-paper-muted hover:text-amber p-1.5 flex items-center"
+            >
+              <FaGithub size={16} />
+            </button>
+          </GitHubHoverPreview>
+
           <a
             href={SITE.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="text-paper-muted hover:text-trace p-1.5"
+            className="text-paper-muted hover:text-trace p-1.5 flex items-center"
           >
             <FaLinkedin size={16} />
           </a>
           <a
             href={`mailto:${SITE.email}`}
             aria-label="Email"
-            className="text-paper-muted hover:text-amber p-1.5"
+            className="text-paper-muted hover:text-amber p-1.5 flex items-center"
           >
             <FaEnvelope size={15} />
           </a>
@@ -169,16 +170,16 @@ export default function Header() {
                 {/* Mobile Tailored Resume Selector */}
                 <ResumeDropdown mobile />
 
-                <div className="flex justify-center gap-6 pt-3 border-t border-ink-600/40">
-                  <a
-                    href={SITE.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub"
-                    className="text-paper-muted hover:text-amber transition-colors p-2 flex items-center gap-1.5 font-mono text-xs"
-                  >
-                    <FaGithub size={16} /> GitHub
-                  </a>
+                <div className="flex justify-center items-center gap-6 pt-3 border-t border-ink-600/40">
+                  <GitHubHoverPreview placement="bottom">
+                    <button
+                      type="button"
+                      aria-label="GitHub Live Preview"
+                      className="text-paper-muted hover:text-amber transition-colors p-2 flex items-center gap-1.5 font-mono text-xs"
+                    >
+                      <FaGithub size={16} /> GitHub
+                    </button>
+                  </GitHubHoverPreview>
                   <a
                     href={SITE.linkedin}
                     target="_blank"

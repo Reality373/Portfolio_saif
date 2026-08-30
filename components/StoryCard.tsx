@@ -12,7 +12,7 @@ interface StoryCardProps {
 export default function StoryCard({ story, onSelect }: StoryCardProps) {
   return (
     <motion.div
-      className="group relative cursor-pointer border border-ink-600 bg-ink-900 hover:border-amber/60 transition-all duration-300 overflow-hidden rounded-md p-7 flex flex-col justify-between shadow-sm hover:shadow-md"
+      className="group relative cursor-pointer border border-ink-600 bg-ink-900 hover:border-amber/60 transition-all duration-300 overflow-hidden rounded-md p-5 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-md"
       onClick={() => onSelect(story)}
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -33,37 +33,37 @@ export default function StoryCard({ story, onSelect }: StoryCardProps) {
 
       <div className="relative z-10">
         {/* Top category & badge */}
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <span className="font-mono text-xs text-trace uppercase tracking-wider px-2.5 py-0.5 rounded-sm bg-trace/10 border border-trace/20">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3 sm:mb-4">
+          <span className="font-mono text-[10px] sm:text-xs text-trace uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-sm bg-trace/10 border border-trace/20">
             {story.category}
           </span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-amber font-medium">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] text-amber font-medium">
             <FaAward className="text-xs" /> {story.badge}
           </span>
         </div>
 
         {/* Title & subtitle */}
-        <h3 className="font-display font-semibold text-2xl text-paper mb-2 group-hover:text-amber transition-colors">
+        <h3 className="font-display font-semibold text-lg sm:text-2xl text-paper mb-1.5 sm:mb-2 group-hover:text-amber transition-colors">
           {story.title}
         </h3>
-        <p className="font-mono text-xs text-paper-dim mb-4 line-clamp-2">
+        <p className="font-mono text-[11px] sm:text-xs text-paper-dim mb-3 sm:mb-4 line-clamp-2">
           {story.subtitle}
         </p>
 
         {/* Story summary */}
-        <p className="text-paper-muted text-sm leading-relaxed mb-6 line-clamp-3">
+        <p className="text-paper-muted text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 line-clamp-3">
           {story.summary}
         </p>
 
         {/* Key metrics strip if present */}
         {story.metrics && story.metrics.length > 0 && (
-          <div className="grid grid-cols-3 gap-3 border-y border-ink-600/70 py-3 mb-5 bg-ink-950/40 rounded-sm px-3">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-3 border-y border-ink-600/70 py-2 sm:py-3 mb-4 sm:mb-5 bg-ink-950/40 rounded-sm px-2 sm:px-3">
             {story.metrics.map((m) => (
               <div key={m.label} className="text-center">
-                <div className="font-display font-semibold text-base sm:text-lg text-amber leading-tight">
+                <div className="font-display font-semibold text-sm sm:text-base md:text-lg text-amber leading-tight">
                   {m.value}
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-wider text-paper-dim mt-0.5 truncate">
+                <div className="font-mono text-[8px] sm:text-[9px] uppercase tracking-wider text-paper-dim mt-0.5 truncate">
                   {m.label}
                 </div>
               </div>
@@ -72,17 +72,17 @@ export default function StoryCard({ story, onSelect }: StoryCardProps) {
         )}
 
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
+        <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-4 sm:mb-6">
           {story.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-mono px-2 py-0.5 border border-ink-600 text-paper-dim rounded-sm"
+              className="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 border border-ink-600 text-paper-dim rounded-sm"
             >
               {tag}
             </span>
           ))}
           {story.tags.length > 4 && (
-            <span className="text-[10px] font-mono px-1.5 py-0.5 text-paper-dim">
+            <span className="text-[9px] sm:text-[10px] font-mono px-1.5 py-0.5 text-paper-dim">
               +{story.tags.length - 4}
             </span>
           )}

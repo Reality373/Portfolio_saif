@@ -45,6 +45,14 @@ export interface StatItem {
 }
 
 export type StoryCategory =
+  | 'Electronics & Embedded'
+  | 'Electronics & Automotive'
+  | 'Android & Mobile'
+  | 'AI & Computer Vision'
+  | 'Cybersecurity & Systems'
+  | 'Web Dev & Web3'
+  | 'Trading & Reliability'
+  | 'Trading & State Reliability'
   | 'AuraByte (FiberOpticCalc)'
   | 'Embedded & Crisis'
   | 'Performance & Security'

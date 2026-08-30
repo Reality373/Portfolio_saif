@@ -170,30 +170,30 @@ export default function StoryModal({
           transition={{ type: 'spring', stiffness: 320, damping: 30 }}
         >
           {/* Top Sticky Navigation Bar */}
-          <div className="sticky top-0 bg-ink-900/95 backdrop-blur-sm border-b border-ink-600/80 px-4 sm:px-8 py-3 z-30 flex items-center justify-between gap-3">
+          <div className="sticky top-0 bg-ink-900/95 backdrop-blur-sm border-b border-ink-600/80 px-3 sm:px-8 py-2.5 sm:py-3 z-30 flex items-center justify-between gap-2 sm:gap-3">
             {/* Story index & Keyboard hint */}
-            <div className="flex items-center gap-2 font-mono text-xs text-paper-dim">
+            <div className="flex items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs text-paper-dim">
               {storyNumber !== undefined && totalStories !== undefined && (
-                <span className="bg-ink-950 px-2.5 py-1 rounded-sm border border-ink-600 text-paper font-semibold">
+                <span className="bg-ink-950 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-sm border border-ink-600 text-paper font-semibold text-[10px] sm:text-xs">
                   Story {String(storyNumber).padStart(2, '0')} / {String(totalStories).padStart(2, '0')}
                 </span>
               )}
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-paper-dim px-2 py-0.5 rounded bg-ink-800/60 border border-ink-600/40">
+              <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-paper-dim px-2 py-0.5 rounded bg-ink-800/60 border border-ink-600/40">
                 <FaKeyboard className="text-trace text-[10px]" /> <kbd className="font-mono">←</kbd> / <kbd className="font-mono">→</kbd> keys
               </span>
             </div>
 
             {/* Prev / Next & Close Controls */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               {onPrev && (
                 <button
                   onClick={onPrev}
                   disabled={!hasPrev}
-                  className="inline-flex items-center gap-1 font-mono text-xs px-2.5 py-1 rounded-sm bg-ink-800 border border-ink-600 text-paper-muted hover:text-amber hover:border-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-1 font-mono text-[11px] sm:text-xs px-2 sm:px-2.5 py-1 rounded-sm bg-ink-800 border border-ink-600 text-paper-muted hover:text-amber hover:border-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   title="Previous Story (Left Arrow)"
                   aria-label="Previous story"
                 >
-                  <FaArrowLeft className="text-[10px]" />
+                  <FaArrowLeft className="text-[9px] sm:text-[10px]" />
                   <span className="hidden xs:inline">Prev</span>
                 </button>
               )}
@@ -202,45 +202,45 @@ export default function StoryModal({
                 <button
                   onClick={onNext}
                   disabled={!hasNext}
-                  className="inline-flex items-center gap-1 font-mono text-xs px-2.5 py-1 rounded-sm bg-ink-800 border border-ink-600 text-paper-muted hover:text-amber hover:border-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-1 font-mono text-[11px] sm:text-xs px-2 sm:px-2.5 py-1 rounded-sm bg-ink-800 border border-ink-600 text-paper-muted hover:text-amber hover:border-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   title="Next Story (Right Arrow)"
                   aria-label="Next story"
                 >
                   <span className="hidden xs:inline">Next</span>
-                  <FaArrowRight className="text-[10px]" />
+                  <FaArrowRight className="text-[9px] sm:text-[10px]" />
                 </button>
               )}
 
               <button
                 onClick={onClose}
-                className="text-paper-muted hover:text-amber transition-colors p-1.5 sm:p-2 rounded-sm bg-ink-800 border border-ink-600 ml-1"
+                className="text-paper-muted hover:text-amber transition-colors p-1 sm:p-2 rounded-sm bg-ink-800 border border-ink-600 ml-0.5 sm:ml-1"
                 title="Close (Escape key)"
                 aria-label="Close modal"
               >
-                <FaTimes size={13} />
+                <FaTimes size={12} />
               </button>
             </div>
           </div>
 
-          <div className="p-6 sm:p-10 space-y-7">
+          <div className="p-4 sm:p-8 md:p-10 space-y-5 sm:space-y-7">
             {/* Header & Meta */}
             <div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
-                <span className="font-mono text-xs text-trace uppercase tracking-wider px-2.5 py-0.5 rounded-sm bg-trace/10 border border-trace/20">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 mb-2.5 sm:mb-3">
+                <span className="font-mono text-[10px] sm:text-xs text-trace uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-sm bg-trace/10 border border-trace/20">
                   {story.category}
                 </span>
                 {story.badge && (
-                  <span className="inline-flex items-center gap-1.5 font-mono text-xs text-amber font-semibold">
+                  <span className="inline-flex items-center gap-1 font-mono text-[10px] sm:text-xs text-amber font-semibold">
                     <FaAward className="text-xs" /> {story.badge}
                   </span>
                 )}
-                <span className="font-mono text-xs text-paper-dim flex items-center gap-1">
-                  <FaClock size={10} /> {story.readTime}
+                <span className="font-mono text-[10px] sm:text-xs text-paper-dim flex items-center gap-1">
+                  <FaClock size={9} /> {story.readTime}
                 </span>
-                <span className="font-mono text-xs text-paper-dim">· {story.date}</span>
+                <span className="font-mono text-[10px] sm:text-xs text-paper-dim">· {story.date}</span>
               </div>
 
-              <h2 className="font-display font-semibold text-2xl sm:text-3xl text-paper mb-2 leading-tight">
+              <h2 className="font-display font-semibold text-xl sm:text-3xl text-paper mb-1.5 sm:mb-2 leading-tight">
                 {story.title}
               </h2>
               <p className="text-paper-muted font-mono text-xs sm:text-sm">{story.subtitle}</p>
@@ -248,13 +248,13 @@ export default function StoryModal({
 
             {/* Metrics highlight strip if present */}
             {story.metrics && story.metrics.length > 0 && (
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-ink-600 py-3 bg-ink-950/40 rounded-sm px-3">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-4 border-y border-ink-600 py-2 sm:py-3 bg-ink-950/40 rounded-sm px-2 sm:px-4">
                 {story.metrics.map((metric) => (
                   <div key={metric.label} className="text-center sm:text-left">
-                    <div className="font-display font-semibold text-base sm:text-2xl text-amber">
+                    <div className="font-display font-semibold text-sm sm:text-xl md:text-2xl text-amber">
                       {metric.value}
                     </div>
-                    <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wide text-paper-dim mt-0.5 truncate">
+                    <div className="font-mono text-[8px] sm:text-[10px] uppercase tracking-wide text-paper-dim mt-0.5 truncate">
                       {metric.label}
                     </div>
                   </div>

@@ -18,6 +18,7 @@ import {
   FaSitemap,
   FaProjectDiagram,
   FaLayerGroup,
+  FaArrowDown,
 } from 'react-icons/fa';
 
 export type AttackScenario =
@@ -52,6 +53,7 @@ interface ScenarioConfig {
     reason: string;
   };
   treeStopNode: 'DIRECTION_FAIL' | 'ID_FAIL' | 'JITTER_FAIL' | 'GATE2_FAIL' | 'FORWARD_PASS';
+  activeStepIndex: number; // 0=Ingress, 1=Direction, 2=Whitelist, 3=RateLimit, 4=Gate2, 5=Forwarded
   latency: string;
   finalDecision: 'PASSED' | 'BLOCKED';
   actionSummary: string;
@@ -83,6 +85,7 @@ const SCENARIOS: Record<AttackScenario, ScenarioConfig> = {
       reason: 'Mahalanobis distance DM=1.14 ≤ 4.2. Statistical distribution nominal.',
     },
     treeStopNode: 'FORWARD_PASS',
+    activeStepIndex: 5,
     latency: '0.82 µs',
     finalDecision: 'PASSED',
     actionSummary: 'Forwarded to Engine/Brake ECUs without jitter.',
@@ -112,6 +115,7 @@ const SCENARIOS: Record<AttackScenario, ScenarioConfig> = {
       reason: 'DM=14.82 > 4.2! Covariance matrix variance anomaly detected in payload distribution.',
     },
     treeStopNode: 'GATE2_FAIL',
+    activeStepIndex: 4,
     latency: '5.92 µs',
     finalDecision: 'BLOCKED',
     actionSummary: 'Gate 2 Intercepted: Injected RPM spike deflected. Engine bus safe!',
@@ -141,6 +145,7 @@ const SCENARIOS: Record<AttackScenario, ScenarioConfig> = {
       reason: 'Skipped (Fast drop at Gate 1 static policy).',
     },
     treeStopNode: 'ID_FAIL',
+    activeStepIndex: 2,
     latency: '0.45 µs',
     finalDecision: 'BLOCKED',
     actionSummary: 'Gate 1 Fast Drop: Unauthorized diagnostic frame discarded in 0.45µs.',
@@ -170,6 +175,7 @@ const SCENARIOS: Record<AttackScenario, ScenarioConfig> = {
       reason: 'Skipped (Rate limiter triggered at Gate 1).',
     },
     treeStopNode: 'JITTER_FAIL',
+    activeStepIndex: 3,
     latency: '0.38 µs',
     finalDecision: 'BLOCKED',
     actionSummary: 'Gate 1 Rate Limiter: DoS burst dropped, preserving bus bandwidth.',
@@ -199,6 +205,7 @@ const SCENARIOS: Record<AttackScenario, ScenarioConfig> = {
       reason: 'Skipped (Blocked at Gate 1 directional barrier).',
     },
     treeStopNode: 'DIRECTION_FAIL',
+    activeStepIndex: 1,
     latency: '0.52 µs',
     finalDecision: 'BLOCKED',
     actionSummary: 'Gate 1 Direction Filter: Prevented rogue steering override command.',
@@ -209,6 +216,7 @@ export default function CanFirewallVisualizer() {
   const [selectedScenario, setSelectedScenario] = useState<AttackScenario>('NORMAL_TELEMETRY');
   const [activeTab, setActiveTab] = useState<'PIPELINE' | 'DECISION_TREE'>('PIPELINE');
   const [stage, setStage] = useState<'IDLE' | 'TRANSMITTING' | 'GATE1' | 'GATE2' | 'DECIDED'>('IDLE');
+  const [treeActiveStep, setTreeActiveStep] = useState<number>(0);
   const [engineRPM, setEngineRPM] = useState(2800);
   const [stats, setStats] = useState({ passed: 142, blocked: 28 });
   const [runId, setRunId] = useState(0);
@@ -231,8 +239,20 @@ export default function CanFirewallVisualizer() {
     const config = SCENARIOS[scenarioKey];
     setRunId((prev) => prev + 1);
     setStage('TRANSMITTING');
+    setTreeActiveStep(0);
 
-    // Step 1: Transmit along CAN wire from Node 1 (12%) to Firewall Node 2 (50%) in 0.7s
+    // Tree step traversal animation
+    const stepDuration = 350;
+    const maxSteps = config.activeStepIndex;
+
+    for (let s = 1; s <= maxSteps; s++) {
+      const ts = setTimeout(() => {
+        setTreeActiveStep(s);
+      }, s * stepDuration);
+      timeoutRefs.current.push(ts);
+    }
+
+    // Step 1: Transmit along CAN wire in 0.7s
     const t1 = setTimeout(() => {
       setStage('GATE1');
 
@@ -269,11 +289,12 @@ export default function CanFirewallVisualizer() {
   const resetPipeline = () => {
     clearAllTimeouts();
     setStage('IDLE');
+    setTreeActiveStep(0);
     setEngineRPM(2800);
   };
 
   return (
-    <div className="bg-ink-900 border border-ink-600 rounded-md p-5 sm:p-8 shadow-xl">
+    <div className="bg-ink-900 border border-ink-600 rounded-md p-4 sm:p-7 md:p-8 shadow-xl select-none">
       {/* Header & Specs */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -294,13 +315,15 @@ export default function CanFirewallVisualizer() {
         </div>
 
         {/* View Switcher & Live Stats */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          {/* Toggle Tab Group */}
           <div className="bg-ink-950 p-1 rounded-sm border border-ink-600 flex items-center gap-1 font-mono text-xs">
             <button
+              type="button"
               onClick={() => setActiveTab('PIPELINE')}
-              className={`px-3 py-1 rounded-xs transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'PIPELINE'
-                  ? 'bg-trace text-ink-950 font-semibold'
+                  ? 'bg-trace text-ink-950 font-semibold shadow-xs'
                   : 'text-paper-muted hover:text-paper'
               }`}
             >
@@ -308,10 +331,11 @@ export default function CanFirewallVisualizer() {
               <span>Live Pipeline</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('DECISION_TREE')}
-              className={`px-3 py-1 rounded-xs transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'DECISION_TREE'
-                  ? 'bg-amber text-white dark:text-ink-950 font-semibold'
+                  ? 'bg-amber text-white dark:text-ink-950 font-semibold shadow-xs'
                   : 'text-paper-muted hover:text-paper'
               }`}
             >
@@ -320,18 +344,20 @@ export default function CanFirewallVisualizer() {
             </button>
           </div>
 
-          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2.5">
+          {/* Engine Telemetry Box (Non-editable, cursor-default) */}
+          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2.5 cursor-default select-none">
             <FaCar className="text-trace text-sm" />
             <div>
-              <div className="text-paper-dim text-[9px]">ENGINE ECU</div>
+              <div className="text-paper-dim text-[9px] uppercase tracking-wider">ENGINE ECU</div>
               <div className="text-paper font-semibold text-xs">{engineRPM} RPM</div>
             </div>
           </div>
 
-          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2.5">
+          {/* Deflected Attacks Counter */}
+          <div className="bg-ink-950 px-3 py-1.5 rounded-sm border border-ink-600 font-mono text-xs flex items-center gap-2.5 cursor-default select-none">
             <FaShieldAlt className="text-amber text-sm" />
             <div>
-              <div className="text-paper-dim text-[9px]">DEFLECTED</div>
+              <div className="text-paper-dim text-[9px] uppercase tracking-wider">DEFLECTED</div>
               <div className="text-amber font-semibold text-xs">{stats.blocked} Attacks</div>
             </div>
           </div>
@@ -688,169 +714,238 @@ export default function CanFirewallVisualizer() {
         </div>
       )}
 
-      {/* VIEW 2: Interactive Decision Tree & Architecture Diagram */}
+      {/* VIEW 2: Interactive Real-Time Animated Decision Tree */}
       {activeTab === 'DECISION_TREE' && (
-        <div className="bg-ink-950 border border-ink-600 rounded-md p-4 sm:p-6 mb-6">
-          <div className="flex items-center justify-between pb-3 border-b border-ink-600/70 mb-5">
+        <div className="bg-ink-950 border border-ink-600 rounded-md p-4 sm:p-6 mb-6 select-none">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-ink-600/70 mb-5 gap-2">
             <div className="flex items-center gap-2">
               <FaSitemap className="text-amber" />
               <span className="font-mono text-xs font-semibold text-paper uppercase tracking-wider">
-                Hierarchical Dual-Gate Arbitration Flowchart
+                Hierarchical Dual-Gate Inspection Engine
               </span>
             </div>
-            <span className="font-mono text-[10px] text-trace">
-              Live Path: <span className="font-semibold text-paper">{active.title}</span>
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-trace">
+                Active Test: <strong className="text-paper">{active.title}</strong>
+              </span>
+              <button
+                type="button"
+                onClick={() => triggerRun(selectedScenario)}
+                className="bg-amber text-ink-950 font-mono text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 hover:shadow transition-all"
+              >
+                <FaPlay size={8} /> Run Tree Inspection
+              </button>
+            </div>
           </div>
 
           {/* Hierarchical Decision Flow Chart */}
-          <div className="flex flex-col items-center space-y-4 max-w-2xl mx-auto font-mono text-xs">
+          <div className="flex flex-col items-center space-y-3 max-w-2xl mx-auto font-mono text-xs">
             {/* Step 0: Ingress CAN Frame Arrival */}
-            <div className="w-full bg-ink-900 border border-trace/60 rounded-md p-3 text-center shadow-md">
-              <div className="text-[10px] text-trace font-semibold">STEP 0 · INGRESS ARRIVAL</div>
+            <div
+              className={`w-full rounded-md p-3 text-center border transition-all ${
+                treeActiveStep >= 0
+                  ? 'border-trace bg-ink-900 shadow-md ring-1 ring-trace/40'
+                  : 'border-ink-600 bg-ink-900/50 opacity-60'
+              }`}
+            >
+              <div className="text-[10px] text-trace font-semibold flex items-center justify-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-trace animate-pulse" />
+                <span>STEP 0 · INGRESS ARRIVAL</span>
+              </div>
               <div className="font-bold text-paper text-sm mt-0.5">
-                CAN Frame [{active.frameId}] Payload ({active.payload})
+                CAN Frame [{active.frameId}] · Payload ({active.payload})
               </div>
               <div className="text-[10px] text-paper-dim mt-0.5">
-                Source: {active.sourceNode} · {active.sourceDesc}
+                Source: {active.sourceNode} ({active.sourceDesc})
               </div>
             </div>
 
             {/* Connecting Arrow */}
-            <div className="w-0.5 h-4 bg-ink-600" />
+            <div className="flex flex-col items-center">
+              <FaArrowDown className={`text-xs ${treeActiveStep >= 1 ? 'text-trace animate-bounce' : 'text-ink-600'}`} />
+            </div>
 
             {/* Step 1: Directional Policy */}
-            <div className="w-full grid sm:grid-cols-3 gap-3 items-center">
+            <div className="w-full grid sm:grid-cols-3 gap-2.5 items-center">
               <div
                 className={`sm:col-span-2 p-3 rounded-md border transition-all ${
-                  active.treeStopNode === 'DIRECTION_FAIL'
-                    ? 'border-red-500 bg-red-950/30'
-                    : 'border-ink-600 bg-ink-900/80'
+                  treeActiveStep >= 1
+                    ? active.treeStopNode === 'DIRECTION_FAIL'
+                      ? 'border-red-500 bg-red-950/30 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                      : 'border-trace bg-ink-900/90 shadow-sm'
+                    : 'border-ink-600 bg-ink-900/40 opacity-60'
                 }`}
               >
                 <div className="text-[10px] text-paper-dim">GATE 1.1 · DIRECTIONAL ENFORCEMENT</div>
                 <div className="font-semibold text-paper">Is ingress interface authorized for ID {active.frameId}?</div>
               </div>
               <div
-                className={`p-2.5 rounded-sm border text-center font-bold text-[11px] ${
-                  active.treeStopNode === 'DIRECTION_FAIL'
-                    ? 'border-red-500 bg-red-500/20 text-red-400'
+                className={`p-2.5 rounded-sm border text-center font-bold text-[11px] transition-all ${
+                  treeActiveStep >= 1
+                    ? active.treeStopNode === 'DIRECTION_FAIL'
+                      ? 'border-red-500 bg-red-500/25 text-red-300 animate-pulse'
+                      : 'border-green-500/50 bg-green-950/40 text-green-400'
                     : 'border-ink-600 text-paper-dim bg-ink-950'
                 }`}
               >
-                {active.treeStopNode === 'DIRECTION_FAIL' ? '❌ DROP: Port Violation (0.52µs)' : 'Pass ➔'}
-              </div>
-            </div>
-
-            {/* Connecting Arrow */}
-            <div className="w-0.5 h-4 bg-ink-600" />
-
-            {/* Step 2: ID Whitelist & DLC Check */}
-            <div className="w-full grid sm:grid-cols-3 gap-3 items-center">
-              <div
-                className={`sm:col-span-2 p-3 rounded-md border transition-all ${
-                  active.treeStopNode === 'ID_FAIL'
-                    ? 'border-red-500 bg-red-950/30'
-                    : 'border-ink-600 bg-ink-900/80'
-                }`}
-              >
-                <div className="text-[10px] text-paper-dim">GATE 1.2 · WHITELIST &amp; DLC SYNTAX</div>
-                <div className="font-semibold text-paper">Is ID in Flash Hash Table &amp; DLC = 8 Bytes?</div>
-              </div>
-              <div
-                className={`p-2.5 rounded-sm border text-center font-bold text-[11px] ${
-                  active.treeStopNode === 'ID_FAIL'
-                    ? 'border-red-500 bg-red-500/20 text-red-400'
-                    : 'border-ink-600 text-paper-dim bg-ink-950'
-                }`}
-              >
-                {active.treeStopNode === 'ID_FAIL' ? '❌ DROP: Unknown/Fuzz (0.45µs)' : 'Pass ➔'}
-              </div>
-            </div>
-
-            {/* Connecting Arrow */}
-            <div className="w-0.5 h-4 bg-ink-600" />
-
-            {/* Step 3: Rate Limiter / Jitter */}
-            <div className="w-full grid sm:grid-cols-3 gap-3 items-center">
-              <div
-                className={`sm:col-span-2 p-3 rounded-md border transition-all ${
-                  active.treeStopNode === 'JITTER_FAIL'
-                    ? 'border-red-500 bg-red-950/30'
-                    : 'border-ink-600 bg-ink-900/80'
-                }`}
-              >
-                <div className="text-[10px] text-paper-dim">GATE 1.3 · HARDWARE TIMER RATE LIMITER</div>
-                <div className="font-semibold text-paper">Inter-frame arrival Δt ≥ 500µs (No DoS Burst)?</div>
-              </div>
-              <div
-                className={`p-2.5 rounded-sm border text-center font-bold text-[11px] ${
-                  active.treeStopNode === 'JITTER_FAIL'
-                    ? 'border-red-500 bg-red-500/20 text-red-400'
-                    : 'border-ink-600 text-paper-dim bg-ink-950'
-                }`}
-              >
-                {active.treeStopNode === 'JITTER_FAIL' ? '❌ DROP: DoS Flood (0.38µs)' : 'Pass ➔'}
-              </div>
-            </div>
-
-            {/* Connecting Arrow */}
-            <div className="w-0.5 h-4 bg-ink-600" />
-
-            {/* Step 4: Gate 2 Mahalanobis Anomaly Engine */}
-            <div className="w-full grid sm:grid-cols-3 gap-3 items-center">
-              <div
-                className={`sm:col-span-2 p-3 rounded-md border transition-all ${
-                  active.treeStopNode === 'GATE2_FAIL'
-                    ? 'border-red-500 bg-red-950/30'
-                    : active.treeStopNode === 'FORWARD_PASS'
-                    ? 'border-green-500/60 bg-green-950/20'
-                    : 'border-ink-600 bg-ink-900/80'
-                }`}
-              >
-                <div className="text-[10px] text-amber font-semibold">GATE 2 · MAHALANOBIS DISTANCE (CMSIS-DSP)</div>
-                <div className="font-semibold text-paper">
-                  Calculate DM = √((x-μ)ᵀ Σ⁻¹ (x-μ)) ≤ τ=4.20?
-                </div>
-                <div className="text-[10px] text-paper-dim mt-0.5">
-                  Evaluates 2D covariance: Payload variance + inter-arrival frequency jitter
-                </div>
-              </div>
-              <div
-                className={`p-2.5 rounded-sm border text-center font-bold text-[11px] ${
-                  active.treeStopNode === 'GATE2_FAIL'
-                    ? 'border-red-500 bg-red-500/20 text-red-400'
-                    : active.treeStopNode === 'FORWARD_PASS'
-                    ? 'border-green-500/50 bg-green-500/20 text-green-400'
-                    : 'border-ink-600 text-paper-dim bg-ink-950'
-                }`}
-              >
-                {active.treeStopNode === 'GATE2_FAIL' ? (
-                  '❌ DROP: DM=14.82 (5.92µs)'
-                ) : active.treeStopNode === 'FORWARD_PASS' ? (
-                  'DM=1.14 ≤ 4.20 (Pass)'
+                {treeActiveStep >= 1 ? (
+                  active.treeStopNode === 'DIRECTION_FAIL' ? '❌ DROP (0.52µs)' : '✅ PASS'
                 ) : (
-                  'Skipped'
+                  'Pending'
                 )}
               </div>
             </div>
 
             {/* Connecting Arrow */}
-            <div className="w-0.5 h-4 bg-ink-600" />
+            {active.treeStopNode !== 'DIRECTION_FAIL' && (
+              <div className="flex flex-col items-center">
+                <FaArrowDown className={`text-xs ${treeActiveStep >= 2 ? 'text-trace animate-bounce' : 'text-ink-600'}`} />
+              </div>
+            )}
+
+            {/* Step 2: ID Whitelist & DLC Check */}
+            {active.treeStopNode !== 'DIRECTION_FAIL' && (
+              <div className="w-full grid sm:grid-cols-3 gap-2.5 items-center">
+                <div
+                  className={`sm:col-span-2 p-3 rounded-md border transition-all ${
+                    treeActiveStep >= 2
+                      ? active.treeStopNode === 'ID_FAIL'
+                        ? 'border-red-500 bg-red-950/30 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                        : 'border-trace bg-ink-900/90 shadow-sm'
+                      : 'border-ink-600 bg-ink-900/40 opacity-60'
+                  }`}
+                >
+                  <div className="text-[10px] text-paper-dim">GATE 1.2 · WHITELIST &amp; DLC SYNTAX</div>
+                  <div className="font-semibold text-paper">Is ID in Flash Hash Table &amp; DLC = 8 Bytes?</div>
+                </div>
+                <div
+                  className={`p-2.5 rounded-sm border text-center font-bold text-[11px] transition-all ${
+                    treeActiveStep >= 2
+                      ? active.treeStopNode === 'ID_FAIL'
+                        ? 'border-red-500 bg-red-500/25 text-red-300 animate-pulse'
+                        : 'border-green-500/50 bg-green-950/40 text-green-400'
+                      : 'border-ink-600 text-paper-dim bg-ink-950'
+                  }`}
+                >
+                  {treeActiveStep >= 2 ? (
+                    active.treeStopNode === 'ID_FAIL' ? '❌ DROP: Fuzz (0.45µs)' : '✅ PASS'
+                  ) : (
+                    'Pending'
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Connecting Arrow */}
+            {active.treeStopNode !== 'DIRECTION_FAIL' && active.treeStopNode !== 'ID_FAIL' && (
+              <div className="flex flex-col items-center">
+                <FaArrowDown className={`text-xs ${treeActiveStep >= 3 ? 'text-trace animate-bounce' : 'text-ink-600'}`} />
+              </div>
+            )}
+
+            {/* Step 3: Rate Limiter / Jitter */}
+            {active.treeStopNode !== 'DIRECTION_FAIL' && active.treeStopNode !== 'ID_FAIL' && (
+              <div className="w-full grid sm:grid-cols-3 gap-2.5 items-center">
+                <div
+                  className={`sm:col-span-2 p-3 rounded-md border transition-all ${
+                    treeActiveStep >= 3
+                      ? active.treeStopNode === 'JITTER_FAIL'
+                        ? 'border-red-500 bg-red-950/30 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                        : 'border-trace bg-ink-900/90 shadow-sm'
+                      : 'border-ink-600 bg-ink-900/40 opacity-60'
+                  }`}
+                >
+                  <div className="text-[10px] text-paper-dim">GATE 1.3 · HARDWARE TIMER RATE LIMITER</div>
+                  <div className="font-semibold text-paper">Inter-frame arrival Δt ≥ 500µs (No DoS Burst)?</div>
+                </div>
+                <div
+                  className={`p-2.5 rounded-sm border text-center font-bold text-[11px] transition-all ${
+                    treeActiveStep >= 3
+                      ? active.treeStopNode === 'JITTER_FAIL'
+                        ? 'border-red-500 bg-red-500/25 text-red-300 animate-pulse'
+                        : 'border-green-500/50 bg-green-950/40 text-green-400'
+                      : 'border-ink-600 text-paper-dim bg-ink-950'
+                  }`}
+                >
+                  {treeActiveStep >= 3 ? (
+                    active.treeStopNode === 'JITTER_FAIL' ? '❌ DROP: Flood (0.38µs)' : '✅ PASS'
+                  ) : (
+                    'Pending'
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Connecting Arrow */}
+            {active.treeStopNode !== 'DIRECTION_FAIL' &&
+              active.treeStopNode !== 'ID_FAIL' &&
+              active.treeStopNode !== 'JITTER_FAIL' && (
+                <div className="flex flex-col items-center">
+                  <FaArrowDown className={`text-xs ${treeActiveStep >= 4 ? 'text-amber animate-bounce' : 'text-ink-600'}`} />
+                </div>
+              )}
+
+            {/* Step 4: Gate 2 Mahalanobis Anomaly Engine */}
+            {active.treeStopNode !== 'DIRECTION_FAIL' &&
+              active.treeStopNode !== 'ID_FAIL' &&
+              active.treeStopNode !== 'JITTER_FAIL' && (
+                <div className="w-full grid sm:grid-cols-3 gap-2.5 items-center">
+                  <div
+                    className={`sm:col-span-2 p-3 rounded-md border transition-all ${
+                      treeActiveStep >= 4
+                        ? active.treeStopNode === 'GATE2_FAIL'
+                          ? 'border-red-500 bg-red-950/30 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                          : 'border-amber bg-ink-900/90 shadow-sm'
+                        : 'border-ink-600 bg-ink-900/40 opacity-60'
+                    }`}
+                  >
+                    <div className="text-[10px] text-amber font-semibold">GATE 2 · MAHALANOBIS DISTANCE (CMSIS-DSP)</div>
+                    <div className="font-semibold text-paper">
+                      Calculate DM = √((x-μ)ᵀ Σ⁻¹ (x-μ)) ≤ τ=4.20?
+                    </div>
+                  </div>
+                  <div
+                    className={`p-2.5 rounded-sm border text-center font-bold text-[11px] transition-all ${
+                      treeActiveStep >= 4
+                        ? active.treeStopNode === 'GATE2_FAIL'
+                          ? 'border-red-500 bg-red-500/25 text-red-300 animate-pulse'
+                          : 'border-green-500/50 bg-green-950/40 text-green-400'
+                        : 'border-ink-600 text-paper-dim bg-ink-950'
+                    }`}
+                  >
+                    {treeActiveStep >= 4 ? (
+                      active.treeStopNode === 'GATE2_FAIL' ? '❌ DROP: DM=14.82 (5.92µs)' : '✅ PASS: DM=1.14'
+                    ) : (
+                      'Pending'
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* Connecting Arrow */}
+            {active.treeStopNode === 'FORWARD_PASS' && (
+              <div className="flex flex-col items-center">
+                <FaArrowDown className={`text-xs ${treeActiveStep >= 5 ? 'text-green-400 animate-bounce' : 'text-ink-600'}`} />
+              </div>
+            )}
 
             {/* Step 5: Final Forwarding Destination */}
             <div
               className={`w-full p-3 rounded-md border text-center transition-all ${
                 active.treeStopNode === 'FORWARD_PASS'
-                  ? 'border-green-500 bg-green-950/30 shadow-[0_0_20px_rgba(34,197,94,0.25)]'
-                  : 'border-ink-600 bg-ink-900/40 opacity-50'
+                  ? treeActiveStep >= 5
+                    ? 'border-green-500 bg-green-950/35 shadow-[0_0_20px_rgba(34,197,94,0.3)] text-green-300'
+                    : 'border-green-500/40 bg-green-950/15 text-paper-dim'
+                  : 'border-red-500/50 bg-red-950/20 text-red-400 shadow-inner'
               }`}
             >
-              <div className="text-[10px] text-green-400 font-semibold">FINAL ARBITRATION RESULT</div>
-              <div className="font-bold text-paper text-sm mt-0.5">
+              <div className="text-[10px] uppercase font-bold tracking-wider">
+                {active.treeStopNode === 'FORWARD_PASS' ? '✅ FORWARDED TO ACTUATORS' : '⛔ DEFLECTED BY ARBITER'}
+              </div>
+              <div className="font-bold text-paper text-xs sm:text-sm mt-0.5">
                 {active.treeStopNode === 'FORWARD_PASS'
-                  ? '✅ TRANSMITTED TO VEHICLE ENGINE & BRAKE ECUs (0.82 µs)'
-                  : '⛔ DEFLECTED BY FIREWALL — ECUs NEVER COMPROMISED'}
+                  ? 'Transmitted to Engine & Brake ECUs (0.82 µs)'
+                  : `Attack Blocked at ${active.treeStopNode.replace('_FAIL', '')} · ECUs Protected`}
               </div>
             </div>
           </div>
@@ -858,7 +953,7 @@ export default function CanFirewallVisualizer() {
       )}
 
       {/* Decision Summary Banner */}
-      <div className="mb-6">
+      <div className="mb-6 select-none">
         <AnimatePresence mode="wait">
           {stage === 'DECIDED' && (
             <motion.div
@@ -896,14 +991,15 @@ export default function CanFirewallVisualizer() {
       </div>
 
       {/* Scenario Attack Launchers */}
-      <div className="space-y-3">
+      <div className="space-y-3 select-none">
         <div className="flex items-center justify-between">
           <span className="font-mono text-xs text-paper-dim uppercase tracking-wider font-semibold">
             Select Test Scenario to Inject:
           </span>
           <button
+            type="button"
             onClick={resetPipeline}
-            className="font-mono text-[11px] text-paper-muted hover:text-paper flex items-center gap-1.5 transition-colors"
+            className="font-mono text-[11px] text-paper-muted hover:text-paper flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <FaUndo size={10} /> Reset
           </button>
@@ -912,9 +1008,10 @@ export default function CanFirewallVisualizer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
           {/* Scenario 1: Normal Telemetry */}
           <button
+            type="button"
             onClick={() => triggerRun('NORMAL_TELEMETRY')}
             disabled={stage !== 'IDLE' && stage !== 'DECIDED'}
-            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 ${
+            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 cursor-pointer ${
               selectedScenario === 'NORMAL_TELEMETRY'
                 ? 'bg-trace/15 border-trace text-paper shadow-md'
                 : 'bg-ink-950 border-ink-600/70 text-paper-dim hover:border-trace/60 hover:text-paper'
@@ -935,9 +1032,10 @@ export default function CanFirewallVisualizer() {
 
           {/* Scenario 2: RPM Spoofing */}
           <button
+            type="button"
             onClick={() => triggerRun('SPOOF_RPM')}
             disabled={stage !== 'IDLE' && stage !== 'DECIDED'}
-            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 ${
+            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 cursor-pointer ${
               selectedScenario === 'SPOOF_RPM'
                 ? 'bg-amber/20 border-amber text-paper shadow-md'
                 : 'bg-ink-950 border-ink-600/70 text-paper-dim hover:border-amber/60 hover:text-paper'
@@ -958,9 +1056,10 @@ export default function CanFirewallVisualizer() {
 
           {/* Scenario 3: Fuzzing Attack */}
           <button
+            type="button"
             onClick={() => triggerRun('FUZZ_ATTACK')}
             disabled={stage !== 'IDLE' && stage !== 'DECIDED'}
-            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 ${
+            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 cursor-pointer ${
               selectedScenario === 'FUZZ_ATTACK'
                 ? 'bg-red-500/20 border-red-500 text-paper shadow-md'
                 : 'bg-ink-950 border-ink-600/70 text-paper-dim hover:border-red-500/60 hover:text-paper'
@@ -981,9 +1080,10 @@ export default function CanFirewallVisualizer() {
 
           {/* Scenario 4: DoS Flooding */}
           <button
+            type="button"
             onClick={() => triggerRun('DOS_FLOOD')}
             disabled={stage !== 'IDLE' && stage !== 'DECIDED'}
-            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 ${
+            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 cursor-pointer ${
               selectedScenario === 'DOS_FLOOD'
                 ? 'bg-purple-500/20 border-purple-500 text-paper shadow-md'
                 : 'bg-ink-950 border-ink-600/70 text-paper-dim hover:border-purple-500/60 hover:text-paper'
@@ -1004,9 +1104,10 @@ export default function CanFirewallVisualizer() {
 
           {/* Scenario 5: Direction Violation */}
           <button
+            type="button"
             onClick={() => triggerRun('DIRECTION_VIOLATION')}
             disabled={stage !== 'IDLE' && stage !== 'DECIDED'}
-            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 sm:col-span-2 lg:col-span-2 ${
+            className={`p-3 rounded-sm border text-left transition-all font-mono disabled:opacity-50 sm:col-span-2 lg:col-span-2 cursor-pointer ${
               selectedScenario === 'DIRECTION_VIOLATION'
                 ? 'bg-amber/20 border-amber text-paper shadow-md'
                 : 'bg-ink-950 border-ink-600/70 text-paper-dim hover:border-amber/60 hover:text-paper'
