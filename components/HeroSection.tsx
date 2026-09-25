@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, animate, useInView } from 'framer-motion';
 import { FaArrowRight, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SITE, STATS } from '@/lib/constants';
-import CircuitCanvas from './CircuitCanvas';
+import OscilloscopeCanvas from './OscilloscopeCanvas';
+import Magnetic from './Magnetic';
 import ScrambleText from './ScrambleText';
 import RoleSpyglass from './RoleSpyglass';
 import GitHubHoverPreview from './GitHubHoverPreview';
@@ -50,24 +51,46 @@ function RotatingTagline() {
   );
 }
 
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const inView = useInView(ref, { once: true });
+  const target = parseFloat(value);
+  const decimals = value.includes('.') ? value.split('.')[1].length : 0;
+
+  useEffect(() => {
+    if (!inView || !ref.current || Number.isNaN(target)) return;
+    const node = ref.current;
+    const controls = animate(0, target, {
+      duration: 1.6,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (v) => {
+        node.textContent = v.toFixed(decimals);
+      },
+    });
+    return () => controls.stop();
+  }, [inView, target, decimals]);
+
+  return <span ref={ref}>{value}</span>;
+}
+
 export default function HeroSection() {
   return (
-    <section className="min-h-screen bg-ink-950 flex flex-col justify-center relative overflow-hidden pt-28 pb-16">
-      {/* Interactive Circuit & Logic Node Grid */}
-      <CircuitCanvas />
+    <section
+      id="top"
+      className="min-h-screen bg-ink-950 flex flex-col justify-center relative overflow-hidden pt-28 pb-16"
+    >
+      {/* Live oscilloscope: graticule, sweeping phosphor trace, cursor probe, click trigger */}
+      <OscilloscopeCanvas />
 
-      {/* Circuit-grid backdrop */}
+      {/* CRT glass: soft vignette so the trace glows toward the center */}
       <div
-        className="absolute inset-0 bg-grid-pattern bg-grid opacity-60 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-[2]"
         style={{
-          maskImage: 'radial-gradient(ellipse 70% 60% at 50% 35%, black 10%, transparent 75%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse 70% 60% at 50% 35%, black 10%, transparent 75%)',
+          background:
+            'radial-gradient(ellipse 80% 70% at 55% 45%, transparent 40%, rgb(var(--color-ink-950) / 0.85) 100%)',
         }}
       />
-      {/* Glow blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] rounded-full bg-amber/10 blur-[100px] sm:blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[280px] sm:w-[400px] h-[280px] sm:h-[400px] rounded-full bg-trace/10 blur-[90px] sm:blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-[60%] -translate-x-1/2 w-[320px] sm:w-[520px] h-[320px] sm:h-[520px] rounded-full bg-trace/[0.06] blur-[100px] sm:blur-[140px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 w-full">
         <motion.p
@@ -114,23 +137,27 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-wrap items-center gap-3 sm:gap-4 mb-12 sm:mb-16"
         >
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="group inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-amber text-white dark:text-ink-950 font-semibold text-sm rounded-sm hover:shadow-[0_0_30px_rgba(255,107,53,0.35)] transition-shadow"
-          >
-            View Projects
-            <FaArrowRight className="text-xs sm:text-sm transition-transform group-hover:translate-x-1" />
-          </motion.a>
-          <motion.a
-            href="#stories"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 border border-ink-600 bg-ink-900/50 text-paper text-sm rounded-sm hover:border-amber hover:text-amber transition-colors"
-          >
-            Field Notes
-          </motion.a>
+          <Magnetic>
+            <motion.a
+              href="#projects"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="group inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-amber text-white dark:text-ink-950 font-semibold text-sm rounded-sm hover:shadow-[0_0_30px_rgb(var(--color-amber)/0.35)] transition-shadow"
+            >
+              View Projects
+              <FaArrowRight className="text-xs sm:text-sm transition-transform group-hover:translate-x-1" />
+            </motion.a>
+          </Magnetic>
+          <Magnetic>
+            <motion.a
+              href="#stories"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 border border-ink-600 bg-ink-900/50 text-paper text-sm rounded-sm hover:border-amber hover:text-amber transition-colors"
+            >
+              Field Notes
+            </motion.a>
+          </Magnetic>
 
           {/* GitHub button with Interactive Green Dots Preview */}
           <GitHubHoverPreview placement="top">
@@ -179,7 +206,7 @@ export default function HeroSection() {
           {STATS.map((stat) => (
             <div key={stat.label}>
               <div className="font-display font-semibold text-2xl sm:text-4xl text-paper">
-                {stat.value}
+                <CountUp value={stat.value} />
                 <span className="text-amber">{stat.suffix}</span>
               </div>
               <div className="font-mono text-[10px] sm:text-xs text-paper-muted mt-1 uppercase tracking-wide">

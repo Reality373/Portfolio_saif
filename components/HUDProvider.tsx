@@ -10,6 +10,8 @@ export interface HUDSettings {
   commandPalette: boolean;
   particleCanvas: boolean;
   statusBeacon: boolean;
+  scopeCursor: boolean;
+  crtOverlay: boolean;
 }
 
 export const DEFAULT_HUD_SETTINGS: HUDSettings = {
@@ -19,6 +21,8 @@ export const DEFAULT_HUD_SETTINGS: HUDSettings = {
   commandPalette: true,
   particleCanvas: true,
   statusBeacon: true,
+  scopeCursor: true,
+  crtOverlay: true,
 };
 
 interface HUDContextType {
@@ -88,6 +92,8 @@ export function HUDProvider({ children }: { children: React.ReactNode }) {
       commandPalette: enabled,
       particleCanvas: enabled,
       statusBeacon: enabled,
+      scopeCursor: enabled,
+      crtOverlay: enabled,
     });
   };
 

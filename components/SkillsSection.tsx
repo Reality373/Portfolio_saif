@@ -13,6 +13,7 @@ import {
 import { staggerContainer, fadeInUp } from '@/lib/animations';
 import { SKILLS, SkillCategory } from '@/lib/constants';
 import ScrambleText from './ScrambleText';
+import { useTilt } from '@/lib/useTilt';
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   'Embedded Firmware & Hardware': FaMicrochip,
@@ -27,6 +28,7 @@ function SkillCard({ group, index }: { group: SkillCategory; index: number }) {
   const Icon = CATEGORY_ICONS[group.category] || FaMicrochip;
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const tilt = useTilt(5);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -42,14 +44,16 @@ function SkillCard({ group, index }: { group: SkillCategory; index: number }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative bg-ink-900/80 hover:bg-ink-900 border border-ink-600 hover:border-amber/60 rounded-lg p-6 sm:p-7 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-[0_0_25px_rgba(255,107,53,0.15)]"
+      {...tilt.handlers}
+      style={tilt.style}
+      className="corner-marks group relative bg-ink-900/80 hover:bg-ink-900 border border-ink-600 hover:border-amber/60 rounded-sm p-6 sm:p-7 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-[0_0_25px_rgb(var(--color-amber)/0.15)]"
     >
       {/* Interactive Cursor Spotlight Glow */}
       <div
         className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
           background: isHovered
-            ? `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,107,53,0.12), transparent 80%)`
+            ? `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgb(var(--color-amber)/0.12), transparent 80%)`
             : 'none',
         }}
       />

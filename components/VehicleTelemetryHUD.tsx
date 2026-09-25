@@ -188,7 +188,7 @@ export default function VehicleTelemetryHUD() {
                 className={`w-full py-2.5 px-4 rounded-sm font-mono text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
                   isBrakingTest
                     ? 'bg-amber/20 border border-amber/40 text-amber animate-pulse'
-                    : 'bg-amber text-white dark:text-ink-950 hover:shadow-[0_0_20px_rgba(255,107,53,0.35)]'
+                    : 'bg-amber text-white dark:text-ink-950 hover:shadow-[0_0_20px_rgb(var(--color-amber)/0.35)]'
                 }`}
               >
                 <FaBolt />

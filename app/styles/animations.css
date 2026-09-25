@@ -1,11 +1,20 @@
 @keyframes glowPulse {
   0%,
   100% {
-    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+    text-shadow: 0 0 10px rgb(var(--color-amber) / 0.5);
   }
   50% {
-    text-shadow: 0 0 22px rgba(255, 107, 53, 0.8);
+    text-shadow: 0 0 22px rgb(var(--color-amber) / 0.8);
   }
+}
+
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6%, 4%); }
+  40% { transform: translate(5%, -7%); }
+  60% { transform: translate(-3%, 8%); }
+  80% { transform: translate(7%, 2%); }
+  100% { transform: translate(0, 0); }
 }
 
 @keyframes marquee {
@@ -43,7 +52,8 @@
 @media (prefers-reduced-motion: reduce) {
   .glow-text,
   .marquee-track,
-  .cursor-blink {
+  .cursor-blink,
+  .crt-overlay::before {
     animation: none;
   }
 }

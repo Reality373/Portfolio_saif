@@ -530,11 +530,11 @@ export default function CarAEBSimulator() {
             className={`w-8 sm:w-9 h-28 rounded-sm border-2 shadow-2xl transition-all flex flex-col items-center justify-between py-2 ${
               state === 'CRASHED'
                 ? 'bg-red-600/70 border-red-400 scale-95 rotate-3 shadow-[0_0_25px_rgba(239,68,68,0.7)]'
-                : 'bg-amber/25 border-amber shadow-[0_0_15px_rgba(255,107,53,0.3)]'
+                : 'bg-amber/25 border-amber shadow-[0_0_15px_rgb(var(--color-amber)/0.3)]'
             }`}
             style={{
               backgroundImage:
-                'repeating-linear-gradient(45deg, rgba(255,107,53,0.35) 0, rgba(255,107,53,0.35) 8px, transparent 8px, transparent 16px)',
+                'repeating-linear-gradient(45deg, rgb(var(--color-amber)/0.35) 0, rgb(var(--color-amber)/0.35) 8px, transparent 8px, transparent 16px)',
             }}
           >
             {/* Top Warning Strobe Beacon */}
@@ -663,7 +663,7 @@ export default function CarAEBSimulator() {
         <button
           onClick={() => startTest(true)}
           disabled={state === 'ACCELERATING' || state === 'BRAKING'}
-          className="py-2.5 sm:py-3 px-3 sm:px-4 rounded-sm font-mono text-xs font-semibold bg-amber text-white dark:text-ink-950 hover:shadow-[0_0_20px_rgba(255,107,53,0.35)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="py-2.5 sm:py-3 px-3 sm:px-4 rounded-sm font-mono text-xs font-semibold bg-amber text-white dark:text-ink-950 hover:shadow-[0_0_20px_rgb(var(--color-amber)/0.35)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           <FaPlay className="text-[10px]" />
           <span>START AEB AUTONOMOUS RUN</span>

@@ -12,6 +12,8 @@ import {
   FaProjectDiagram,
   FaClock,
   FaUndo,
+  FaCrosshairs,
+  FaTv,
 } from 'react-icons/fa';
 
 interface ToggleItem {
@@ -53,8 +55,8 @@ const TOGGLE_ITEMS: ToggleItem[] = [
   },
   {
     key: 'particleCanvas',
-    title: 'Circuit & Particle Logic Grid',
-    description: 'Dynamic canvas with cursor-attracting circuit nodes in hero backdrop',
+    title: 'Live Oscilloscope Backdrop',
+    description: 'Phosphor-persistence scope in the hero — cursor probes the signal, click to trigger',
     icon: FaProjectDiagram,
     category: 'Visual Backdrop',
   },
@@ -64,6 +66,20 @@ const TOGGLE_ITEMS: ToggleItem[] = [
     description: 'Real-time Pune local clock, availability badge & 1-click email copy',
     icon: FaClock,
     category: 'Info Bar',
+  },
+  {
+    key: 'scopeCursor',
+    title: 'Scope Probe Cursor',
+    description: 'Crosshair cursor with live X/Y readout that locks onto links & buttons',
+    icon: FaCrosshairs,
+    category: 'Motion & FX',
+  },
+  {
+    key: 'crtOverlay',
+    title: 'CRT Grain & Scanlines',
+    description: 'Subtle film grain and phosphor scanline texture over the whole page',
+    icon: FaTv,
+    category: 'Visual Backdrop',
   },
 ];
 
@@ -82,11 +98,12 @@ export default function InteractiveHUDControls() {
       {/* Floating HUD settings trigger button (fixed bottom left or in header) */}
       <button
         onClick={() => setIsSettingsOpen(true)}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-sm border border-ink-600 bg-ink-900/90 backdrop-blur-md text-paper-muted hover:text-amber hover:border-amber transition-all shadow-lg text-xs font-mono group"
+        aria-label="Lab Controls"
+        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-2 p-2.5 sm:px-3 sm:py-2 rounded-sm border border-ink-600 bg-ink-900/90 backdrop-blur-md text-paper-muted hover:text-amber hover:border-amber transition-all shadow-lg text-xs font-mono group"
         title="Customize Interactive Portfolio Features"
       >
         <FaSlidersH className="text-trace group-hover:text-amber transition-colors" />
-        <span className="text-paper group-hover:text-amber transition-colors">Lab Controls</span>
+        <span className="hidden sm:inline text-paper group-hover:text-amber transition-colors">Lab Controls</span>
       </button>
 
       {/* Settings Modal Drawer */}

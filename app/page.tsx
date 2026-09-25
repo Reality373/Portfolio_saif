@@ -6,6 +6,10 @@ import InteractiveDemos from '@/components/InteractiveDemos';
 import ProjectsSection from '@/components/ProjectsSection';
 import Footer from '@/components/Footer';
 import CommandPalette from '@/components/CommandPalette';
+import InteractiveHUDControls from '@/components/InteractiveHUDControls';
+import ScopeCursor from '@/components/ScopeCursor';
+import SignalBus from '@/components/SignalBus';
+import CrtOverlay from '@/components/CrtOverlay';
 
 export default function Home() {
   return (
@@ -18,6 +22,10 @@ export default function Home() {
       <ProjectsSection />
       <Footer />
       <CommandPalette />
+      <InteractiveHUDControls />
+      <SignalBus />
+      <CrtOverlay />
+      <ScopeCursor />
     </main>
   );
 }

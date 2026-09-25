@@ -5,60 +5,68 @@
 @layer base {
   :root {
     /* Light Mode */
-    --color-ink-950: 248 250 252;
-    --color-ink-900: 255 255 255;
-    --color-ink-800: 241 245 249;
-    --color-ink-700: 226 232 240;
-    --color-ink-600: 203 213 225;
-    --color-ink-500: 148 163 184;
+    /* Light Mode — "lab notebook": warm graph paper, ink-green traces */
+    --color-ink-950: 244 242 235;
+    --color-ink-900: 250 249 244;
+    --color-ink-800: 236 234 225;
+    --color-ink-700: 222 219 207;
+    --color-ink-600: 199 195 180;
+    --color-ink-500: 150 146 130;
 
-    --color-paper: 15 23 42;
-    --color-paper-muted: 71 85 105;
-    --color-paper-dim: 100 116 139;
+    --color-paper: 22 26 22;
+    --color-paper-muted: 78 84 76;
+    --color-paper-dim: 112 117 106;
 
-    --color-amber: 224 83 24;
-    --color-amber-dim: 194 65 12;
-    --color-amber-soft: 224 83 24;
+    --color-amber: 219 78 18;
+    --color-amber-dim: 186 62 10;
+    --color-amber-soft: 219 78 18;
 
-    --color-trace: 2 132 199;
-    --color-trace-dim: 3 105 161;
-    --color-trace-soft: 2 132 199;
+    --color-trace: 4 138 92;
+    --color-trace-dim: 3 110 74;
+    --color-trace-soft: 4 138 92;
 
-    --grid-line-color: rgba(2, 132, 199, 0.07);
-    --spotlight-color: rgba(224, 83, 24, 0.08);
-    --header-bg: rgba(248, 250, 252, 0.88);
-    --scrollbar-track: #f1f5f9;
-    --scrollbar-thumb: #cbd5e1;
-    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    --grid-line-color: rgba(4, 138, 92, 0.08);
+    --spotlight-color: rgba(219, 78, 18, 0.08);
+    --header-bg: rgba(244, 242, 235, 0.88);
+    --scrollbar-track: #eceae1;
+    --scrollbar-thumb: #c7c3b4;
+    --card-shadow: 0 4px 20px -2px rgba(40, 30, 0, 0.06);
+    --mark-color: rgba(219, 78, 18, 0.55);
+    --scanline-opacity: 0;
+    --grain-opacity: 0.05;
   }
 
   .dark {
     /* Dark Mode */
-    --color-ink-950: 10 10 15;
-    --color-ink-900: 16 16 21;
-    --color-ink-800: 19 19 24;
-    --color-ink-700: 27 27 34;
-    --color-ink-600: 38 38 46;
-    --color-ink-500: 58 58 69;
+    /* Dark Mode — "phosphor bench": green-black CRT glass, P31 phosphor + amber probe */
+    --color-ink-950: 7 10 9;
+    --color-ink-900: 11 15 13;
+    --color-ink-800: 15 20 18;
+    --color-ink-700: 22 29 26;
+    --color-ink-600: 34 44 40;
+    --color-ink-500: 54 68 62;
 
-    --color-paper: 242 242 242;
-    --color-paper-muted: 138 138 150;
-    --color-paper-dim: 92 92 104;
+    --color-paper: 232 240 230;
+    --color-paper-muted: 134 150 140;
+    --color-paper-dim: 88 104 96;
 
-    --color-amber: 255 107 53;
-    --color-amber-dim: 204 85 41;
-    --color-amber-soft: 255 107 53;
+    --color-amber: 255 122 48;
+    --color-amber-dim: 210 94 34;
+    --color-amber-soft: 255 122 48;
 
-    --color-trace: 76 201 240;
-    --color-trace-dim: 58 160 192;
-    --color-trace-soft: 76 201 240;
+    --color-trace: 92 255 170;
+    --color-trace-dim: 60 200 130;
+    --color-trace-soft: 92 255 170;
 
-    --grid-line-color: rgba(76, 201, 240, 0.06);
-    --spotlight-color: rgba(255, 107, 53, 0.08);
-    --header-bg: rgba(10, 10, 15, 0.85);
-    --scrollbar-track: #0a0a0f;
-    --scrollbar-thumb: #26262e;
-    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    --grid-line-color: rgba(92, 255, 170, 0.05);
+    --spotlight-color: rgba(255, 122, 48, 0.09);
+    --header-bg: rgba(7, 10, 9, 0.85);
+    --scrollbar-track: #070a09;
+    --scrollbar-thumb: #222c28;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+    --mark-color: rgba(255, 122, 48, 0.6);
+    --scanline-opacity: 0.035;
+    --grain-opacity: 0.06;
   }
 }
 
@@ -101,6 +109,72 @@ body {
 ::selection {
   background-color: rgb(var(--color-amber));
   color: rgb(var(--color-ink-950));
+}
+
+/* ---------- Signal-lab texture & interaction utilities ---------- */
+
+/* PCB silkscreen registration brackets on card corners */
+.corner-marks {
+  --m: var(--mark-color);
+  background-image: linear-gradient(var(--m), var(--m)), linear-gradient(var(--m), var(--m)),
+    linear-gradient(var(--m), var(--m)), linear-gradient(var(--m), var(--m)),
+    linear-gradient(var(--m), var(--m)), linear-gradient(var(--m), var(--m)),
+    linear-gradient(var(--m), var(--m)), linear-gradient(var(--m), var(--m));
+  background-repeat: no-repeat;
+  background-size: 12px 1px, 1px 12px, 12px 1px, 1px 12px, 12px 1px, 1px 12px, 12px 1px, 1px 12px;
+  background-position: top 6px left 6px, top 6px left 6px, top 6px right 6px, top 6px right 6px,
+    bottom 6px left 6px, bottom 6px left 6px, bottom 6px right 6px, bottom 6px right 6px;
+  transition: background-size 0.35s ease, background-position 0.35s ease;
+}
+
+.corner-marks:hover {
+  --m: rgb(var(--color-amber));
+  background-size: 20px 1px, 1px 20px, 20px 1px, 1px 20px, 20px 1px, 1px 20px, 20px 1px, 1px 20px;
+}
+
+/* Film grain + CRT scanlines, fixed over the whole page */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.crt-overlay::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 0.9s steps(6) infinite;
+}
+
+.crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--scanline-opacity);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(var(--color-paper)) 0,
+    rgb(var(--color-paper)) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Scope cursor replaces the native pointer on fine-pointer devices */
+@media (pointer: fine) {
+  html.scope-cursor,
+  html.scope-cursor * {
+    cursor: none !important;
+  }
+
+  html.scope-cursor input,
+  html.scope-cursor textarea,
+  html.scope-cursor [contenteditable='true'] {
+    cursor: text !important;
+  }
 }
 
 /* Smooth scroll */

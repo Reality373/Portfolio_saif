@@ -132,7 +132,7 @@ export default function RoleSpyglass() {
               }}
             >
               {/* Glass Lens Rim with Amber Glow */}
-              <div className="w-full h-full rounded-full border-2 border-amber shadow-[0_0_25px_rgba(255,107,53,0.5),inset_0_0_20px_rgba(255,107,53,0.2)] bg-amber/5 relative flex items-center justify-center">
+              <div className="w-full h-full rounded-full border-2 border-amber shadow-[0_0_25px_rgb(var(--color-amber)/0.5),inset_0_0_20px_rgb(var(--color-amber)/0.2)] bg-amber/5 relative flex items-center justify-center">
                 {/* Crosshairs meeting exactly at cursor center */}
                 <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-amber/50" />
                 <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-amber/50" />

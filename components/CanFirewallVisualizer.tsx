@@ -385,7 +385,7 @@ export default function CanFirewallVisualizer() {
                 className={`w-16 h-20 sm:w-24 sm:h-24 rounded-md border-2 flex flex-col items-center justify-center p-2 shadow-lg transition-all ${
                   active.sourceType === 'COMPROMISED'
                     ? 'border-red-500 bg-red-950/40 shadow-[0_0_20px_rgba(239,68,68,0.35)]'
-                    : 'border-trace bg-trace/10 shadow-[0_0_20px_rgba(76,201,240,0.25)]'
+                    : 'border-trace bg-trace/10 shadow-[0_0_20px_rgb(var(--color-trace)/0.25)]'
                 }`}
               >
                 {active.sourceType === 'COMPROMISED' ? (
@@ -415,7 +415,7 @@ export default function CanFirewallVisualizer() {
                   className={`absolute top-1/2 -translate-y-1/2 z-20 px-2.5 py-1 rounded-sm flex items-center gap-1.5 shadow-xl font-mono text-[9px] sm:text-[10px] font-bold border ${
                     active.sourceType === 'COMPROMISED'
                       ? 'bg-red-500 text-white border-red-300 shadow-[0_0_20px_rgba(239,68,68,0.6)]'
-                      : 'bg-trace text-ink-950 border-white shadow-[0_0_20px_rgba(76,201,240,0.6)]'
+                      : 'bg-trace text-ink-950 border-white shadow-[0_0_20px_rgb(var(--color-trace)/0.6)]'
                   }`}
                   initial={{ left: '12%', scale: 0.65, opacity: 0 }}
                   animate={
@@ -444,9 +444,9 @@ export default function CanFirewallVisualizer() {
               <div
                 className={`w-24 h-24 sm:w-32 sm:h-32 rounded-md border-2 flex flex-col items-center justify-center p-2.5 sm:p-3 shadow-2xl transition-all ${
                   stage === 'GATE1'
-                    ? 'border-trace bg-trace/15 shadow-[0_0_30px_rgba(76,201,240,0.4)]'
+                    ? 'border-trace bg-trace/15 shadow-[0_0_30px_rgb(var(--color-trace)/0.4)]'
                     : stage === 'GATE2'
-                    ? 'border-amber bg-amber/15 shadow-[0_0_30px_rgba(255,107,53,0.45)]'
+                    ? 'border-amber bg-amber/15 shadow-[0_0_30px_rgb(var(--color-amber)/0.45)]'
                     : stage === 'DECIDED' && active.finalDecision === 'BLOCKED'
                     ? 'border-red-500 bg-red-950/40 shadow-[0_0_30px_rgba(239,68,68,0.5)]'
                     : stage === 'DECIDED' && active.finalDecision === 'PASSED'

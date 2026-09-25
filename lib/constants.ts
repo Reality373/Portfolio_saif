@@ -1,15 +1,15 @@
 export const COLORS = {
-  bg: '#0A0A0F',
-  surface: '#131318',
-  border: '#26262E',
-  textPrimary: '#F2F2F2',
-  textMuted: '#8A8A96',
-  amber: '#FF6B35',
-  trace: '#4CC9F0',
+  bg: '#070A09',
+  surface: '#0F1412',
+  border: '#222C28',
+  textPrimary: '#E8F0E6',
+  textMuted: '#86968C',
+  amber: '#FF7A30',
+  trace: '#5CFFAA',
 };
 
 export const FONTS = {
-  display: 'Space Grotesk, sans-serif',
+  display: 'Bricolage Grotesque, sans-serif',
   sans: 'Inter, sans-serif',
   mono: 'JetBrains Mono, monospace',
 };
