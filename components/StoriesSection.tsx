@@ -460,7 +460,7 @@ export default function StoriesSection() {
 
                       <button
                         onClick={() => setVisibleCount(filteredStories.length)}
-                        className="font-mono text-xs px-4 py-2.5 rounded-sm bg-amber text-ink-950 font-semibold hover:shadow-[0_0_15px_rgba(255,107,53,0.35)] transition-all flex items-center gap-2"
+                        className="font-mono text-xs px-4 py-2.5 rounded-sm bg-amber text-ink-950 font-semibold hover:shadow-[0_0_15px_rgb(var(--color-amber)/0.35)] transition-all flex items-center gap-2"
                       >
                         <FaBookOpen className="text-[10px]" />
                         <span>View All {filteredStories.length} Stories</span>

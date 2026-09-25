@@ -48,7 +48,7 @@ export default function ThemeToggle({ className = '' }: ThemeToggleProps) {
         className="flex items-center justify-center"
       >
         {isDark ? (
-          <FaSun className="text-amber text-sm drop-shadow-[0_0_8px_rgba(255,107,53,0.5)]" />
+          <FaSun className="text-amber text-sm drop-shadow-[0_0_8px_rgb(var(--color-amber)/0.5)]" />
         ) : (
           <FaMoon className="text-trace text-sm drop-shadow-[0_0_8px_rgba(2,132,199,0.4)]" />
         )}

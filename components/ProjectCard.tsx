@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProjectData } from '@/types';
+import { useTilt } from '@/lib/useTilt';
 import { FaTimes, FaGithub, FaExternalLinkAlt, FaGooglePlay } from 'react-icons/fa';
 
 interface ProjectCardProps {
@@ -12,6 +13,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, flagship = false }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const tilt = useTilt(flagship ? 3 : 5);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -30,7 +32,7 @@ export default function ProjectCard({ project, flagship = false }: ProjectCardPr
   return (
     <>
       <motion.div
-        className={`group relative cursor-pointer border border-ink-600 bg-ink-900 hover:border-amber/60 transition-all duration-300 overflow-hidden rounded-md shadow-sm hover:shadow-md ${
+        className={`corner-marks group relative cursor-pointer border border-ink-600 bg-ink-900 hover:border-amber/60 transition-all duration-300 overflow-hidden rounded-md shadow-sm hover:shadow-md ${
           flagship ? 'p-6 sm:p-8' : 'p-5 sm:p-6'
         }`}
         onClick={() => setIsExpanded(true)}
@@ -39,8 +41,9 @@ export default function ProjectCard({ project, flagship = false }: ProjectCardPr
           e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
           e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
         }}
+        {...tilt.handlers}
+        style={tilt.style}
         whileHover={{ y: -4 }}
-        layout
       >
         {/* Gradient glow on hover */}
         <div

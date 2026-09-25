@@ -81,7 +81,7 @@ export default function ProjectsSection() {
                     href={showcased.links.playStore}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-trace text-white dark:text-ink-950 font-semibold text-sm rounded-sm hover:shadow-[0_0_24px_rgba(76,201,240,0.35)] transition-shadow"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-trace text-white dark:text-ink-950 font-semibold text-sm rounded-sm hover:shadow-[0_0_24px_rgb(var(--color-trace)/0.35)] transition-shadow"
                   >
                     <FaGooglePlay /> Get it on Google Play
                   </a>
